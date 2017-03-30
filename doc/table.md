@@ -134,4 +134,33 @@ ColumnName | ColumnType | Memo | FK
 **Code** | varchar(10) | Not Null
 **Value** | varchar(20) | Not Null
 fAttributeName| varchar(50) | Null
-fCode| varchar(10) | Null 
+fCode| varchar(10) | Null
+
+## **Table name : UserFriend**
+
+ColumnName | ColumnType | Memo | FK
+--- | --- | --- | ---
+**UserID** | varchar(20) | Not Null | UserID(UserAccount)
+**FriendID** | varchar(20) | Not Null | UserID(UserAccount)
+CreateDate | DateTime | Not Null
+
+## **Table name : PersonalJourneyDetail**
+
+ColumnName | ColumnType | Memo | FK
+--- | --- | --- | ---
+**PersonalJourneyID** | Int | Not Null | PersonalJourneyID (PersonalJourney)
+**UserID** | varchar(20) | Not Null | UserID(UserAccount)
+**CreateDate** | DateTime | Not Null |
+Latitude | varchar(30) | Not Null
+Longitude | varchar(30) | Not Null
+
+## **Table name : GroupJourneyDetail**
+
+ColumnName | ColumnType | Memo | FK
+--- | --- | --- | ---
+**GroupJourneyID** | Int | Not Null | GroupJourneyID (GroupJourney)
+**GroupID** | Int |	Not Null	 |  GroupID (Group)
+**UserID** | varchar(20) | Not Null | UserID(UserAccount)
+**CreateDate** | DateTime | Not Null |
+Latitude | varchar(30) | Not Null
+Longitude | varchar(30) | Not Null
