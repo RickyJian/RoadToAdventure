@@ -1,5 +1,5 @@
-#**DataBase name : RoadToAdenture**
-##**Table name : UserAccount**
+# **DataBase name : RoadToAdenture**
+## **Table name : UserAccount**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -18,13 +18,13 @@ CreateDate | DateTime | Not Null
 ModifyID | varchar(20) | Null | UserID (UserAccount)
 ModifyDate | DateTime | Null
 
-##**Table name : UserRole**
+## **Table name : UserRole**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **UserRoleID** | varchar(20) | Not Null
 UserRoleName | varchar(50) | Not Null
-##**Table name : Group**
+## **Table name : Group**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -36,14 +36,14 @@ CreateDate | DateTime | Not Null
 ModifyID | varchar(20) | Null | UserID (UserAccount)
 ModifyDate | DateTime | Null
 
-##**Table name : GroupRole**
+## **Table name : GroupRole**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **GroupRoleID** | varchar(20) | Not Null
 GroupRoleName | varchar(50) | Not Null
 
-##**Table name : UserInGroup**
+## **Table name : UserInGroup**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -51,7 +51,7 @@ ColumnName | ColumnType | Memo | FK
 **GroupID** | varchar(50) | Not Null | GroupID (Group)
 GroupRoleID | varchar(20) |Not Null <br> default  | GroupRoleID(GroupRole)
 
-##**Table name : GroupChat**
+## **Table name : GroupChat**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -61,7 +61,7 @@ ColumnName | ColumnType | Memo | FK
 Content | Text | Not Null
 CreateDate | DateTime | Not Null
 
-##**Table name : GroupJourney**
+## **Table name : GroupJourney**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -74,7 +74,7 @@ CreateDate | DateTime | Not Null
 ModifyID | varchar(20) | Null | UserID (UserAccount)
 ModifyDate | DateTime | Null
 
-##**Table name : PersonalJourney**
+## **Table name : PersonalJourney**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -87,7 +87,7 @@ CreateDate | DateTime | Not Null
 ModifyID | varchar(20) | Null | UserID (UserAccount)
 ModifyDate | DateTime | Null
 
-##**Table name : Chat**
+## **Table name : Chat**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -96,7 +96,7 @@ ColumnName | ColumnType | Memo | FK
 Content | Text | Not Null
 CreateDate | DateTime | Not Null
 
-##**Table name : Authority**
+## **Table name : Authority**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -104,21 +104,21 @@ ColumnName | ColumnType | Memo | FK
 AuthorityName | varchar(50) | Not Null
 Memo | varchar(50) | Null
 
-##**Table name : UserRoleDefaultAuthority**
+## **Table name : UserRoleDefaultAuthority**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **AuthorityID** | varchar(20) | Not Null | AuthorityID(Authority)
 **UserRoleID** | varchar(20) | Not Null | UserRoleID(UserRole)
 
-##**Table name : GroupRoleDefaultAuthority**
+## **Table name : GroupRoleDefaultAuthority**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **AuthorityID** | varchar(20) | Not Null | AuthorityID(Authority)
 **GroupRoleID** | varchar(20) | Not Null | UserRoleID(UserRole)
 
-##**Table name : GroupRolePersonalAuthority**
+## **Table name : GroupRolePersonalAuthority**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
@@ -126,7 +126,7 @@ ColumnName | ColumnType | Memo | FK
 **GroupID** | Int | Not Null | GroupID(Group)
 **UserID** | varchar(20) | Not Null | UserID(UserAccount)
 
-##**Table name : CodeTable**
+## **Table name : CodeTable**
 
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
