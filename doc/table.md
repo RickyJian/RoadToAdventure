@@ -93,6 +93,7 @@ ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **ChatID** | Int | IDENTITY
 **UserID** | varchar(20) | Not Null |  UserID (UserAccount)
+**FriendID** | varchar(20) | Not Null |  UserID (UserAccount)
 Content | Text | Not Null
 CreateDate | DateTime | Not Null
 
