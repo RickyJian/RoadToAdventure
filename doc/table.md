@@ -7,7 +7,7 @@ ColumnName | ColumnType | Memo | FK
 UserName | varchar(50) | Not Null
 UserPicture | Text | Null
 UserRoleID | varchar(20) | Not Null | UserRoleID(UserRole)
-EMail | varchar(50) | Not Null
+Email | varchar(50) | Not Null
 Password | varchar(20) | Not Null
 LastPassword | varchar(20) | Null
 LastLoginTime | DateTime | Null
