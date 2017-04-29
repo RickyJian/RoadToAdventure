@@ -8,7 +8,7 @@ UserName | varchar(50) | Not Null
 UserPicture | Text | Null
 UserRoleID | varchar(20) | Not Null | UserRoleID(UserRole)
 Email | varchar(50) | Not Null
-Password | varchar(20) | Not Null
+Password | varchar(32) | Not Null
 LastPassword | varchar(20) | Null
 LastLoginTime | DateTime | Null
 IsEnabled | char(1) | default N
