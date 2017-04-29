@@ -133,8 +133,8 @@ ColumnName | ColumnType | Memo | FK
 **AttributeName** | varchar(50) | Not Null
 **Code** | varchar(10) | Not Null
 **Value** | varchar(20) | Not Null
-fAttributeName| varchar(50) | Null
-fCode| varchar(10) | Null
+FAttributeName| varchar(50) | Null | CodeTable(AttributeName)
+FCode| varchar(10) | Null | CodeTable(Code)
 
 ## **Table name : UserFriend**
 
