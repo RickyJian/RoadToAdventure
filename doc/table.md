@@ -48,7 +48,7 @@ GroupRoleName | varchar(50) | Not Null
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **UserID** | varchar(20) | Not Null | UserID (UserAccount)
-**GroupID** | varchar(50) | Not Null | GroupID (Group)
+**GroupID** | int | Not Null | GroupID (Group)
 GroupRoleID | varchar(20) |Not Null <br> default  | GroupRoleID(GroupRole)
 
 ## **Table name : GroupChat**
