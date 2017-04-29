@@ -160,10 +160,9 @@ ColumnName | ColumnType | Memo | FK
 --- | --- | --- | ---
 **GroupJourneyID** | Int | Not Null | GroupJourneyID (GroupJourney)
 **GroupID** | Int |	Not Null	 |  GroupID (Group)
-**CreateDate** | DateTime | Not Null |
 Latitude | varchar(30) | Not Null
 Longitude | varchar(30) | Not Null
 CreateID | varchar(20) | Not Null | UserID (UserAccount)
-CreateDate | DateTime | Not Null
+**CreateDate** | DateTime | Not Null
 ModifyID | varchar(20) | Null | UserID (UserAccount)
 ModifyDate | DateTime | Null
