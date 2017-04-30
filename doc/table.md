@@ -247,7 +247,7 @@ ModifyDate | DateTime | Null
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **PersonalJourneyID** | Int | IDENTITY
-**UserID** | Int |	Not Null	 |  GroupID (Group)
+**UserID** | Int |	Not Null	 |  UserID (UserAccount)
 PersonalJourneyName | varchar(50) | Not Null
 PersonalJourneyContent | Text | Null
 CreateID | varchar(20) | Not Null | UserID (UserAccount)
@@ -317,7 +317,7 @@ CreateDate | DateTime | Not Null
 ColumnName | ColumnType | Memo | FK
 --- | --- | --- | ---
 **PersonalJourneyID** | Int | Not Null | PersonalJourneyID (PersonalJourney)
-**UserID** | varchar(20) | Not Null | UserID(UserAccount)
+**UserID** | varchar(20) | Not Null | UserID(PersonalJourney)
 **CreateDate** | DateTime | Not Null |
 Latitude | varchar(30) | Not Null
 Longitude | varchar(30) | Not Null
