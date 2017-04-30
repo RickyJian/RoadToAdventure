@@ -327,7 +327,7 @@ Longitude | varchar(30) | Not Null
 ColumnName | ColumnType | Memo | FK
 --- | --- | --- | ---
 **GroupJourneyID** | Int | Not Null | GroupJourneyID (GroupJourney)
-**GroupID** | Int |	Not Null	 |  GroupID (Group)
+**GroupID** | Int |	Not Null	 |  GroupID (GroupJourneyID)
 Latitude | varchar(30) | Not Null
 Longitude | varchar(30) | Not Null
 CreateID | varchar(20) | Not Null | UserID (UserAccount)
