@@ -79,13 +79,38 @@ ModifyDate | DateTime | Null
 ColumnName | ColumnType | Memo | FK
 ---| ---| --- |---
 **PersonalJourneyID** | Int | IDENTITY
-**UserID** | Int |	Not Null	 |  GroupID (Group)
+**UserID** | varchar(20) |	Not Null	 |  UserID (UserAccount)
 PersonalJourneyName | varchar(50) | Not Null
 PersonalJourneyContent | Text | Null
+Points | Text | Not Null
+Status | char(1) | Not Null
+IsOpen | char(1) | default N
+StartTime | DateTime | Null
+EndTime | DateTime | Null
 CreateID | varchar(20) | Not Null | UserID (UserAccount)
 CreateDate | DateTime | Not Null
 ModifyID | varchar(20) | Null | UserID (UserAccount)
 ModifyDate | DateTime | Null
+
+## **Table name : PersonalJourneyPicture**
+
+ColumnName | ColumnType | Memo | FK
+---| ---| --- |---
+**PersonalJourneyPictureID** | Int | IDENTITY
+**PersonalJourneyID** | Int |	Not Null	 |  PersonalJourneyID (PersonalJourney)
+PictureName | varchar(200) | Not Null
+CreateID | varchar(20) | Not Null | UserID (UserAccount)
+CreateDate | DateTime | Not Null
+
+## **Table name : PersonalJourneyCommon**
+
+ColumnName | ColumnType | Memo | FK
+---| ---| --- |---
+**PersonalJourneyCommonID** | Int | IDENTITY
+**PersonalJourneyID** | Int |	Not Null	 |  PersonalJourneyID (PersonalJourney)
+Common | Text | Not Null
+CreateID | varchar(20) | Not Null | UserID (UserAccount)
+CreateDate | DateTime | Not Null
 
 ## **Table name : Chat**
 
