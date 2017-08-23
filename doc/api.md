@@ -39,6 +39,14 @@ GroupJourney/Get|取得群組旅程
 GroupJourneyDetail/Create|新增群組旅程細節
 GroupJourneyDetail/GetAll|取得群組旅程所有細節
 
+## 錯誤回傳範例
+```json
+{
+    "result": 0,
+    "message": "message"
+}
+```
+
 ## User/Login(登入)
 request:
 ```json
@@ -169,8 +177,8 @@ response:
 ```
 
 
-## Picture/Create(新增圖片)
-request : form-data
+## Picture/Create(新增圖片)(form-data)
+request : 
 ```
 {
     "fileName": "userId",
