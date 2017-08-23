@@ -44,7 +44,7 @@ request:
 ```json
 {
     "userId": "userId",
-    "password": "password",
+    "password": "password"
 }
 ```
 response:
@@ -66,7 +66,7 @@ request:
     "userId": "userId",
     "password": "password",
     "userName": "userName",
-    "email": "email",
+    "email": "email"
 }
 ```
 response:
@@ -133,7 +133,7 @@ request:
 response:
 ```json
 {
-    "result": 1,
+    "result": 1
 }
 ```
 
@@ -148,7 +148,7 @@ request:
 response:
 ```json
 {
-    "result": 1,
+    "result": 1
 }
 ```
 
@@ -164,13 +164,13 @@ request:
 response:
 ```json
 {
-    "result": 1,
+    "result": 1
 }
 ```
 
 
 ## Picture/Create(新增圖片)
-request:
+request : form-data
 ```
 {
     "fileName": "userId",
@@ -197,7 +197,7 @@ request:
 response:
 ```json
 {
-    "result": 1,
+    "result": 1
 }
 ```
 
@@ -212,7 +212,7 @@ request:
 response:
 ```json
 {
-    "result": 1,
+    "result": 1
 }
 ```
 
@@ -232,9 +232,7 @@ response:
             "userId": "userId",
             "userName": "userName",
             "userPicture": "userPicture"
-        },        
-        .
-        .
+        }
     ]
 }
 ```
@@ -255,9 +253,7 @@ response:
             "userId": "userId",
             "userName": "userName",
             "userPicture": "userPicture"
-        },        
-        .
-        .
+        }
     ]
 }
 ```
@@ -274,7 +270,7 @@ request:
 response:
 ```json
 {
-    "result": 1,
+    "result": 1
 }
 ```
 
