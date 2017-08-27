@@ -2,13 +2,13 @@
 
 URL | MEMO
 ---| ---| 
-User/Login|登入
-User/SignUp|註冊
+User/Login|登入***
+User/SignUp|註冊***
 User/UpdatePassword|修改密碼
 User/UpdatePicture|修改大頭貼
-User/ForgetPassword|忘記密碼
-User/VerifyCode|驗證驗證碼
-User/ResetPassword|重製密碼
+User/ForgetPassword|忘記密碼***
+User/VerifyCode|驗證驗證碼***
+User/ResetPassword|重製密碼***
 Picture/Create|新增圖片
 Friend/Create|新增好友
 Friend/Delete|刪除好友
