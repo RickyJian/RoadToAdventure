@@ -13,7 +13,7 @@ Picture/Create|新增圖片
 Friend/Search|搜尋好友
 Friend/Create|新增好友
 Friend/Delete|刪除好友
-Friend/GetList|取得好友列表
+Friend/GetFriendList|取得好友列表
 Friend/GetStrangerList|取得陌生人列表
 FriendChat/Create|新增好友聊天
 FriendChat/GetList|取得好友聊天列表
@@ -246,7 +246,7 @@ response:
 }
 ```
 
-## Friend/GetList(取得好友列表)
+## Friend/GetFriendList(取得好友列表)
 request:
 ```json
 {
