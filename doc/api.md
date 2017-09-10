@@ -181,11 +181,11 @@ response:
 ## Picture/Create(新增圖片)(form-data)
 request : 
 ```
-{
-    "fileName": "fileName",
-    "subFileName": "subFileName",
-    "type": "0(user)/1(personalJourney)/2(groupJourney)"
-}
+"file": "file",
+"fileName": "fileName",
+"subFileName": "subFileName",
+"type": "0(user)/1(personalJourney)/2(groupJourney)"
+
 ```
 response:
 ```json
@@ -342,6 +342,7 @@ request:
     "isOpen": "0",
     "startTime": "2017-01-01",
     "endTime": "2017-01-01",
+    "pictures":["path", "path"]
 }
 ```
 response:
@@ -363,6 +364,7 @@ request:
     "isOpen": "0",
     "startTime": "2017-01-01",
     "endTime": "2017-01-01",
+    "pictures":["path", "path"]
 }
 ```
 response:
@@ -389,7 +391,8 @@ response:
             "name": "name",
             "content": "content",
             "status": "0",
-            "createDate": "2017-01-01 00:00:00"
+            "createDate": "2017-01-01 00:00:00",
+            "pictures":["path", "path"]
         }
     ]
 }
