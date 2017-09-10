@@ -182,9 +182,9 @@ response:
 request : 
 ```
 {
-    "fileName": "userId",
-    "subFileName": "verificationCode",
-    "type": 1
+    "fileName": "fileName",
+    "subFileName": "subFileName",
+    "type": "0(user)/1(personalJourney)/2(groupJourney)"
 }
 ```
 response:
