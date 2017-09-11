@@ -526,7 +526,11 @@ request:
 {
     "userId": "userId",
     "name": "name",
-    "picturePath": "picturePath"
+    "picturePath": "picturePath",
+    "members": [
+        "userId",
+        "userId"
+    ]
 }
 ```
 response:
