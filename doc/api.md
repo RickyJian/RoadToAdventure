@@ -19,6 +19,8 @@ FriendChat/Create|新增好友聊天
 FriendChat/GetList|取得好友聊天列表
 PersonalJourney/Create|新增個人旅程
 PersonalJourney/Update|修改個人旅程
+PersonalJourney/Start|開始個人旅程
+PersonalJourney/End|結束個人旅程
 PersonalJourney/GetList|取得個人旅程列表
 PersonalJourney/Get|取得個人旅程
 PersonalJourneyComment/Create|新增個人旅程評論
@@ -365,6 +367,36 @@ request:
     "startTime": "2017-01-01",
     "endTime": "2017-01-01",
     "pictures":["path", "path"]
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## PersonalJourney/Start(開始個人旅程)
+request:
+```json
+{
+    "personalJourneyId": 1,
+    "startTime": "2017-01-01 00:00:00"
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## PersonalJourney/End(結束個人旅程)
+request:
+```json
+{
+    "personalJourneyId": 1,
+    "endTime": "2017-01-01 00:00:00"
 }
 ```
 response:
