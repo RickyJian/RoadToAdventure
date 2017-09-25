@@ -2,39 +2,39 @@
 
 URL | MEMO
 ---| ---| 
-User/Login|登入
-User/SignUp|註冊
-User/UpdatePassword|修改密碼
-User/UpdatePicture|修改大頭貼
-User/ForgetPassword|忘記密碼
-User/VerifyCode|驗證驗證碼
-User/ResetPassword|重製密碼
-Picture/Create|新增圖片
-Friend/Search|搜尋好友
-Friend/Create|新增好友
-Friend/Delete|刪除好友
-Friend/GetFriendList|取得好友列表
+User/Login|登入*
+User/SignUp|註冊*
+User/UpdatePassword|修改密碼*
+User/UpdatePicture|修改大頭貼*
+User/ForgetPassword|忘記密碼*
+User/VerifyCode|驗證驗證碼*
+User/ResetPassword|重製密碼*
+Picture/Create|新增圖片*
+Friend/Search|搜尋好友*
+Friend/Create|新增好友*
+Friend/Delete|刪除好友*
+Friend/GetFriendList|取得好友列表*
 Friend/GetStrangerList|取得陌生人列表
 FriendChat/Create|新增好友聊天
 FriendChat/GetList|取得好友聊天列表
-PersonalJourney/Create|新增個人旅程
+PersonalJourney/Create|新增個人旅程*
 PersonalJourney/Update|修改個人旅程
-PersonalJourney/Start|開始個人旅程
-PersonalJourney/End|結束個人旅程
-PersonalJourney/GetList|取得個人旅程列表
-PersonalJourney/Get|取得個人旅程
+PersonalJourney/Start|開始個人旅程*
+PersonalJourney/End|結束個人旅程*
+PersonalJourney/GetList|取得個人旅程列表*
+PersonalJourney/Get|取得個人旅程*
 PersonalJourneyComment/Create|新增個人旅程評論
 PersonalJourneyDetail/Create|新增個人旅程細節
 PersonalJourneyDetail/GetAll|取得個人旅程所有細節
-Group/Create|新增群組
+Group/Create|新增群組*
 Group/Update|修改群組
-Group/GetList|取得群組列表
-Group/Get|取得群組
+Group/GetList|取得群組列表*
+Group/Get|取得群組*
 GroupUser/Create|新增群組使用者
 GroupUser/Update|修改群組使用者
 GroupUser/Delete|刪除群組使用者
-GroupChat/Create|新增群組聊天
-GroupChat/GetList|取得群組聊天列表
+GroupChat/Create|新增群組聊天*
+GroupChat/GetList|取得群組聊天列表*
 GroupJourney/Create|新增群組旅程
 GroupJourney/Update|修改群組旅程
 GroupJourney/GetList|取得群組旅程列表
@@ -396,7 +396,14 @@ request:
 ```json
 {
     "personalJourneyId": 1,
-    "endTime": "2017-01-01 00:00:00"
+    "endTime": "2017-01-01 00:00:00",
+    "routes": [
+        {
+            "latitude": 123.123123,
+            "longitude": 123.123123,
+            "time": "2017-01-01 00:00:00",
+        }
+    ]
 }
 ```
 response:
@@ -610,8 +617,11 @@ request:
 {
     "groupId": 1,
     "userId": "userId",
-    "targetUserId": "targetUserId",
-    "groupRoleId": "groupRoleId"
+    "members":[
+        {
+            "userId": "abc"
+        }
+    ]
 }
 ```
 response:
@@ -660,13 +670,25 @@ request:
 {
     "groupId": 1,
     "userId": "userId",
-    "content": "content"
+    "content": "content",
+    "lastChatId": 1
 }
 ```
 response:
 ```json
 {
-    "result": 1
+    "result": 1,
+    "groupChats": [
+        {
+            "groupChatId": 1,
+            "groupId": 1,
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture",
+            "content": "content",
+            "createDate": "2017-01-01 00:00:00"
+        }
+    ]
 }
 ```
 
@@ -685,6 +707,7 @@ response:
     "groupChats": [
         {
             "groupChatId": 1,
+            "groupId": 1,
             "userId": "userId",
             "userName": "userName",
             "userPicture": "userPicture",
