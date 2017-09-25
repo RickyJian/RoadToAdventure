@@ -363,13 +363,7 @@ request:
 {
     "personalJourneyId": 1,
     "name": "name",
-    "content": "content",
-    "points": "points",
-    "status": "0",
-    "isOpen": "0",
-    "startTime": "2017-01-01",
-    "endTime": "2017-01-01",
-    "pictures":["path", "path"]
+    "content": "content"
 }
 ```
 response:
