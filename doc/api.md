@@ -2,39 +2,42 @@
 
 URL | MEMO
 ---| ---| 
-User/Login|登入*
-User/SignUp|註冊*
-User/UpdatePassword|修改密碼*
-User/UpdatePicture|修改大頭貼*
-User/ForgetPassword|忘記密碼*
-User/VerifyCode|驗證驗證碼*
-User/ResetPassword|重製密碼*
-Picture/Create|新增圖片*
-Friend/Search|搜尋好友*
-Friend/Create|新增好友*
-Friend/Delete|刪除好友*
-Friend/GetFriendList|取得好友列表*
+User/Login|登入(OK)
+User/ThreePartLogin|第三方登入
+User/SignUp|註冊(OK)
+User/UpdatePassword|修改密碼(OK)
+User/UpdatePicture|修改大頭貼(OK)
+User/ForgetPassword|忘記密碼(OK)
+User/VerifyCode|驗證驗證碼(OK)
+User/ResetPassword|重製密碼(OK)
+Picture/Create|新增圖片(OK)
+Friend/Search|搜尋好友(OK)
+Friend/Create|新增好友(OK)
+Friend/Delete|刪除好友(OK)
+Friend/GetFriendList|取得好友列表(OK)
 Friend/GetStrangerList|取得陌生人列表
 FriendChat/Create|新增好友聊天
 FriendChat/GetList|取得好友聊天列表
-PersonalJourney/Create|新增個人旅程*
+PersonalJourney/Create|新增個人旅程(OK)
 PersonalJourney/Update|修改個人旅程
-PersonalJourney/Start|開始個人旅程*
-PersonalJourney/End|結束個人旅程*
-PersonalJourney/GetList|取得個人旅程列表*
-PersonalJourney/Get|取得個人旅程*
-PersonalJourneyComment/Create|新增個人旅程評論
+PersonalJourney/Start|開始個人旅程(OK)
+PersonalJourney/End|結束個人旅程(OK)
+PersonalJourney/GetList|取得個人旅程列表(OK)
+PersonalJourney/GetPublicList|取得公開個人旅程列表(OK)
+PersonalJourney/Get|取得個人旅程(OK)
+PersonalJourneyComment/Create|新增個人旅程評論(OK)
+PersonalJourneyComment/GetList|取得個人旅程評論列表
 PersonalJourneyDetail/Create|新增個人旅程細節
 PersonalJourneyDetail/GetAll|取得個人旅程所有細節
-Group/Create|新增群組*
+Group/Create|新增群組(OK)
 Group/Update|修改群組
-Group/GetList|取得群組列表*
-Group/Get|取得群組*
-GroupUser/Create|新增群組使用者
+Group/GetList|取得群組列表(OK)
+Group/Get|取得群組(OK)
+GroupUser/Create|新增群組使用者(OK)
 GroupUser/Update|修改群組使用者
-GroupUser/Delete|刪除群組使用者
-GroupChat/Create|新增群組聊天*
-GroupChat/GetList|取得群組聊天列表*
+GroupUser/Delete|刪除群組使用者(OK)
+GroupChat/Create|新增群組聊天(OK)
+GroupChat/GetList|取得群組聊天列表(OK)
 GroupJourney/Create|新增群組旅程
 GroupJourney/Update|修改群組旅程
 GroupJourney/GetList|取得群組旅程列表
@@ -56,6 +59,27 @@ request:
 {
     "userId": "userId",
     "password": "password"
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "userId": "userId",
+    "userName": "userName",
+    "userPicture": "userPicture",
+    "email": "email",
+    "modifyDate": "modifyDate"
+}
+```
+
+## User/ThreePartLogin(第三方登入)
+request:
+```json
+{
+    "userId": "userId",
+    "userName": "userName",
+    "signInOrigin": "google/facebook"
 }
 ```
 response:
@@ -434,6 +458,32 @@ response:
 }
 ```
 
+## PersonalJourney/GetPublicList(取得公開個人旅程列表)
+request:
+```json
+{
+    
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "personalJourneys": [
+        {
+            "personalJourneyId": 1,
+            "userName": "userName",
+            "name": "name",
+            "content": "content",
+            "modifyDate": "2017-01-01 00:00:00",
+            "pictures":[
+                "path"
+            ]
+        }
+    ]
+}
+```
+
 ## PersonalJourney/Get(取得個人旅程)
 request:
 ```json
@@ -446,6 +496,9 @@ response:
 {
     "result": 1,
     "personalJourneyId": 1,
+    "userId": "userId",
+    "userName": "userName",
+    "userPicture": "userPicture",
     "name": "name",
     "content": "content",
     "status": "0",
@@ -454,7 +507,10 @@ response:
     "endTime": "2017-01-01 00:00:00",
     "createDate": "2017-01-01 00:00:00",
     "modifyDate": "2017-01-01 00:00:00",
-    "personalJourneyComments": [
+    "pictures":[
+        "path"
+    ],
+    "comments": [
         {
             "userId": "userId",
             "userName": "userName",
