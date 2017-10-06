@@ -320,13 +320,27 @@ request:
 {
     "userId": "userId",
     "friendId": "friendId",
-    "content": "content"
+    "content": "content",
+    "lastChatId": 1
 }
 ```
 response:
 ```json
 {
-    "result": 1
+    "result": 1,
+    "chats": [
+        {
+            "chatId": 1,
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture",
+            "friendId": "friendId",
+            "friendName": "friendName",
+            "friendPicture": "friendPicture",
+            "content": "content",
+            "createDate": "2017-01-01 00:00:00",
+        }
+    ]
 }
 ```
 
