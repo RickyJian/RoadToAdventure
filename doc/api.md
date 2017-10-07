@@ -3,7 +3,7 @@
 URL | MEMO
 ---| ---| 
 User/Login|登入(OK)
-User/ThreePartLogin|第三方登入
+User/ThreePartLogin|第三方登入(OK)
 User/SignUp|註冊(OK)
 User/UpdatePassword|修改密碼(OK)
 User/UpdatePicture|修改大頭貼(OK)
@@ -16,8 +16,8 @@ Friend/Create|新增好友(OK)
 Friend/Delete|刪除好友(OK)
 Friend/GetFriendList|取得好友列表(OK)
 Friend/GetStrangerList|取得陌生人列表
-FriendChat/Create|新增好友聊天
-FriendChat/GetList|取得好友聊天列表
+FriendChat/Create|新增好友聊天(OK)
+FriendChat/GetList|取得好友聊天列表(OK)
 PersonalJourney/Create|新增個人旅程(OK)
 PersonalJourney/Update|修改個人旅程
 PersonalJourney/Start|開始個人旅程(OK)
@@ -38,10 +38,10 @@ GroupUser/Update|修改群組使用者
 GroupUser/Delete|刪除群組使用者(OK)
 GroupChat/Create|新增群組聊天(OK)
 GroupChat/GetList|取得群組聊天列表(OK)
-GroupJourney/Create|新增群組旅程
-GroupJourney/Update|修改群組旅程
-GroupJourney/GetList|取得群組旅程列表
-GroupJourney/Get|取得群組旅程
+GroupJourney/Create|新增群組旅程(OK)
+GroupJourney/Update|修改群組旅程(OK)
+GroupJourney/GetList|取得群組旅程列表(OK)
+GroupJourney/Get|取得群組旅程(OK)
 GroupJourneyDetail/Create|新增群組旅程細節
 GroupJourneyDetail/GetAll|取得群組旅程所有細節
 
@@ -383,8 +383,6 @@ request:
     "points": "points",
     "status": "0",
     "isOpen": "0",
-    "startTime": "2017-01-01",
-    "endTime": "2017-01-01",
     "pictures":["path", "path"]
 }
 ```
@@ -795,8 +793,8 @@ request:
     "content": "content",
     "points": "points",
     "status": "0",
-    "startTime": "2017-01-01 00:00:00",
-    "endTime": "2017-01-01 00:00:00"
+    "isOpen": "0",
+    "pictures":["path", "path"]
 }
 ```
 response:
@@ -813,11 +811,7 @@ request:
     "groupJourneyId": 1,
     "userId": "userId",
     "name": "name",
-    "content": "content",
-    "points": "points",
-    "status": "0",
-    "startTime": "2017-01-01 00:00:00",
-    "endTime": "2017-01-01 00:00:00"
+    "content": "content"
 }
 ```
 response:
@@ -844,7 +838,8 @@ response:
             "name": "name",
             "content": "content",
             "status": "0",
-            "createDate": "2017-01-01 00:00:00"
+            "createDate": "2017-01-01 00:00:00",
+            "pictures":["path", "path"]
         }
     ]
 }
@@ -862,6 +857,9 @@ response:
 {
     "result": 1,
     "groupJourneyId": 1,
+    "userId": "userId",
+    "userName": "userName",
+    "userPicture": "userPicture",
     "name": "name",
     "content": "content",
     "status": "0",
