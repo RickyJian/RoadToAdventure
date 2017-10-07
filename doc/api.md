@@ -42,6 +42,8 @@ GroupJourney/Create|新增群組旅程(OK)
 GroupJourney/Update|修改群組旅程(OK)
 GroupJourney/GetList|取得群組旅程列表(OK)
 GroupJourney/Get|取得群組旅程(OK)
+GroupJourney/Start|開始群組旅程(OK)
+GroupJourney/End|結束群組旅程(OK)
 GroupJourneyDetail/Create|新增群組旅程細節
 GroupJourneyDetail/GetAll|取得群組旅程所有細節
 
@@ -825,7 +827,8 @@ response:
 request:
 ```json
 {
-    "groupId": 1
+    "groupId": 1,
+    "userId": "userId"
 }
 ```
 response:
@@ -849,7 +852,8 @@ response:
 request:
 ```json
 {
-    "groupJourneyId": 1
+    "groupJourneyId": 1,
+    "userId": "userId"
 }
 ```
 response:
@@ -868,6 +872,36 @@ response:
     "endTime": "2017-01-01 00:00:00",
     "createDate": "2017-01-01 00:00:00",
     "modifyDate": "2017-01-01 00:00:00"
+}
+```
+
+## GroupJourney/Start(開始群組旅程)
+request:
+```json
+{
+    "groupJourneyId": 1,
+    "userId": "userId"
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## GroupJourney/End(結束群組旅程)
+request:
+```json
+{
+    "groupJourneyId": 1,
+    "userId": "userId"
+}
+```
+response:
+```json
+{
+    "result": 1
 }
 ```
 
