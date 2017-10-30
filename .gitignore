@@ -1,5 +1,3 @@
 /roadtoadventure/.*
 /roadtoadventure/build
-/roadtoadventure/src/main/dbContext.xml
-/roadtoadventure/src/main/hibernate.*.*
-/roadtoadventure/src/main/mailContext.xml
+/roadtoadventure/src/main/resources/*
