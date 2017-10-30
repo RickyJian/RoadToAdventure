@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/Template")
-public class TemplateController {
-	@RequestMapping("/LeftSlideNav")
-	public ModelAndView LeftSlideNav() {
-		return new ModelAndView("template/leftSlideNav");
+@RequestMapping(value = "/PersonalJourney")
+public class PersonalController {
+
+	@RequestMapping(value = "/New")
+	public ModelAndView loadNewPage() {
+		return new ModelAndView("personal/createJourney");
 	}
 }
