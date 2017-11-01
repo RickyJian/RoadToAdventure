@@ -29,12 +29,12 @@
     </div>
   </nav>
 
-
+  <div id = "main" >
   <div class="container">
     <div class="section">
       <div class="row">
         <br><br>
-        <form class="col s12">
+        <form id = "signUpForm" class="col s12">
           <div class="row">
             <div class="input-field col s12">
               <input id="userId" name = "userId" type="text" class="validate">
@@ -90,6 +90,7 @@
       </div>
     </div>
     <br><br>
+  </div>
   </div>
   <footer class="page-footer blue lighten-1">
     <div class="container">
@@ -148,16 +149,28 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
   function signUp (){
+	$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
 	$.ajax({
 	  type: "POST",
-	  data:$("#sysCustomerInforForm").serialize(),
-	  url:  "<%=request.getContextPath() %>/SysCustomerInfor/changePassword",
+	  datatype:"json",
+	  data:$("#signUpForm").serialize(),
+	  url:  "${pageContext.request.contextPath}/User/SignUp/Create",
 	  async: false ,
-	    success: function(data){
-
+	  success: function(data){
+        $("#main").unblock()
+		var result = JSON.parse(data)
+        if(result.success=="1"){
+          $.notify(
+            "註冊成功。",{className:'success',globalPosition:"bottom center" });
+        }else{
+          $.notify("註冊失敗。",{className:'error',globalPosition: 'bottom center' });
+        }
+	  }
 	});	  
   }
   function rewrite(){

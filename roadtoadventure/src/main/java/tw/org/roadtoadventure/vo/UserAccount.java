@@ -140,7 +140,7 @@ public class UserAccount implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "Password", nullable = false, length = 32)
+	@Column(name = "Password", nullable = false, length = 64)
 	public String getPassword() {
 		return this.password;
 	}
@@ -149,7 +149,7 @@ public class UserAccount implements java.io.Serializable {
 		this.password = password;
 	}
 
-	@Column(name = "LastPassword", length = 32)
+	@Column(name = "LastPassword", length = 64)
 	public String getLastPassword() {
 		return this.lastPassword;
 	}

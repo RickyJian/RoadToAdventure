@@ -18,91 +18,90 @@ public class UserBean {
 	private Date createDate;
 	private String modifyId;
 	private Date modifyDate;
-	protected String getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	protected void setUserId(String userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	protected String getUserName() {
+	public String getUserName() {
 		return userName;
 	}
-	protected void setUserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	protected String getUserPicture() {
+	public String getUserPicture() {
 		return userPicture;
 	}
-	protected void setUserPicture(String userPicture) {
+	public void setUserPicture(String userPicture) {
 		this.userPicture = userPicture;
 	}
-	protected String getUserRoleId() {
+	public String getUserRoleId() {
 		return userRoleId;
 	}
-	protected void setUserRoleId(String userRoleId) {
+	public void setUserRoleId(String userRoleId) {
 		this.userRoleId = userRoleId;
 	}
-	protected String getEmail() {
+	public String getEmail() {
 		return email;
 	}
-	protected void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
-	protected String getPassword() {
+	public String getPassword() {
 		return password;
 	}
-	protected void setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
-	protected String getLastPassword() {
+	public String getLastPassword() {
 		return lastPassword;
 	}
-	protected void setLastPassword(String lastPassword) {
+	public void setLastPassword(String lastPassword) {
 		this.lastPassword = lastPassword;
 	}
-	protected Date getLastLoginTime() {
+	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
-	protected void setLastLoginTime(Date lastLoginTime) {
+	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
-	protected Character getIsEnabled() {
+	public Character getIsEnabled() {
 		return isEnabled;
 	}
-	protected void setIsEnabled(Character isEnabled) {
+	public void setIsEnabled(Character isEnabled) {
 		this.isEnabled = isEnabled;
 	}
-	protected Character getIsVerification() {
+	public Character getIsVerification() {
 		return isVerification;
 	}
-	protected void setIsVerification(Character isVerification) {
+	public void setIsVerification(Character isVerification) {
 		this.isVerification = isVerification;
 	}
-	protected String getCreateId() {
+	public String getCreateId() {
 		return createId;
 	}
-	protected void setCreateId(String createId) {
+	public void setCreateId(String createId) {
 		this.createId = createId;
 	}
-	protected Date getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	protected void setCreateDate(Date createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	protected String getModifyId() {
+	public String getModifyId() {
 		return modifyId;
 	}
-	protected void setModifyId(String modifyId) {
+	public void setModifyId(String modifyId) {
 		this.modifyId = modifyId;
 	}
-	protected Date getModifyDate() {
+	public Date getModifyDate() {
 		return modifyDate;
 	}
-	protected void setModifyDate(Date modifyDate) {
+	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 	
 	
-
 }
