@@ -44,7 +44,6 @@
     <param-value>classpath:log4j.xml</param-value>
   </context-param>
 
-<!-- 
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>
@@ -57,7 +56,6 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
- -->  
    
    <filter>
     <filter-name>encodingFilter</filter-name>

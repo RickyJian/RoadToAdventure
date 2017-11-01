@@ -23,12 +23,16 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
+import tw.org.roadtoadventure.dao.UserAccountDAO;
+import tw.org.roadtoadventure.vo.UserAccount;
+
 
 public class CustomLoginHandler extends
 SavedRequestAwareAuthenticationSuccessHandler {
 
-//	@Autowired
-//	SysCustomerInforDao sysCustomerInforDao;
+	@Autowired
+	private UserAccountDAO userAccountDAO;
+	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
@@ -60,29 +64,11 @@ SavedRequestAwareAuthenticationSuccessHandler {
 	}
 
 	protected String determineTargetUrl(Authentication authentication) {
-		return null;
-//		SysCustomerInfor scif = (SysCustomerInfor)authentication.getPrincipal();
-//
-//		if (scif.getIsVerification()=='Y') {
-//			Calendar c = Calendar.getInstance();
-//			if(scif.getNextChangePasswordDate()!=null){
-//				c.setTime(scif.getNextChangePasswordDate());
-//				if(c.getTime().after(new Date())){
-//
-//					return "/index.jsp";
-//				}else{
-//					scif.setNextChangePasswordDate(c.getTime());
-//					sysCustomerInforDao.merge(scif);
-//					return "/changePassword.jsp";
-//				}
-//			}else{
-//				c.add(Calendar.MONTH, 3);
-//				scif.setNextChangePasswordDate(c.getTime());
-//				sysCustomerInforDao.merge(scif);
-//				return "/index.jsp";
-//			}
-//		} else{
-//			try{
+		UserAccount user = (UserAccount)authentication.getPrincipal();
+		if (user.getIsVerification()=='Y') {
+			return "/Index";
+		} else{
+			try{
 //				if(!scif.getMemo().equals("忘記密碼。")){
 //					
 //					String verificationCode = MailUtility.generateVerificationCode();
@@ -114,12 +100,12 @@ SavedRequestAwareAuthenticationSuccessHandler {
 //					scif.setModifyDate(new Date());
 //					sysCustomerInforDao.merge(scif);
 //				}
-//				return "/verificationPage.jsp";
-//			}catch (MailSendException ex) {
-//				return "/timeoutPage.jsp?status=failed&code=0";
-//			}
-//
-//		}
+				return "/verificationPage.jsp";
+			}catch (MailSendException ex) {
+				return "/timeoutPage.jsp?status=failed&code=0";
+			}
+
+		}
 
 	}
 

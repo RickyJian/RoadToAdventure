@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,28 +31,53 @@
   </nav>
 
 
-
+  <div id = "main">
   <div class="container">
     <div class="section">
       <br><br><br>
+      <div class = "row">
+      <form method = "post" action = "login.do" class="col s12">
       <div class="row">
-      
 	    <div class="input-field col s6 offset-s3" >
-		  帳號：<input id="userId" type="text" class="validate">
-      	  密碼：<input id="password" type="password" class="validate">
+		  <input id="userId" name = "userId" type="text" class="validate">
+		  <label for="userId">帳號</label>
         </div>
       </div>
-      <div class ="row">
-        <div class = "col s3 offset-s3">
-	    <button class="btn waves-effect waves-light" type="submit" name="action">註冊</button>    
-		</div>    
-        <div class = "col s3 offset-s1">
-	    <button class="btn waves-effect waves-light" type="submit" name="action">登入</button>        
+      <div class = "row">
+	    <div class="input-field col s6 offset-s3" >
+          <input id="password" name = "password" type="password" class="validate">
+      	  <label for="password">密碼</label>
         </div>
+      </div>
+      <div class ="row  center-align">
+        <div class = "col s4 offset-s2">
+	      <a class="waves-effect waves-light btn" onclick ="redirectPage()">註冊</a>    
+		</div>    
+        <div class = "col s4">
+	    <button class="btn waves-effect waves-light" type="submit">登入</button>        
+        </div>
+      </div>
+      </form>
+      </div>
+      <div class ="row center-align">
+      <div class = "col s12">
+		  <font color="red">
+		      登入失敗。
+		  </font>      
+      </div>
+      <div class = "col s12">
+        <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+		  <font color="red">
+		      原因：
+		    <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+		  </font>
+		</c:if>      
+      </div>
       </div>
 	  <br><br><br>
     </div>
     <br><br>
+  </div>
   </div>
 
   <footer class="page-footer blue lighten-1">
@@ -113,9 +139,9 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
-  $(function(){
-	  $("#menu").sideNav();
-     })
+  function redirectPage(){
+    window.location ="${pageContext.request.contextPath}/User/SignUp"
+  }
   </script>
 
   </body>
