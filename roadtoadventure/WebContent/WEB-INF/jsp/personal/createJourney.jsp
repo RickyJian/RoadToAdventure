@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>揪愛騎 Road To Adventure 個人歷程新增頁面</title>
+  <title>個人歷程新增-揪愛騎 Road To Adventure </title>
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -38,6 +38,25 @@
     <div class="container">
       <br><br>
       <h1 class="header center orange-text">個人歷程路線規劃</h1>
+      <div class ="row center">
+        <div class="col s4">
+                起點：
+          <div class="input-field inline">
+            <input id="start" placeHolder ="台北商業大學"  type="text" class="validate">
+          </div>
+        </div>
+        <div class="col s4">
+                終點：
+          <div class="input-field inline">
+		    <input id="destination" placeHolder ="台北火車站"  type="text" class="validate">
+          </div>
+        </div>
+        <div class="col s4">
+          <button id = "send" class="btn waves-effect waves-light btn-large" type="submit" name="action">
+                      路線規劃  <i class="large material-icons right">send</i>
+          </button>
+        </div>
+      </div>
       <div id = "map" >
         
       </div>
@@ -123,7 +142,7 @@
      })
   </script>
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=planningMap">
   </script>
   
   </body>

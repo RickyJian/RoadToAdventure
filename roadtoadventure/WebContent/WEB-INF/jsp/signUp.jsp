@@ -1,22 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>首頁-揪愛騎 Road To Adventure</title>
+  <title>註冊-揪愛騎 Road To Adventure</title>
 <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-    }
-  </style>
+  <link href="${pageContext.request.contextPath}/assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="${pageContext.request.contextPath}/assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -34,72 +28,69 @@
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">位置共享</h1>
-      <div id = "map" >
-        
-      </div>
-      <br><br>
-
-    </div>
-  </div>
 
 
   <div class="container">
     <div class="section">
-
-      <!--   Icon Section   -->
       <div class="row">
-       <h1 class="header center orange-text">排行榜</h1>
-        <div class="col s12 m4">
-        <h5>單人</h5>
-	    <div class="card horizontal">
-	      <div class="card-image">
-	        <img src="https://lorempixel.com/100/190/nature/6">
-	      </div>
-	      <div class="card-stacked">
-	        <div class="card-content">
-	          <p>Jobs Steve</p>
-	        </div>
-	      </div>
-	    </div>
-        </div>
-
-        <div class="col s12 m4">
-        <h5>團體</h5>
-	    <div class="card horizontal">
-	      <div class="card-image">
-	        <img src="https://lorempixel.com/100/190/nature/6">
-	      </div>
-	      <div class="card-stacked">
-	        <div class="card-content">
-	          <p>Jobs Steve</p>
-	        </div>
-	      </div>
-	    </div>
-        </div>
-
-        <div class="col s12 m4">
-        <h5>挑戰</h5>
-	    <div class="card horizontal">
-	      <div class="card-image">
-	        <img src="https://lorempixel.com/100/190/nature/6">
-	      </div>
-	      <div class="card-stacked">
-	        <div class="card-content">
-	          <p>Jobs Steve</p>
-	        </div>
-	      </div>
-	    </div>
+        <br><br>
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="userId" name = "userId" type="text" class="validate">
+              <label for="userId">帳號</label>
+            </div>
+          </div>
+          <div class = "row">
+            <div class="input-field col s12">
+              <input id="userName" name = "userName" type="text" class="validate">
+              <label for="uerName">名稱</label>
+            </div>          
+          </div>
+          <div class = "row">
+            <div class="input-field col s12">
+              <input id="password" name = "password" type="password" class="validate">
+              <label for="password">密碼</label>
+            </div>
+          </div>
+          <div class = "row">
+            <div class="input-field col s12">
+              <input id="checkPassword" name = "checkPassword" type="password" class="validate">
+              <label for="checkPassword">確認密碼</label>
+            </div>
+          </div>
+          <div class = "row">
+            <div class="input-field col s12">
+              <input id="email" name = "email" type="email" class="validate">
+              <label for="email">email</label>
+            </div>
+          </div>
+          <div class = "row">
+		    <div class="file-field input-field">
+		      <div class="btn">
+		        <span>照片上傳</span>
+		        <input type="file">
+		      </div>
+		      <div class="file-path-wrapper">
+		        <input id = "userPicture" class="file-path validate" type="text">
+		      </div>
+		    </div>          
+          </div>
+        </form>
+      </div>
+      <div>
+        <div class = "row center">
+          <div class = "col s6">
+           <a class="waves-effect waves-light btn" onclick = "rewrite()">重新輸入</a>
+          </div>
+          <div  class = "col s6">
+           <a class="waves-effect waves-light btn" onclick = "signUp()">送出</a>
+          </div>
         </div>
       </div>
-
     </div>
     <br><br>
   </div>
-
   <footer class="page-footer blue lighten-1">
     <div class="container">
       <div class="row">
@@ -155,14 +146,27 @@
   </ul>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="assets/js/materialize.js"></script>
-  <script src="assets/js/init.js"></script>
-  <script src="assets/js/map.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
+  function signUp (){
+	$.ajax({
+	  type: "POST",
+	  data:$("#sysCustomerInforForm").serialize(),
+	  url:  "<%=request.getContextPath() %>/SysCustomerInfor/changePassword",
+	  async: false ,
+	    success: function(data){
 
+	});	  
+  }
+  function rewrite(){
+	  $("input[type='text']").val("")
+	  $("input[type='email']").val("")
+	  $("input[type='password']").val("")
+	  $("input[type='file']").val("")
+  }
   </script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=initMap">
-  </script>
+
   </body>
 </html>

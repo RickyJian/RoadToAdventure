@@ -1,3 +1,4 @@
+ 
 (function($){
   $(function(){
 
@@ -5,3 +6,9 @@
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space
+
+
+//  page load over
+$(function(){
+	$("#menu").sideNav();
+})

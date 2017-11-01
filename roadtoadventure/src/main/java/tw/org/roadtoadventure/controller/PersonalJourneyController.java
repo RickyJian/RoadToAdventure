@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/PersonalJourney")
-public class PersonalController {
+public class PersonalJourneyController {
 
 	@RequestMapping(value = "/New")
 	public ModelAndView loadNewPage() {
