@@ -162,13 +162,14 @@
 	  url:  "${pageContext.request.contextPath}/User/SignUp/Create",
 	  async: false ,
 	  success: function(data){
-        $("#main").unblock()
 		var result = JSON.parse(data)
         if(result.success=="1"){
-          $.notify(
-            "註冊成功。",{className:'success',globalPosition:"bottom center" });
+        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
+	           window.location="${pageContext.request.contextPath}/Index"
+             })
         }else{
-          $.notify("註冊失敗。",{className:'error',globalPosition: 'bottom center' });
+	      $("#main").unblock()
+          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
         }
 	  }
 	});	  
