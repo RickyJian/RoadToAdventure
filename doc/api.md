@@ -46,6 +46,8 @@ GroupJourney/Start|開始群組旅程(OK)
 GroupJourney/End|結束群組旅程(OK)
 GroupJourneyDetail/Create|新增群組旅程細節
 GroupJourneyDetail/GetAll|取得群組旅程所有細節
+RoadQuery/Create|新增路況
+RoadQuery/GetList|取得路況列表
 
 ## 錯誤回傳範例
 ```json
@@ -949,6 +951,51 @@ response:
                     "createDate": "2017-01-01 00:00:00"
                 }
             ]
+        }
+    ]
+}
+```
+
+## RoadQuery/Create(新增路況)
+request:
+```json
+{
+    "userId": "userId",
+    "comment": "comment",
+    "type": "type",
+    "latitude": 123.123,
+    "longitude": 123.123
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## RoadQuery/GetList(取得路況列表)
+request:
+```json
+{
+
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "roadQuerys": [
+        {
+            "roadQueryId": 1,
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture",
+            "comment": "comment",
+            "type": "type",
+            "latitude": 123.123,
+            "longitude": 123.123,
+            "createDate": "2017-01-01 00:00:00"
         }
     ]
 }
