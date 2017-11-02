@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>註冊-揪愛騎 Road To Adventure</title>
-<script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
+  <title>車隊新增-揪愛騎 Road To Adventure</title>
+  <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -43,39 +44,19 @@
         <div class="row">
           <br>
           <br>
-          <form class="col s12" id="signUpForm" name="signUpForm">
+          <form class="col s12" id="groupForm" name="groupForm">
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userId" name="userId" type="text"> <label for="userId">帳號</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input class="validate" id="userName" name="userName" type="text"> <label for="uerName">名稱</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input class="validate" id="password" name="password" type="password"> <label for="password">密碼</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input class="validate" id="checkPassword" name="checkPassword" type="password"> <label for="checkPassword">確認密碼</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input class="validate" id="email" name="email" type="email"> <label for="email">email</label>
+                <input class="validate" id="groupName" name="groupName" type="text"> <label for="groupName">車隊名稱</label>
               </div>
             </div>
             <div class="row">
               <div class="file-field input-field">
                 <div class="btn">
-                  <span>照片上傳</span> <input type="file">
+                  <span>車隊封面上傳</span> <input type="file" id = "uploadImage" name ="uploadImage">
                 </div>
                 <div class="file-path-wrapper">
-                  <input class="file-path validate" id="userPicture" type="text">
+                  <input class="file-path validate" type="text">
                 </div>
               </div>
             </div>
@@ -87,7 +68,7 @@
               <a class="waves-effect waves-light btn" onclick="rewrite()">重新輸入</a>
             </div>
             <div class="col s6">
-              <a class="waves-effect waves-light btn" onclick="signUp()">送出</a>
+              <a class="waves-effect waves-light btn" onclick="send()">送出</a>
             </div>
           </div>
         </div>
@@ -143,7 +124,8 @@
         Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
       </div>
     </div>
-  </footer><!-- leftSlideNav -->
+  </footer>
+  <!-- leftSlideNav -->
   <ul class="side-nav" id="slide-out">
     <li>
       <div class="user-view">
@@ -173,30 +155,32 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
-  function signUp (){
-	$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
-	$.ajax({
+  function send(){
+    $("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+    imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
+      create(result)
+    })
+  }
+  function create (value){
+    $.ajax({
 	  type: "POST",
-	  datatype:"json",
-	  data:$("#signUpForm").serialize(),
-	  url:  "${pageContext.request.contextPath}/User/SignUp/Create",
-	  async: false ,
+	  dataType: 'json',
+	  data:{
+		  "groupName":$("#groupName").val(),
+		  "groupPicture":value
+	  },
+	  url:"${pageContext.request.contextPath}/Group/Create",
+      async: false ,
 	  success: function(data){
-		var result = JSON.parse(data)
-        if(result.success=="1"){
-        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-	           window.location="${pageContext.request.contextPath}/Index"
-             })
-        }else{
-	      $("#main").unblock()
-          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
-        }
+		if(data.success =="1"){
+	    }else{
+		}
+	    $("#main").unblock();
 	  }
-	});	  
+    })
   }
   </script>
 

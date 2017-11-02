@@ -30,7 +30,6 @@ public class UserAccountController {
 	
 	@RequestMapping("/SignUp/Create")
 	public @ResponseBody String create (SignUpForm signUpForm){
-		System.out.println(signUpForm.getPassword());
 		JSONObject o = new JSONObject();
 		try {
 			userService.signUp(signUpForm);
