@@ -46,6 +46,12 @@ GroupJourney/Start|開始群組旅程(OK)
 GroupJourney/End|結束群組旅程(OK)
 GroupJourneyDetail/Create|新增群組旅程細節
 GroupJourneyDetail/GetAll|取得群組旅程所有細節
+GroupJoin/Create|新增揪團
+GroupJoin/Update|修改揪團
+GroupJoin/GetAllList|取得所有揪團列表
+GroupJoin/GetGroupList|取得群組揪團列表
+GroupJoin/Get|取得揪團
+GroupJoinUser/Create|加入揪團
 RoadQuery/Create|新增路況
 RoadQuery/GetList|取得路況列表
 
@@ -953,6 +959,137 @@ response:
             ]
         }
     ]
+}
+```
+
+## GroupJoin/Create(新增揪團)
+request:
+```json
+{
+    "userId": "userId",
+    "groupJourneyId": "groupJourneyId",
+    "content": "content",
+    "expireDate": "2017-01-01 00:00:00"
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## GroupJoin/Update(修改揪團)
+request:
+```json
+{
+    "groupJoinID": 1,
+    "userId": "userId",
+    "content": "content",
+    "expireDate": "2017-01-01 00:00:00",
+    "enable": 0(disable)/1(enable)
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## GroupJoin/GetAllList(取得所有揪團)
+request:
+```json
+{
+    "userId": "userId"
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "groupJoins":[
+        {
+            "groupJoinId": 1,
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture",
+            "content": "content",
+            "expireDate": "2017-01-01 00:00:00",
+            "createDate": "2017-01-01 00:00:00",
+            "modifyDate": "2017-01-01 00:00:00"
+        }
+    ]
+}
+```
+
+## GroupJoin/GetAllList(取得所有揪團)
+request:
+```json
+{
+    "groupId": 1
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "groupJoins":[
+        {
+            "groupJoinId": 1,
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture",
+            "content": "content",
+            "expireDate": "2017-01-01 00:00:00",
+            "createDate": "2017-01-01 00:00:00",
+            "modifyDate": "2017-01-01 00:00:00"
+        }
+    ]
+}
+```
+
+## GroupJoin/Get(取得揪團)
+request:
+```json
+{
+    "groupJoinId": 1
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "groupJoinId": 1,
+    "userId": "userId",
+    "userName": "userName",
+    "userPicture": "userPicture",
+    "content": "",
+    "expireDate": "",
+    "createDate": "",
+    "modifyDate": "",
+    "joinUsers": [
+        {
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture"
+        }
+    ]
+}
+```
+
+## GroupJoinUser/Create(加入揪團)
+request:
+```json
+{
+    "userId": "userId",
+    "groupJoinId": 1
+}
+```
+response:
+```json
+{
+    "result": 1
 }
 ```
 
