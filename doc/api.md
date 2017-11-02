@@ -1023,7 +1023,7 @@ response:
 }
 ```
 
-## GroupJoin/GetAllList(取得所有揪團)
+## GroupJoin/GetGroupList(取得群組揪團)
 request:
 ```json
 {
@@ -1064,6 +1064,7 @@ response:
     "userId": "userId",
     "userName": "userName",
     "userPicture": "userPicture",
+    "enable": 0(disable)/1(enable),
     "content": "",
     "expireDate": "",
     "createDate": "",
