@@ -151,6 +151,7 @@
   <script type="text/javascript">
   function redirectPage(value){
 	var path = "${pageContext.request.contextPath}/Group"
+		
     switch (value){
     case "new" :
         path += "/New"
@@ -162,7 +163,7 @@
         path += "/readAll"
         break;
     }
-	window.location="${pageContext.request.contextPath}/Index"
+	window.location=path;
   }
   </script>
 
