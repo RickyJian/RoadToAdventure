@@ -35,6 +35,7 @@
   <div class="container">
     <div class="section">
       <br><br><br>
+      <!-- 
       <div class = "row">
         <div class="input-field col s10">
           <i class="material-icons prefix">search</i>
@@ -45,9 +46,44 @@
 		  <a class="waves-effect waves-light btn" onclick = "signUp()">送出</a>
         </div>
       </div>
+       -->
       <div class = "row">
-      </div>
-      <div class ="row">
+        <div class="col s4 ">
+          <div class="card">
+            <br>
+            <div class="card-content black-text center-align">
+			  <h3>車隊新增</h3>
+            </div>
+            <br>
+            <div class="card-action center-align">
+              <a class="waves-effect waves-light btn" onclick ="redirectPage('new')">進入</a>
+            </div>
+          </div>
+        </div>
+        <div class="col s4 ">
+          <div class="card">
+            <br>
+            <div class="card-content black-text center-align">
+			  <h3>車隊管理</h3>
+            </div>
+            <br>
+            <div class="card-action center-align">
+              <a class="waves-effect waves-light btn" onclick ="redirectPage('manage')">進入</a>
+            </div>
+          </div>
+        </div>
+        <div class="col s4 ">
+          <div class="card">
+            <br>
+            <div class="card-content black-text center-align">
+			  <h3>車隊搜尋</h3>
+            </div>
+            <br>
+            <div class="card-action center-align">
+              <a class="waves-effect waves-light btn" onclick ="redirectPage('read')">進入</a>
+            </div>
+          </div>
+        </div>
       </div>
 	  <br><br><br>
     </div>
@@ -113,7 +149,21 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
-
+  function redirectPage(value){
+	var path = "${pageContext.request.contextPath}/Group"
+    switch (value){
+    case "new" :
+        path += "/New"
+        break;
+    case "manage":
+        path += "/read"
+        break;
+    case "readAll" :
+        path += "/readAll"
+        break;
+    }
+	window.location="${pageContext.request.contextPath}/Index"
+  }
   </script>
 
   </body>
