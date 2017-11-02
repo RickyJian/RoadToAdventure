@@ -10,6 +10,11 @@ public class GroupBean {
 	private String groupPicture;
 	private Date createDate;
 	private Date modifyDate;
+	
+//	UserInGroup
+	private String userId;
+
+	
 	public Integer getGroupId() {
 		return groupId;
 	}
@@ -39,6 +44,12 @@ public class GroupBean {
 	}
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

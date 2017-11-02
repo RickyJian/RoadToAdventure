@@ -19,7 +19,7 @@ import net.sf.json.JSONObject;
 @RequestMapping("/File")
 public class FileUploadController {
 	
-	@RequestMapping(value = "/UploadImg", method=RequestMethod.POST)
+	@RequestMapping(value = "/UploadImg" , method = RequestMethod.POST)
 	public @ResponseBody String uploadImg (@RequestParam MultipartFile[] uploadImage){
 		JSONObject o = new JSONObject();
 		try{

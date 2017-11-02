@@ -96,4 +96,23 @@ public class BaseDAOImpl<T> extends HibernateDaoSupport implements tw.org.roadto
 		this.entityClass = entityClass;
 	}
 
+	@Override
+	public int createReturnPKIntType(T entity) {
+		int pk = (int) this.getHibernateTemplate().save(entity);
+		this.getHibernateTemplate().flush();
+		return  pk;
+	}
+	@Override
+	public String createReturnPKStringType(T entity) {
+		String pk = (String) this.getHibernateTemplate().save(entity);
+		this.getHibernateTemplate().flush();
+		return  pk;
+	}
+	@Override
+	public T createReturnPK(T entity) {
+		T t = (T) this.getHibernateTemplate().save(entity);
+		this.getHibernateTemplate().flush();
+		return  t;
+	}
+
 }

@@ -1,5 +1,5 @@
 package tw.org.roadtoadventure.vo;
-// Generated 2017/10/30 �U�� 10:59:10 by Hibernate Tools 5.2.5.Final
+// Generated 2017/11/3 �W�� 02:21:29 by Hibernate Tools 5.2.5.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,7 @@ import javax.persistence.Table;
 public class UserInGroup implements java.io.Serializable {
 
 	private UserInGroupId id;
+	private Group group;
 	private GroupRole groupRole;
 	private UserAccount userAccount;
 //	private Set<Authority> authorities = new HashSet<Authority>(0);
@@ -31,15 +32,17 @@ public class UserInGroup implements java.io.Serializable {
 	public UserInGroup() {
 	}
 
-//	public UserInGroup(UserInGroupId id, GroupRole groupRole, UserAccount userAccount) {
+//	public UserInGroup(UserInGroupId id, Group group, GroupRole groupRole, UserAccount userAccount) {
 //		this.id = id;
+//		this.group = group;
 //		this.groupRole = groupRole;
 //		this.userAccount = userAccount;
 //	}
 //
-//	public UserInGroup(UserInGroupId id, GroupRole groupRole, UserAccount userAccount, Set<Authority> authorities,
-//			Set<GroupChat> groupChats) {
+//	public UserInGroup(UserInGroupId id, Group group, GroupRole groupRole, UserAccount userAccount,
+//			Set<Authority> authorities, Set<GroupChat> groupChats) {
 //		this.id = id;
+//		this.group = group;
 //		this.groupRole = groupRole;
 //		this.userAccount = userAccount;
 //		this.authorities = authorities;
@@ -57,6 +60,16 @@ public class UserInGroup implements java.io.Serializable {
 
 	public void setId(UserInGroupId id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "GroupID", nullable = false, insertable = false, updatable = false)
+	public Group getGroup() {
+		return this.group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -87,7 +100,7 @@ public class UserInGroup implements java.io.Serializable {
 //	public void setAuthorities(Set<Authority> authorities) {
 //		this.authorities = authorities;
 //	}
-
+//
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInGroup")
 	public Set<GroupChat> getGroupChats() {
 		return this.groupChats;

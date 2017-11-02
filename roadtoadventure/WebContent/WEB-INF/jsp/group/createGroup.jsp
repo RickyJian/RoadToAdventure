@@ -176,6 +176,9 @@
       async: false ,
 	  success: function(data){
 		if(data.success =="1"){
+       	  Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;新增成功，自動跳轉管理頁面。", 3000,'',function(){
+	           window.location="${pageContext.request.contextPath}/Group/Read"
+           })
 	    }else{
 		}
 	    $("#main").unblock();

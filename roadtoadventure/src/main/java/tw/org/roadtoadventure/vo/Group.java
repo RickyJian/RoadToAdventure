@@ -1,5 +1,5 @@
 package tw.org.roadtoadventure.vo;
-// Generated 2017/10/30 �U�� 10:59:10 by Hibernate Tools 5.2.5.Final
+// Generated 2017/11/3 �W�� 02:21:29 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -32,6 +32,7 @@ public class Group implements java.io.Serializable {
 	private Date createDate;
 	private Date modifyDate;
 	private Set<GroupJourney> groupJourneys = new HashSet<GroupJourney>(0);
+	private Set<UserInGroup> userInGroups = new HashSet<UserInGroup>(0);
 
 	public Group() {
 	}
@@ -44,7 +45,8 @@ public class Group implements java.io.Serializable {
 	}
 
 	public Group(UserAccount userAccountByCreateId, UserAccount userAccountByModifyId, String groupName,
-			String groupPicture, Date createDate, Date modifyDate, Set<GroupJourney> groupJourneys) {
+			String groupPicture, Date createDate, Date modifyDate, Set<GroupJourney> groupJourneys,
+			Set<UserInGroup> userInGroups) {
 		this.userAccountByCreateId = userAccountByCreateId;
 		this.userAccountByModifyId = userAccountByModifyId;
 		this.groupName = groupName;
@@ -52,6 +54,7 @@ public class Group implements java.io.Serializable {
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.groupJourneys = groupJourneys;
+		this.userInGroups = userInGroups;
 	}
 
 	@Id
@@ -131,6 +134,15 @@ public class Group implements java.io.Serializable {
 
 	public void setGroupJourneys(Set<GroupJourney> groupJourneys) {
 		this.groupJourneys = groupJourneys;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+	public Set<UserInGroup> getUserInGroups() {
+		return this.userInGroups;
+	}
+
+	public void setUserInGroups(Set<UserInGroup> userInGroups) {
+		this.userInGroups = userInGroups;
 	}
 
 }
