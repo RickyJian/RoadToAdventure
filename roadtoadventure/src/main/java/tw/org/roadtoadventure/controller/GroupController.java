@@ -48,6 +48,16 @@ public class GroupController {
 		}
 		return false;
 	}
+	private boolean isJourneyUrlCorrect(Integer groupId , Integer journeyId) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		GroupBean groupBean = new GroupBean(groupId,journeyId);
+		groupBean.setUserId(user.getUserId());
+		List<GroupBean> gbList = groupJourneyService.readByParameter(groupBean);
+		if(gbList.size()==1) {
+			return true;
+		}
+		return false;
+	}
 	
 	//	團隊首頁
 	@RequestMapping("/Group")
@@ -239,6 +249,28 @@ public class GroupController {
 				}
 				o.put("success", "1");
 				o.put("groupArray", array);
+				mav.addObject("group" ,o.toString());
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+				
+			}
+			return mav;
+		}
+		return null;
+		
+	}
+//	歷程編輯
+	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
+	public ModelAndView groupEditGroup(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
+		if(isJourneyUrlCorrect(groupId,journeyId)) {
+			ModelAndView mav = new ModelAndView(subDir+"/updateJourney");
+			JSONObject o = new JSONObject();
+			try {
+				o.put("success", "1");
+				o.put("groupId ", groupId);
+				o.put("journeyId ", journeyId);
 				mav.addObject("group" ,o.toString());
 			}catch(Exception ex) {
 				o.put("success", "0");

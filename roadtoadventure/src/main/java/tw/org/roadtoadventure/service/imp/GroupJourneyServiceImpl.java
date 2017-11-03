@@ -50,4 +50,17 @@ public class GroupJourneyServiceImpl implements GroupJourneyService {
 		return gbList;
 	}
 
+	@Override
+	public List<GroupBean> readByParameter(GroupBean groupBean) throws Exception {
+		List<GroupJourney> gjList  = groupJourneyDAO.readByParameter(groupBean);
+		List<GroupBean> gbList = new ArrayList<GroupBean>();
+		for(GroupJourney gj :gjList) {
+			GroupBean gb = new GroupBean();
+			BeanUtility.copyProperties(gj, gb);
+			gb.setGroupId(gj.getGroup().getGroupId());
+			gbList.add(gb);
+		}
+		return gbList;
+	}
+
 }

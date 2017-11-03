@@ -30,6 +30,10 @@ public class GroupBean {
 	public GroupBean(Integer groupId) {
 		this.groupId = groupId;
 	}
+	public GroupBean(Integer groupId,Integer groupJourneyId) {
+		this.groupId = groupId;
+		this.groupJourneyId = groupJourneyId;
+	}
 	
 	
 	public String getSearchType() {

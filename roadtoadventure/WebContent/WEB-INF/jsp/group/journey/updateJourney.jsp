@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>車隊管理-揪愛騎 Road To Adventure</title>
+  <title>登入-揪愛騎 Road To Adventure</title>
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -32,15 +32,15 @@
 
 
   <div id = "main">
-    <div class="container">
-      <div class="section">
-        <br><br><br>
-        <div id ="cardDiv">
-        </div>
-	    <br><br><br>
+  <div class="container">
+    <div class="section">
+      <br><br><br>
+      <div class = "row">
       </div>
-      <br><br>
+	  <br><br><br>
     </div>
+    <br><br>
+  </div>
   </div>
 
   <footer class="page-footer blue lighten-1">
@@ -101,56 +101,7 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
-  $(function(){
-    appendCards();
-  })
-  function appendCards(){
-	var result = JSON.parse('${group}')
-	if(result.success =="1"){
-      var html = "";
-	  for(var i = 0 ; i < result.groupArray.length ; i++){
-		var journeyName = result.groupArray[i].journeyName
-		var groupId = result.groupArray[i].groupId
-		var journeyId = result.groupArray[i].journeyId
-		var beginDate = result.groupArray[i].beginDate
-		var endDate = result.groupArray[i].endDate
-        if(i%3==0){
-          html += "<div class =\"row\">"
-        }
-        html += "<div class=\"col s4\">"
-		html += "<div class=\"card small hoverable\">"
-	    html += "<div class=\"card-content\">"
-	    html += "<span class=\"card-title grey-text text-darken-4\">"+journeyName+"</span>"
-	    html += "<p>起始時間："+beginDate+"</p>"
-	    html += "<p>結束時間："+endDate+"</p>"
-	    html += "</div>"
-	    html += "<div class=\"card-action center-align\">"
-	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" >編輯</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','read')\" >詳情</a>"
-	    html += "</div>"
-	    html += "</div>"
-	    html += "</div>"
-        if(i%3==2){
-          html += "</div>"
-        }
-      }
-      $("#cardDiv").append(html)
-	}else{
-		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
-	}
-  }
-  function redirectPage(groupId , journeyId , type){
-    var path = "${pageContext.request.contextPath}/Group/"+groupId+"/Journey/"+journeyId
-    switch (type){
-    case "edit" :
-      path += "/Edit"
-    break;
-    case "search" :
-      path += "/Read"
-    break;
-    }
-    window.location =path
-  }
+
   </script>
 
   </body>

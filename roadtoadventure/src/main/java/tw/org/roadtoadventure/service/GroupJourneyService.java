@@ -10,4 +10,6 @@ public interface GroupJourneyService {
 	
 	public List<GroupBean> readAll() throws Exception;
 	
+	public List<GroupBean> readByParameter(GroupBean groupBean) throws Exception;
+	
 }
