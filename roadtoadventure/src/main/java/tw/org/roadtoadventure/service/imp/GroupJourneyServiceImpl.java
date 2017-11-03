@@ -1,6 +1,8 @@
 package tw.org.roadtoadventure.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,7 @@ import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.vo.Group;
 import tw.org.roadtoadventure.vo.GroupJourney;
 import tw.org.roadtoadventure.vo.UserAccount;
+import tw.org.roadtoadventure.vo.UserInGroup;
 
 @Service
 public class GroupJourneyServiceImpl implements GroupJourneyService {
@@ -32,6 +35,19 @@ public class GroupJourneyServiceImpl implements GroupJourneyService {
 		gj.setUserAccountByCreateId(user);
 		gj.setCreateDate(new Date());
 		groupJourneyDAO.create(gj);
+	}
+
+	@Override
+	public List<GroupBean> readAll() throws Exception {
+		List<GroupBean> gbList = new ArrayList<GroupBean>();
+		List<GroupJourney> uigList = groupJourneyDAO.readAllWithJoin();
+		for(GroupJourney gj :uigList) {
+			GroupBean gb = new GroupBean();
+			BeanUtility.copyProperties(gj, gb);
+			gb.setGroupId(gj.getGroup().getGroupId());
+			gbList.add(gb);
+		}
+		return gbList;
 	}
 
 }

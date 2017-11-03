@@ -71,7 +71,7 @@
             </div>
             <br>
             <div class="card-action center-align">
-              <a class="waves-effect waves-light btn" onclick ="redirectPage('read')">進入</a>
+              <a class="waves-effect waves-light btn" onclick ="redirectPage('readAll')">進入</a>
             </div>
           </div>
         </div>

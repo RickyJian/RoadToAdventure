@@ -8,7 +8,7 @@ import tw.org.roadtoadventure.bean.GroupBean;
 
 public class CreateGroupJourneyForm extends GroupBean {
 	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	
 	private String beginDay ;
 	private String endDay ;
