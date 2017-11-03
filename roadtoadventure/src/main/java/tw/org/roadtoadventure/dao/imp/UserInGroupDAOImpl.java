@@ -37,12 +37,20 @@ public class UserInGroupDAOImpl extends BaseDAOImpl<UserInGroup> implements User
 		detachedCriteria.createAlias("userAccount", "u");
 		if(groupBean!=null) {
 			String groupName = groupBean.getGroupName();
+			Integer groupId = groupBean.getGroupId();
+			String userId = groupBean.getUserId();
 			if(groupName!=null&&!groupName.equals("")) {
 				if(groupBean.getSearchType().equals("like")) {
 					detachedCriteria.add(Restrictions.like("g.groupName", "%"+groupName+"%"));
 				}else {
 					detachedCriteria.add(Restrictions.eq("g.groupName", groupName));
 				}
+			}
+			if(groupId!=null) {
+				detachedCriteria.add(Restrictions.eq("g.groupId",groupId));
+			}
+			if(userId!=null&&!userId.equals("")) {
+				detachedCriteria.add(Restrictions.eq("u.userId",userId));
 			}
 		}
 		return this.getHibernateTemplate().findByCriteria(detachedCriteria);

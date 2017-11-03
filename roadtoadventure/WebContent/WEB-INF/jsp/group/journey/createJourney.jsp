@@ -44,28 +44,32 @@
         <div class="row">
           <br>
           <br>
-          <form class="col s12" id="groupForm" name="groupForm">
+          <form class="col s12" id="journeyForm" name="journeyForm">
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="groupName" name="groupName" type="text" data-length="50"> <label for="groupName">車隊名稱</label>
+                <input class="validate" id="groupJourneyName" name="groupJourneyName" type="text" data-length="50"> <label for="groupName">歷程名稱</label>
               </div>
             </div>
             <div class="row">
-              <div class="input-field col s12">
-                <textarea id="groupDescription" name = "groupDescription" class="materialize-textarea" data-length="100"></textarea>
-                <label for="groupDescription">車隊簡介</label>
+              <div class = "input-field col s6">
+                <input type="text" id = "beginDay" name = "beginDay" class="datepicker">
+                <label for="beginDate">起始日期</label>
+              </div>
+              <div class = "input-field col s6">
+                <input type="text" id = "beginTime"  name = "beginTime" class="timepicker">
+                <label for="beginTime">起始時間</label>
               </div>
             </div>            
             <div class="row">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <span>車隊封面上傳</span> <input type="file" id = "uploadImage" name ="uploadImage">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
+              <div class = "input-field col s6">
+                <input type="text" id = "endDay" name = "endDay" class="datepicker">
+                <label for="endDate">結束日期</label>
               </div>
-            </div>
+              <div class = "input-field col s6">
+                <input type="text" id = "endTime" name = "endTime" class="timepicker">
+                <label for="endTime">結束時間</label>
+              </div>
+            </div>          
           </form>
         </div>
         <div>
@@ -163,23 +167,15 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
   <script type="text/javascript">
   function send(){
     $("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
-    imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
-      create(result)
-    })
-  }
-  function create (value){
     $.ajax({
 	  type: "POST",
 	  dataType: 'json',
-	  data:{
-		  "groupName":$("#groupName").val(),
-		  "groupDescription":$("#groupDescription").val(),
-		  "groupPicture":value
-	  },
-	  url:"${pageContext.request.contextPath}/Group/Create",
+	  data:$("#journeyForm").serialize(),
+	  url:"${pageContext.request.contextPath}/Group/${groupId}/Journey/Create",
       async: false ,
 	  success: function(data){
 		if(data.success =="1"){
@@ -187,11 +183,11 @@
 	           window.location="${pageContext.request.contextPath}/Group/Read"
           })
 	    }else{
-	      Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗。", 5000)
+	      //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗。", 5000)
 	    }
 	    $("#main").unblock();
 	  }
-    })
+    })    
   }
   </script>
 

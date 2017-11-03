@@ -110,6 +110,7 @@
       var html = "";
 	  for(var i = 0 ; i < result.groupArray.length ; i++){
 		var image = result.groupArray[i].groupPicture
+		var id = result.groupArray[i].groupId
 		var name = result.groupArray[i].groupName
 		var status = result.groupArray[i].status
 		var description = result.groupArray[i].groupDescription
@@ -126,7 +127,7 @@
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
-	      html += "<a class=\"waves-effect waves-light btn\" >進入</a>"
+	      html += "<a class=\"waves-effect waves-light btn\"onclick= \"redirectPage('"+id+"')\" >進入</a>"
 	    }else{
 	      html += "<span class = \"red-text text-lighten-1\">待車隊管理員審核</span>"
  		}
@@ -142,10 +143,13 @@
           html += "</div>"
         }
       }
-		$("#cardDiv").append(html)
+      $("#cardDiv").append(html)
 	}else{
 		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
 	}
+  }
+  function redirectPage(id){
+    window.location = "${pageContext.request.contextPath}/Group/"+id+"/Journey"
   }
   </script>
 

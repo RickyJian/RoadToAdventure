@@ -1,22 +1,12 @@
 package tw.org.roadtoadventure.vo;
-// Generated 2017/11/3 �W�� 02:21:29 by Hibernate Tools 5.2.5.Final
-
-import static javax.persistence.GenerationType.IDENTITY;
+// Generated 2017/11/4 �W�� 01:23:52 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,19 +19,39 @@ import javax.persistence.TemporalType;
 public class GroupJourney implements java.io.Serializable {
 
 	private Integer groupJourneyId;
-	private Group group;
-	private UserAccount userAccountByCreateId;
-	private UserAccount userAccountByModifyId;
+	private int groupId;
 	private String groupJourneyName;
 	private String groupJourneyContent;
+	private String createId;
 	private Date createDate;
+	private String modifyId;
 	private Date modifyTime;
 	private Date beginDate;
 	private Date endDate;
-	private Set<GroupJourneyDetail> groupJourneyDetails = new HashSet<GroupJourneyDetail>(0);
 
 	public GroupJourney() {
 	}
+
+	public GroupJourney(int groupId, String groupJourneyName, String createId, Date createDate) {
+		this.groupId = groupId;
+		this.groupJourneyName = groupJourneyName;
+		this.createId = createId;
+		this.createDate = createDate;
+	}
+
+	public GroupJourney(int groupId, String groupJourneyName, String groupJourneyContent, String createId,
+			Date createDate, String modifyId, Date modifyTime, Date beginDate, Date endDate) {
+		this.groupId = groupId;
+		this.groupJourneyName = groupJourneyName;
+		this.groupJourneyContent = groupJourneyContent;
+		this.createId = createId;
+		this.createDate = createDate;
+		this.modifyId = modifyId;
+		this.modifyTime = modifyTime;
+		this.beginDate = beginDate;
+		this.endDate = endDate;
+	}
+
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 
@@ -54,35 +64,13 @@ public class GroupJourney implements java.io.Serializable {
 		this.groupJourneyId = groupJourneyId;
 	}
 
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "GroupID", nullable = false)
-	public Group getGroup() {
-		return this.group;
+	@Column(name = "GroupID", nullable = false)
+	public int getGroupId() {
+		return this.groupId;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CreateID", nullable = false)
-	public UserAccount getUserAccountByCreateId() {
-		return this.userAccountByCreateId;
-	}
-
-	public void setUserAccountByCreateId(UserAccount userAccountByCreateId) {
-		this.userAccountByCreateId = userAccountByCreateId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ModifyID")
-	public UserAccount getUserAccountByModifyId() {
-		return this.userAccountByModifyId;
-	}
-
-	public void setUserAccountByModifyId(UserAccount userAccountByModifyId) {
-		this.userAccountByModifyId = userAccountByModifyId;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 
 	@Column(name = "GroupJourneyName", nullable = false, length = 50)
@@ -103,6 +91,15 @@ public class GroupJourney implements java.io.Serializable {
 		this.groupJourneyContent = groupJourneyContent;
 	}
 
+	@Column(name = "CreateID", nullable = false, length = 20)
+	public String getCreateId() {
+		return this.createId;
+	}
+
+	public void setCreateId(String createId) {
+		this.createId = createId;
+	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CreateDate", nullable = false, length = 23)
 	public Date getCreateDate() {
@@ -111,6 +108,15 @@ public class GroupJourney implements java.io.Serializable {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	@Column(name = "ModifyID", length = 20)
+	public String getModifyId() {
+		return this.modifyId;
+	}
+
+	public void setModifyId(String modifyId) {
+		this.modifyId = modifyId;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -122,34 +128,25 @@ public class GroupJourney implements java.io.Serializable {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "BeginDate", length = 23)
 	public Date getBeginDate() {
-		return beginDate;
+		return this.beginDate;
 	}
 
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EndDate", length = 23)
 	public Date getEndDate() {
-		return endDate;
+		return this.endDate;
 	}
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "groupJourney")
-	public Set<GroupJourneyDetail> getGroupJourneyDetails() {
-		return this.groupJourneyDetails;
-	}
-
-	public void setGroupJourneyDetails(Set<GroupJourneyDetail> groupJourneyDetails) {
-		this.groupJourneyDetails = groupJourneyDetails;
 	}
 
 }

@@ -1,5 +1,5 @@
-package tw.org.roadtoadventure.vo;
-// Generated 2017/11/3 �W�� 02:21:29 by Hibernate Tools 5.2.5.Final
+// default package
+// Generated 2017/11/4 �W�� 01:37:15 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
 import javax.persistence.AttributeOverride;
@@ -9,7 +9,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,32 +23,32 @@ public class GroupJourneyDetail implements java.io.Serializable {
 
 	private GroupJourneyDetailId id;
 	private GroupJourney groupJourney;
-	private UserAccount userAccountByCreateId;
-	private UserAccount userAccountByModifyId;
 	private String latitude;
 	private String longitude;
+	private String createId;
+	private String modifyId;
 	private Date modifyDate;
 
 	public GroupJourneyDetail() {
 	}
 
-	public GroupJourneyDetail(GroupJourneyDetailId id, GroupJourney groupJourney, UserAccount userAccountByCreateId,
-			String latitude, String longitude) {
+	public GroupJourneyDetail(GroupJourneyDetailId id, GroupJourney groupJourney, String latitude, String longitude,
+			String createId) {
 		this.id = id;
 		this.groupJourney = groupJourney;
-		this.userAccountByCreateId = userAccountByCreateId;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.createId = createId;
 	}
 
-	public GroupJourneyDetail(GroupJourneyDetailId id, GroupJourney groupJourney, UserAccount userAccountByCreateId,
-			UserAccount userAccountByModifyId, String latitude, String longitude, Date modifyDate) {
+	public GroupJourneyDetail(GroupJourneyDetailId id, GroupJourney groupJourney, String latitude, String longitude,
+			String createId, String modifyId, Date modifyDate) {
 		this.id = id;
 		this.groupJourney = groupJourney;
-		this.userAccountByCreateId = userAccountByCreateId;
-		this.userAccountByModifyId = userAccountByModifyId;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.createId = createId;
+		this.modifyId = modifyId;
 		this.modifyDate = modifyDate;
 	}
 
@@ -77,26 +76,6 @@ public class GroupJourneyDetail implements java.io.Serializable {
 		this.groupJourney = groupJourney;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CreateID", nullable = false)
-	public UserAccount getUserAccountByCreateId() {
-		return this.userAccountByCreateId;
-	}
-
-	public void setUserAccountByCreateId(UserAccount userAccountByCreateId) {
-		this.userAccountByCreateId = userAccountByCreateId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ModifyID")
-	public UserAccount getUserAccountByModifyId() {
-		return this.userAccountByModifyId;
-	}
-
-	public void setUserAccountByModifyId(UserAccount userAccountByModifyId) {
-		this.userAccountByModifyId = userAccountByModifyId;
-	}
-
 	@Column(name = "Latitude", nullable = false, length = 30)
 	public String getLatitude() {
 		return this.latitude;
@@ -113,6 +92,24 @@ public class GroupJourneyDetail implements java.io.Serializable {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	@Column(name = "CreateID", nullable = false, length = 20)
+	public String getCreateId() {
+		return this.createId;
+	}
+
+	public void setCreateId(String createId) {
+		this.createId = createId;
+	}
+
+	@Column(name = "ModifyID", length = 20)
+	public String getModifyId() {
+		return this.modifyId;
+	}
+
+	public void setModifyId(String modifyId) {
+		this.modifyId = modifyId;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

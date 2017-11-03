@@ -13,12 +13,23 @@ public class GroupBean {
 	private Date modifyDate;
 	private char status;
 	private String groupDescription;
-	
 //	UserInGroup
 	private String userId;
-
+//	Journey
+	private int groupJourneyId;
+	private String groupJourneyName;
+	private Date beginDate;
+	private Date endDate;
+	
 //	Search type
 	private String searchType; 
+	
+	
+	public GroupBean() {
+	}
+	public GroupBean(Integer groupId) {
+		this.groupId = groupId;
+	}
 	
 	
 	public String getSearchType() {
@@ -80,6 +91,30 @@ public class GroupBean {
 	}
 	public void setGroupDescription(String groupDescription) {
 		this.groupDescription = groupDescription;
+	}
+	public int getGroupJourneyId() {
+		return groupJourneyId;
+	}
+	public void setGroupJourneyId(int groupJourneyId) {
+		this.groupJourneyId = groupJourneyId;
+	}
+	public Date getBeginDate() {
+		return beginDate;
+	}
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	public String getGroupJourneyName() {
+		return groupJourneyName;
+	}
+	public void setGroupJourneyName(String groupJourneyName) {
+		this.groupJourneyName = groupJourneyName;
 	}
 	
 	
