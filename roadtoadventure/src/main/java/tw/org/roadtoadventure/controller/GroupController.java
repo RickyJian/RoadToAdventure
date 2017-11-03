@@ -52,14 +52,15 @@ public class GroupController {
 		try {
 			JSONArray array =new JSONArray();
 			for(GroupBean gb :groupService.readAll()) {
-				if(gb.getStatus()=='1') {
-					JSONObject arrayObj = new JSONObject();
-					arrayObj.put("userId", gb.getUserId());
-					arrayObj.put("groupId", gb.getGroupId());
-					arrayObj.put("groupName", gb.getGroupName());
-					arrayObj.put("groupPicture", gb.getGroupPicture());
-					array.add(arrayObj);
-				}
+				JSONObject arrayObj = new JSONObject();
+				arrayObj.put("userId", gb.getUserId());
+				arrayObj.put("groupId", gb.getGroupId());
+				arrayObj.put("status", gb.getStatus());
+				arrayObj.put("groupDescription", gb.getGroupDescription());
+				arrayObj.put("groupName", gb.getGroupName());
+				arrayObj.put("groupPicture", gb.getGroupPicture());
+				array.add(arrayObj);
+
 			}
 			o.put("success", "1");
 			o.put("groupArray", array);
@@ -123,8 +124,8 @@ public class GroupController {
 		try {
 			GroupBean gb = new GroupBean();
 			gb.setStatus('0');
-	        gb.setGroupId(groupId);
-	        gb.setGroupRoleId("2");
+			gb.setGroupId(groupId);
+			gb.setGroupRoleId("2");
 			groupService.update(gb);
 			o.put("success", "1");
 			return o.toString();

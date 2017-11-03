@@ -82,6 +82,7 @@ public class GroupServiceImpl implements GroupService {
 			gb.setUserId(uig.getId().getUserId());
 			gb.setStatus(uig.getStatus());
 			gb.setGroupId(uig.getId().getGroupId());
+			gb.setGroupDescription(uig.getGroup().getGroupDescription()==null?"":uig.getGroup().getGroupDescription());
 			gb.setGroupName(uig.getGroup().getGroupName());
 			gb.setGroupPicture(uig.getGroup().getGroupPicture());
 			gb.setCreateDate(uig.getGroup().getCreateDate());

@@ -111,17 +111,30 @@
 	  for(var i = 0 ; i < result.groupArray.length ; i++){
 		var image = result.groupArray[i].groupPicture
 		var name = result.groupArray[i].groupName
+		var status = result.groupArray[i].status
+		var description = result.groupArray[i].groupDescription
         if(i%3==0){
           html += "<div class =\"row\">"
         }
         html += "<div class=\"col s4\">"
-		html += "<div class=\"card small\">"
-		html += "<div class=\"card-image\">"
-	    html += "<img src=\""+image+"\">"
-	    html += "<span class=\"card-title\">"+name+"</span>"
+		html += "<div class=\"card small hoverable\">"
+		html += "<div class=\"card-image \">"
+	    html += "<img class =\"activator\" src=\""+image+"\">"
+	    html += "</div>"
+	    html += "<div class=\"card-content\">"
+	    html += "<span class=\"card-title activator grey-text text-darken-4\">"+name+"<i class=\"material-icons right\">more_vert</i></span>"
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
-	    html += "<a class=\"waves-effect waves-light btn\" >進入</a>"
+	    if(status=="1"){
+	      html += "<a class=\"waves-effect waves-light btn\" >進入</a>"
+	    }else{
+	      html += "<span class = \"red-text text-lighten-1\">待車隊管理員審核</span>"
+ 		}
+	    html += "</div>"
+	    html += "<div class=\"card-reveal\">"
+	    html += "<span class=\"card-title grey-text text-darken-4\">"+name+"<i class=\"material-icons right\">close</i></span>"
+	    html += "<p>簡介：</p>"
+	    html += "<p>"+description+"</p>"
 	    html += "</div>"
 	    html += "</div>"
 	    html += "</div>"
