@@ -66,7 +66,7 @@ SavedRequestAwareAuthenticationSuccessHandler {
 	protected String determineTargetUrl(Authentication authentication) {
 		UserAccount user = (UserAccount)authentication.getPrincipal();
 		if (user.getIsVerification()=='Y') {
-			return "/Index";
+			return "/";
 		} else{
 			try{
 //				if(!scif.getMemo().equals("忘記密碼。")){
