@@ -4,6 +4,19 @@ import tw.org.roadtoadventure.bean.GroupBean;
 
 public class CreateGroupForm extends GroupBean {
 
+	
+	@Override
+	public String getGroupDescription() {
+		// TODO Auto-generated method stub
+		return super.getGroupDescription();
+	}
+
+	@Override
+	public void setGroupDescription(String groupDescription) {
+		// TODO Auto-generated method stub
+		super.setGroupDescription(groupDescription.equals("")?null:groupDescription);
+	}
+
 	@Override
 	public String getGroupName() {
 		// TODO Auto-generated method stub

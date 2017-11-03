@@ -44,6 +44,7 @@ public class GroupServiceImpl implements GroupService {
 		
 //		add useringroup
 		UserInGroup uig = new UserInGroup();
+		uig.setStatus('1');
 		UserInGroupId uigId = new UserInGroupId();
 		uigId.setGroupId(g.getGroupId());
 		uigId.setUserId(user.getUserId());

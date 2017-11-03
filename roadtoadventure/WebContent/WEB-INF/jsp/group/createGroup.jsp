@@ -47,9 +47,15 @@
           <form class="col s12" id="groupForm" name="groupForm">
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="groupName" name="groupName" type="text"> <label for="groupName">車隊名稱</label>
+                <input class="validate" id="groupName" name="groupName" type="text" data-length="50"> <label for="groupName">車隊名稱</label>
               </div>
             </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="groupDescription" name = "groupDescription" class="materialize-textarea" data-length="100"></textarea>
+                <label for="groupDescription">Textarea</label>
+              </div>
+            </div>            
             <div class="row">
               <div class="file-field input-field">
                 <div class="btn">
@@ -170,6 +176,7 @@
 	  dataType: 'json',
 	  data:{
 		  "groupName":$("#groupName").val(),
+		  "groupDescription":$("#groupDescription").val(),
 		  "groupPicture":value
 	  },
 	  url:"${pageContext.request.contextPath}/Group/Create",
@@ -180,7 +187,8 @@
 	           window.location="${pageContext.request.contextPath}/Group/Read"
           })
 	    }else{
-		}
+	      Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗。", 5000)
+	    }
 	    $("#main").unblock();
 	  }
     })

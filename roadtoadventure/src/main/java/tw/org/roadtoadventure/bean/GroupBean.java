@@ -12,6 +12,7 @@ public class GroupBean {
 	private Date createDate;
 	private Date modifyDate;
 	private char status;
+	private String groupDescription;
 	
 //	UserInGroup
 	private String userId;
@@ -73,6 +74,12 @@ public class GroupBean {
 	}
 	public void setGroupRoleId(String groupRoleId) {
 		this.groupRoleId = groupRoleId;
+	}
+	public String getGroupDescription() {
+		return groupDescription;
+	}
+	public void setGroupDescription(String groupDescription) {
+		this.groupDescription = groupDescription;
 	}
 	
 	

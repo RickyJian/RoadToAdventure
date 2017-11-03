@@ -29,6 +29,7 @@ public class Group implements java.io.Serializable {
 	private UserAccount userAccountByModifyId;
 	private String groupName;
 	private String groupPicture;
+	private String groupDescription;
 	private Date createDate;
 	private Date modifyDate;
 	private Set<GroupJourney> groupJourneys = new HashSet<GroupJourney>(0);
@@ -96,6 +97,16 @@ public class Group implements java.io.Serializable {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	
+	@Column(name = "GroupDescription", nullable =true , length =100)
+	public String getGroupDescription() {
+		return groupDescription;
+	}
+
+	public void setGroupDescription(String groupDescription) {
+		this.groupDescription = groupDescription;
 	}
 
 	@Column(name = "GroupPicture", nullable = false)
