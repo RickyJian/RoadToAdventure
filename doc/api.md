@@ -1015,6 +1015,7 @@ response:
             "userName": "userName",
             "userPicture": "userPicture",
             "content": "content",
+            "groupName": "groupName",
             "expireDate": "2017-01-01 00:00:00",
             "createDate": "2017-01-01 00:00:00",
             "modifyDate": "2017-01-01 00:00:00"
@@ -1043,7 +1044,14 @@ response:
             "content": "content",
             "expireDate": "2017-01-01 00:00:00",
             "createDate": "2017-01-01 00:00:00",
-            "modifyDate": "2017-01-01 00:00:00"
+            "modifyDate": "2017-01-01 00:00:00",
+            "joinUsers":[
+                {
+                    "userId": "userId",
+                    "userName": "userName",
+                    "userPicture": "userPicture"
+                }
+            ]
         }
     ]
 }
