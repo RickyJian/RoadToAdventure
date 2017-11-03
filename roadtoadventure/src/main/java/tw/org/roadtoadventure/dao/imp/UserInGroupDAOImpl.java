@@ -6,6 +6,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.dao.UserInGroupDAO;
 import tw.org.roadtoadventure.vo.UserInGroup;
 
@@ -20,6 +21,33 @@ public class UserInGroupDAOImpl extends BaseDAOImpl<UserInGroup> implements User
 		detachedCriteria.add(Restrictions.eq("id.userId", userId));
 		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
+
+	@Override
+	public List<UserInGroup> readAllWithJoin() {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserInGroup.class);
+		detachedCriteria.createAlias("group", "g");
+		detachedCriteria.createAlias("userAccount", "u");
+		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
+	}
+
+	@Override
+	public List<UserInGroup> readByParameter(GroupBean groupBean) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserInGroup.class);
+		detachedCriteria.createAlias("group", "g");
+		detachedCriteria.createAlias("userAccount", "u");
+		if(groupBean!=null) {
+			String groupName = groupBean.getGroupName();
+			if(groupName!=null&&!groupName.equals("")) {
+				if(groupBean.getSearchType().equals("like")) {
+					detachedCriteria.add(Restrictions.like("g.groupName", "%"+groupName+"%"));
+				}else {
+					detachedCriteria.add(Restrictions.eq("g.groupName", groupName));
+				}
+			}
+		}
+		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
+	}
+
 
 
 }

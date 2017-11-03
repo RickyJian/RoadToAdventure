@@ -7,8 +7,14 @@ import tw.org.roadtoadventure.form.CreateGroupForm;
 
 public interface GroupService {
 
-	public void create(CreateGroupForm createGroupForm) throws Exception;
+	public void create(GroupBean groupBean) throws Exception;
+	
+	public void update(GroupBean groupBean) throws Exception;
+	
+	public List<GroupBean> readAllByUserId() throws Exception;
 	
 	public List<GroupBean> readAll() throws Exception;
+	
+	public List<GroupBean> readByParameter(GroupBean groupBean);
 	
 }

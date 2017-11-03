@@ -26,6 +26,7 @@ public class UserInGroup implements java.io.Serializable {
 	private Group group;
 	private GroupRole groupRole;
 	private UserAccount userAccount;
+	private char status;
 //	private Set<Authority> authorities = new HashSet<Authority>(0);
 	private Set<GroupChat> groupChats = new HashSet<GroupChat>(0);
 
@@ -60,6 +61,16 @@ public class UserInGroup implements java.io.Serializable {
 
 	public void setId(UserInGroupId id) {
 		this.id = id;
+	}
+	
+	
+	@Column(name = "Status", nullable = false, length = 1)
+	public char getStatus() {
+		return status;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -36,16 +36,7 @@
     <div class="section">
       <br><br><br>
       <!-- 
-      <div class = "row">
-        <div class="input-field col s10">
-          <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" type="text" >
-          <label for="icon_prefix">團隊搜尋</label>
-        </div>
-        <div class="input-field col s2">
-		  <a class="waves-effect waves-light btn" onclick = "signUp()">送出</a>
-        </div>
-      </div>
+
        -->
       <div class = "row">
         <div class="col s4 ">

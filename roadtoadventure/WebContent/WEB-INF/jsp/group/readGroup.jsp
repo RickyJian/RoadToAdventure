@@ -131,6 +131,7 @@
       }
 		$("#cardDiv").append(html)
 	}else{
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
 	}
   }
   </script>
