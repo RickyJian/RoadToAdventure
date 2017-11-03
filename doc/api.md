@@ -51,7 +51,8 @@ GroupJoin/Update|修改揪團
 GroupJoin/GetAllList|取得所有揪團列表
 GroupJoin/GetGroupList|取得群組揪團列表
 GroupJoin/Get|取得揪團
-GroupJoinUser/Create|加入揪團
+GroupJoinUser/Create|加入揪團使用者
+GroupJoinUser/Delete|拒絕揪團使用者
 RoadQuery/Create|新增路況
 RoadQuery/GetList|取得路況列表
 
@@ -1088,6 +1089,21 @@ response:
 ```
 
 ## GroupJoinUser/Create(加入揪團)
+request:
+```json
+{
+    "userId": "userId",
+    "groupJoinId": 1
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## GroupJoinUser/Delete(拒絕揪團使用者)
 request:
 ```json
 {
