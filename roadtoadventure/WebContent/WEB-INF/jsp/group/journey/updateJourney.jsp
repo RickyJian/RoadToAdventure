@@ -11,7 +11,16 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="${pageContext.request.contextPath}/assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+    #groupJorneyContent {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -31,16 +40,53 @@
   </nav>
 
 
-  <div id = "main">
-  <div class="container">
-    <div class="section">
-      <br><br><br>
-      <div class = "row">
-      </div>
-	  <br><br><br>
+  <div id="main">
+    <div class="container">
+      <div class="section">
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4">
+                <a class="active" href="#routePlanning">路線規劃</a>
+              </li>
+              <li class="tab col s4">
+                <a href="#routeCompare">路線比較</a>
+              </li>
+              <li class="tab col s4">
+                <a href="#journey">路程攻略</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col s12" id="routePlanning">
+            <div class="row center">
+              <div class="col s4"> 起點：
+                <div class="input-field inline">
+                  <input class="validate" id="start" placeholder="台北商業大學" type="text">
+                </div>
+              </div>
+              <div class="col s4"> 終點：
+                <div class="input-field inline">
+                  <input class="validate" id="destination" placeholder="台北火車站" type="text">
+                </div>
+              </div>
+              <div class="col s4">
+                <button class="btn waves-effect waves-light btn-large" id="send" name="action" type="submit">路線規劃 <i class="large material-icons right">send</i></button>
+              </div>
+            </div>
+            <div class="row" id="map"></div>
+          </div>
+          <div class="col s12" id="routeCompare">
+            
+          </div>
+          <div class="col s12 row" id="journey">
+            <textarea id = "groupJourneyContent"></textarea>
+          </div>
+        </div><br>
+        <br>
+        <br>
+      </div><br>
+      <br>
     </div>
-    <br><br>
-  </div>
   </div>
 
   <footer class="page-footer blue lighten-1">
@@ -100,9 +146,14 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
-
+  CKEDITOR.replace('groupJourneyContent');
   </script>
-
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=planningMap">
+  </script>
+  
   </body>
 </html>
