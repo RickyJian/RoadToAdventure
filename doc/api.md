@@ -803,7 +803,6 @@ request:
     "name": "name",
     "content": "content",
     "points": "points",
-    "status": "0",
     "isOpen": "0",
     "pictures":["path", "path"]
 }
