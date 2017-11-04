@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>登入-揪愛騎 Road To Adventure</title>
+  <title>團隊歷程編輯-揪愛騎 Road To Adventure</title>
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -58,20 +58,26 @@
             </ul>
           </div>
           <div class="col s12" id="routePlanning">
-            <div class="row center">
-              <div class="col s4"> 起點：
-                <div class="input-field inline">
-                  <input class="validate" id="start" placeholder="台北商業大學" type="text">
-                </div>
+            <div  name ="wayPoint" class="row ">
+              <div class="input-field col s10">
+                <input class="validate" id="start" name="start" type="text"> <label for="start">起點(請輸入起始地點)</label>
               </div>
-              <div class="col s4"> 終點：
-                <div class="input-field inline">
-                  <input class="validate" id="destination" placeholder="台北火車站" type="text">
-                </div>
+              <div class="col s1 right-align">
+                <a id= "add" class="btn-floating btn-large waves-effect waves-light" onclick = "addWayPointField(0)"><i class="material-icons">add</i></a>
               </div>
-              <div class="col s4">
+              <div class="col s1 right-align">
+                <a style ="display:none;" id= "remove" class="btn-floating btn-large waves-effect waves-light" onclick = "reomveWayPointField(0)"><i class="material-icons">add</i></a>
+              </div>
+            </div>
+            <div  name ="wayPoint" class="row">
+              <div class="input-field col s8">
+                <input class="validate" id="destination" name="destination" type="text"> <label for="destination">終點(請輸入目的地)</label>
+              </div>
+              <div class="col s4 right-align">
                 <button class="btn waves-effect waves-light btn-large" id="send" name="action" type="submit">路線規劃 <i class="large material-icons right">send</i></button>
               </div>
+			</div>
+            <div class="row">
             </div>
             <div class="row" id="map"></div>
           </div>

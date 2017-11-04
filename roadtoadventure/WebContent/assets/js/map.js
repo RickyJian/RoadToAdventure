@@ -1,5 +1,9 @@
+// map 基本參數設置
+
 var zoomSize = 13;
 var place = {lat: 25.042131, lng: 121.525672};
+
+//map 初始
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -8,6 +12,7 @@ function initMap() {
   });
 }
 
+// 路程規劃
 function planningMap(){
   var directionsDisplay = new google.maps.DirectionsRenderer;
   var directionsService = new google.maps.DirectionsService;
@@ -19,9 +24,49 @@ function planningMap(){
   });
   directionsDisplay.setMap(map);
   $("#send").click(function(){
-	  setTimeout(calculateAndDisplayRoute(directionsService, directionsDisplay,map),2000)
+	 // setTimeout(calculateAndDisplayRoute(directionsService, directionsDisplay,map),2000)
+	  pushWayPoints(directionsService, directionsDisplay)
   })
 }
+
+function pushWayPoints(directionsService, directionsDisplay) {
+    var waypts = [];
+    var wayPointsArray = $("input[name='wayPoints']");
+    for (var i = 0; i < wayPointsArray.length; i++) {
+        waypts.push({
+          location: wayPointsArray[i].value,
+          stopover: true
+        });
+    }
+    directionsService.route({
+        origin:  $("#start").val(),  // Haight.
+        destination:  $("#destination").val(),  // Ocean Beach.
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: "DRIVING",
+        provideRouteAlternatives: true,
+        avoidHighways :true,
+        avoidTolls :true
+      }, function(response, status) {
+        if (status == 'OK') {
+      	  var map = new google.maps.Map(document.getElementById('map'), {
+      		    zoom: zoomSize,
+      		    center: place
+      		  });
+      	  console.log(response.routes)
+            for (var i = 0, len = response.routes.length; i < len; i++) {
+                new google.maps.DirectionsRenderer({
+                    map: map,
+                    directions: response,
+                    routeIndex: i
+                });
+            }
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });    
+}
+
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay,map) {
     directionsService.route({
@@ -52,6 +97,9 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay,map) {
       }
     });
   }
+
+// 位置定址
+
 function geocodeAddress(resultsMap,address,callback ) {
 	var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function(results, status) {
@@ -69,4 +117,29 @@ function geocodeAddress(resultsMap,address,callback ) {
     });
   }
 
+// 中途點新增輸入inputtext
 
+function addWayPointField(i){
+  var wpHTML = "<div  name =\"wayPoint\" class=\"row\">"
+	wpHTML += "<div class=\"input-field col s10\">"
+	wpHTML += "<input class=\"validate\"  name=\"wayPoints\" type=\"text\"> <label for=\"start\">中途點(請輸入地點)</label>"
+	wpHTML += "</div>"
+	wpHTML += "<div class=\"col s1 right-align\">"
+	wpHTML += "<a id= \"add\" class=\"btn-floating btn-large waves-effect waves-light\" onclick = \"addWayPointField()\"><i class=\"material-icons\">add</i></a>"
+	wpHTML += "</div>"
+	wpHTML += "<div class=\"col s1 right-align\">"
+	wpHTML += "<a id= \"remove\" class=\"btn-floating btn-large waves-effect waves-light\"  onclick = \"removeWayPointField()\"><i class=\"material-icons\" >remove</i></a>"
+	wpHTML += "</div>"
+	wpHTML += "</div>"
+  $( "body" ).find( "div[name='wayPoint']" ).eq(i).after(wpHTML).ready(function(){ adjustWayPointNo()})
+}
+function removeWayPointField(i){
+	$( "body" ).find( "div[name='wayPoint']" ).eq(i).remove()
+	adjustWayPointNo();
+}
+function adjustWayPointNo(){
+	for(var i = 1 ; i < ($( "body" ).find( "div[name='wayPoint']").length -1) ; i++){
+		$( "body" ).find( "div[name='wayPoint'] #add" ).eq(i).attr("onclick","addWayPointField("+i+")")
+		$( "body" ).find( "div[name='wayPoint'] #remove" ).eq(i).attr("onclick","removeWayPointField("+i+")")
+	}
+}
