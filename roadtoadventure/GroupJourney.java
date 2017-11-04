@@ -1,18 +1,14 @@
-package tw.org.roadtoadventure.vo;
-// Generated 2017/11/3 �W�� 02:21:29 by Hibernate Tools 5.2.5.Final
-
-import static javax.persistence.GenerationType.IDENTITY;
+// default package
+// Generated 2017/11/5 �W�� 02:07:24 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,20 +25,44 @@ import javax.persistence.TemporalType;
 public class GroupJourney implements java.io.Serializable {
 
 	private Integer groupJourneyId;
-	private Group group;
 	private UserAccount userAccountByCreateId;
 	private UserAccount userAccountByModifyId;
+	private int groupId;
 	private String groupJourneyName;
 	private String groupJourneyContent;
-	private String overviewPolyline;
 	private Date createDate;
 	private Date modifyTime;
 	private Date beginDate;
 	private Date endDate;
+	private String overviewPolyline;
 	private Set<GroupJourneyDetail> groupJourneyDetails = new HashSet<GroupJourneyDetail>(0);
 
 	public GroupJourney() {
 	}
+
+	public GroupJourney(UserAccount userAccountByCreateId, int groupId, String groupJourneyName, Date createDate) {
+		this.userAccountByCreateId = userAccountByCreateId;
+		this.groupId = groupId;
+		this.groupJourneyName = groupJourneyName;
+		this.createDate = createDate;
+	}
+
+	public GroupJourney(UserAccount userAccountByCreateId, UserAccount userAccountByModifyId, int groupId,
+			String groupJourneyName, String groupJourneyContent, Date createDate, Date modifyTime, Date beginDate,
+			Date endDate, String overviewPolyline, Set<GroupJourneyDetail> groupJourneyDetails) {
+		this.userAccountByCreateId = userAccountByCreateId;
+		this.userAccountByModifyId = userAccountByModifyId;
+		this.groupId = groupId;
+		this.groupJourneyName = groupJourneyName;
+		this.groupJourneyContent = groupJourneyContent;
+		this.createDate = createDate;
+		this.modifyTime = modifyTime;
+		this.beginDate = beginDate;
+		this.endDate = endDate;
+		this.overviewPolyline = overviewPolyline;
+		this.groupJourneyDetails = groupJourneyDetails;
+	}
+
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 
@@ -53,17 +73,6 @@ public class GroupJourney implements java.io.Serializable {
 
 	public void setGroupJourneyId(Integer groupJourneyId) {
 		this.groupJourneyId = groupJourneyId;
-	}
-
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "GroupID", nullable = false)
-	public Group getGroup() {
-		return this.group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -86,6 +95,15 @@ public class GroupJourney implements java.io.Serializable {
 		this.userAccountByModifyId = userAccountByModifyId;
 	}
 
+	@Column(name = "GroupID", nullable = false)
+	public int getGroupId() {
+		return this.groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
+
 	@Column(name = "GroupJourneyName", nullable = false, length = 50)
 	public String getGroupJourneyName() {
 		return this.groupJourneyName;
@@ -102,15 +120,6 @@ public class GroupJourney implements java.io.Serializable {
 
 	public void setGroupJourneyContent(String groupJourneyContent) {
 		this.groupJourneyContent = groupJourneyContent;
-	}
-	
-	@Column(name = "OverviewPolyline")
-	public String getOverviewPolyline() {
-		return this.overviewPolyline;
-	}
-
-	public void setOverviewPolyline(String overviewPolyline) {
-		this.overviewPolyline = overviewPolyline;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -132,25 +141,34 @@ public class GroupJourney implements java.io.Serializable {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "BeginDate", length = 23)
 	public Date getBeginDate() {
-		return beginDate;
+		return this.beginDate;
 	}
 
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EndDate", length = 23)
 	public Date getEndDate() {
-		return endDate;
+		return this.endDate;
 	}
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	@Column(name = "OverviewPolyline")
+	public String getOverviewPolyline() {
+		return this.overviewPolyline;
+	}
+
+	public void setOverviewPolyline(String overviewPolyline) {
+		this.overviewPolyline = overviewPolyline;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "groupJourney")

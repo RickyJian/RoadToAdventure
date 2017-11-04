@@ -18,8 +18,10 @@ import net.sf.json.JSONObject;
 import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.form.CreateGroupForm;
 import tw.org.roadtoadventure.form.CreateGroupJourneyForm;
+import tw.org.roadtoadventure.form.UpdateGroupJourneyForm;
 import tw.org.roadtoadventure.service.GroupJourneyService;
 import tw.org.roadtoadventure.service.GroupService;
+import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.utils.PasswordUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
 
@@ -279,6 +281,37 @@ public class GroupController {
 				
 			}
 			return mav;
+		}
+		return null;
+		
+	}
+//	歷程編輯  修改
+	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
+//	public @ResponseBody String groupEditGroup(UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
+		public @ResponseBody String groupEditGroup(@PathVariable int groupId , @PathVariable int journeyId ,UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
+		if(isJourneyUrlCorrect(groupId,journeyId)) {
+			JSONObject o = new JSONObject();
+			try {
+				GroupBean groupBean = new GroupBean();
+				BeanUtility.copyProperties(updateGroupJourneyForm, groupBean);
+				groupBean.setGroupId(groupId);
+				groupBean.setGroupJourneyId(journeyId);
+				String [] locationArray = new String [updateGroupJourneyForm.getLocationArrayStr().split(",").length];
+				for(int i = 0 ; i < updateGroupJourneyForm.getLocationArrayStr().split(",").length ; i ++) {
+					locationArray[i] = updateGroupJourneyForm.getLocationArrayStr().split(",")[i];
+				}
+				groupBean.setLocationArray(locationArray);
+				groupJourneyService.update(groupBean);
+				o.put("success", "1");
+				o.put("groupId ",groupId);
+				o.put("journeyId ", journeyId);
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "更新失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
 		}
 		return null;
 		

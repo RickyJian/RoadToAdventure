@@ -1,4 +1,5 @@
-package tw.org.roadtoadventure.vo;
+// default package
+// Generated 2017/11/5 �W�� 02:07:24 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
 import javax.persistence.Column;

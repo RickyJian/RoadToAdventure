@@ -11,18 +11,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.dao.GroupJourneyDAO;
+import tw.org.roadtoadventure.dao.GroupJourneyDetailDAO;
 import tw.org.roadtoadventure.service.GroupJourneyService;
 import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.vo.Group;
 import tw.org.roadtoadventure.vo.GroupJourney;
+import tw.org.roadtoadventure.vo.GroupJourneyDetail;
 import tw.org.roadtoadventure.vo.UserAccount;
 import tw.org.roadtoadventure.vo.UserInGroup;
 
 @Service
 public class GroupJourneyServiceImpl implements GroupJourneyService {
-	
+
 	@Autowired
 	private GroupJourneyDAO groupJourneyDAO;
+	@Autowired
+	private GroupJourneyDetailDAO groupJourneyDetailDAO;
 
 	@Override
 	public void create(GroupBean groupBean) throws Exception {
@@ -61,6 +65,36 @@ public class GroupJourneyServiceImpl implements GroupJourneyService {
 			gbList.add(gb);
 		}
 		return gbList;
+	}
+
+	@Transactional
+	@Override
+	public void update(GroupBean groupBean) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<GroupJourneyDetail> gjdList = groupJourneyDetailDAO.getIdByParamter(groupBean);			
+		for(GroupJourneyDetail gjd:gjdList) {
+			groupJourneyDetailDAO.delete(gjd);
+		}
+		//		insert journey detail
+		for(int i = 0 ; i < groupBean.getLocationArray().length ; i++ ) {
+			GroupJourneyDetail groupJourneyDetail = new GroupJourneyDetail();
+			String location = groupBean.getLocationArray()[i];
+			//			String overviewPolyline = groupBean.getOverviewPolylineArray()[i];
+			groupJourneyDetail.setLocation(location);
+			groupJourneyDetail.setUserAccount(user);
+			groupJourneyDetail.setCreateDate(new Date());
+			GroupJourney gj = new GroupJourney();
+			gj.setGroupJourneyId(groupBean.getGroupJourneyId());
+			groupJourneyDetail.setGroupJourney(gj);
+			//			groupJourneyDetail.setOverviewPolyline(overviewPolyline);
+			groupJourneyDetailDAO.create(groupJourneyDetail);
+		}
+		GroupJourney groupJourney = groupJourneyDAO.getById(groupBean.getGroupJourneyId());
+		groupJourney.setGroupJourneyContent(groupBean.getGroupJourneyContent());
+		groupJourney.setOverviewPolyline(groupBean.getOverviewPolyline());
+		groupJourney.setModifyTime(new Date());
+		groupJourney.setUserAccountByModifyId(user);
+		groupJourneyDAO.merge(groupJourney);
 	}
 
 }

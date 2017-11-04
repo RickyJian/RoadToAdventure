@@ -16,10 +16,14 @@ public class GroupBean {
 //	UserInGroup
 	private String userId;
 //	Journey
-	private int groupJourneyId;
+	private Integer groupJourneyId;
 	private String groupJourneyName;
 	private Date beginDate;
 	private Date endDate;
+	private String groupJourneyContent;
+	private String overviewPolylineArray [];
+	private String overviewPolyline;
+	private String locationArray[];
 	
 //	Search type
 	private String searchType; 
@@ -96,10 +100,11 @@ public class GroupBean {
 	public void setGroupDescription(String groupDescription) {
 		this.groupDescription = groupDescription;
 	}
-	public int getGroupJourneyId() {
+
+	public Integer getGroupJourneyId() {
 		return groupJourneyId;
 	}
-	public void setGroupJourneyId(int groupJourneyId) {
+	public void setGroupJourneyId(Integer groupJourneyId) {
 		this.groupJourneyId = groupJourneyId;
 	}
 	public Date getBeginDate() {
@@ -119,6 +124,30 @@ public class GroupBean {
 	}
 	public void setGroupJourneyName(String groupJourneyName) {
 		this.groupJourneyName = groupJourneyName;
+	}
+	public String getGroupJourneyContent() {
+		return groupJourneyContent;
+	}
+	public void setGroupJourneyContent(String groupJourneyContent) {
+		this.groupJourneyContent = groupJourneyContent.trim().equals("")?null:groupJourneyContent.trim();
+	}
+	public String[] getOverviewPolylineArray() {
+		return overviewPolylineArray;
+	}
+	public void setOverviewPolylineArray(String[] overviewPolylineArray) {
+		this.overviewPolylineArray = overviewPolylineArray;
+	}
+	public String[] getLocationArray() {
+		return locationArray;
+	}
+	public void setLocationArray(String[] locationArray) {
+		this.locationArray = locationArray;
+	}
+	public String getOverviewPolyline() {
+		return overviewPolyline;
+	}
+	public void setOverviewPolyline(String overviewPolyline) {
+		this.overviewPolyline = overviewPolyline;
 	}
 	
 	

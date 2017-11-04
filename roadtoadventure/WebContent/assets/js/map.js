@@ -3,6 +3,12 @@
 var zoomSize = 13;
 var place = {lat: 25.042131, lng: 121.525672};
 
+// 回傳用參數
+
+var locationArray ;
+var overviewPolylineArray ;
+var overviewPolyline ;
+
 //map 初始
 
 function initMap() {
@@ -30,9 +36,14 @@ function planningMap(){
 }
 
 function pushWayPoints(directionsService, directionsDisplay) {
+	locationArray = []
+	overviewPolylineArray = []
     var waypts = [];
     var wayPointsArray = $("input[name='wayPoints']");
+    locationArray.push($("#start").val())
+    locationArray.push($("#destination").val())
     for (var i = 0; i < wayPointsArray.length; i++) {
+    	locationArray.push(wayPointsArray[i].value)
         waypts.push({
           location: wayPointsArray[i].value,
           stopover: true
@@ -53,11 +64,15 @@ function pushWayPoints(directionsService, directionsDisplay) {
       		    zoom: zoomSize,
       		    center: place
       		  });
-      	  console.log(response.routes)
+      	  
             for (var i = 0, len = response.routes.length; i < len; i++) {
+            	overviewPolylineArray.push(response.routes[i].overview_polyline)
+            	overviewPolyline = response.routes[0].overview_polyline;
                 new google.maps.DirectionsRenderer({
                     map: map,
                     directions: response,
+                    draggable: true,
+                    //panel: document.getElementById('groupJourneyContent'),
                     routeIndex: i
                 });
             }

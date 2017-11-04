@@ -46,13 +46,10 @@
         <div class="row">
           <div class="col s12">
             <ul class="tabs">
-              <li class="tab col s4">
+              <li class="tab col s6">
                 <a class="active" href="#routePlanning">路線規劃</a>
               </li>
-              <li class="tab col s4">
-                <a href="#routeCompare">路線比較</a>
-              </li>
-              <li class="tab col s4">
+              <li class="tab col s6">
                 <a href="#journey">路程攻略</a>
               </li>
             </ul>
@@ -70,22 +67,22 @@
               </div>
             </div>
             <div  name ="wayPoint" class="row">
-              <div class="input-field col s8">
+              <div class="input-field col s10">
                 <input class="validate" id="destination" name="destination" type="text"> <label for="destination">終點(請輸入目的地)</label>
               </div>
-              <div class="col s4 right-align">
-                <button class="btn waves-effect waves-light btn-large" id="send" name="action" type="submit">路線規劃 <i class="large material-icons right">send</i></button>
+              <div class="col s2 right-align">
+                <button class="btn waves-effect waves-light btn-large" id="send"  type="button">路線規劃</button>
               </div>
 			</div>
             <div class="row">
             </div>
             <div class="row" id="map"></div>
           </div>
-          <div class="col s12" id="routeCompare">
-            
-          </div>
           <div class="col s12 row" id="journey">
-            <textarea id = "groupJourneyContent"></textarea>
+            <textarea id = "groupJourneyContent" name = "groupJourneyContent"></textarea>
+          </div>
+          <div class ="row col s12 center-align">
+            <a class="btn waves-effect waves-light btn-large" id="update"  type="submit" onclick="update()">規劃完成</a>
           </div>
         </div><br>
         <br>
@@ -153,9 +150,37 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
   CKEDITOR.replace('groupJourneyContent');
+  function update(){
+		//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+		$.ajax({
+		  type: "POST",
+		  datatype:"json",
+		  data:{
+			//"groupId":'${groupId}',
+			//"groupJourneyId":'${journeyId}',			
+		    "locationArrayStr":locationArray.join(),
+		    "overviewPolyline":overviewPolyline,
+		    "groupJourneyContent":CKEDITOR.instances.groupJourneyContent.getData()
+		  },
+		  url:"${pageContext.request.contextPath}/Group/${groupId}/Journey/${journeyId}/Update",
+		  async: false ,
+		  success: function(data){
+			var result = JSON.parse(data)
+	        if(result.success=="1"){
+	        	 //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
+		         //  window.location="${pageContext.request.contextPath}/Index"
+	             //})
+	        }else{
+		      //$("#main").unblock()
+	          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
+	        }
+		  }
+		});	  
+  }
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=planningMap">
