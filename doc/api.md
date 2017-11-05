@@ -29,6 +29,9 @@ PersonalJourneyComment/Create|新增個人旅程評論(OK)
 PersonalJourneyComment/GetList|取得個人旅程評論列表
 PersonalJourneyDetail/Create|新增個人旅程細節
 PersonalJourneyDetail/GetAll|取得個人旅程所有細節
+PersonalJourneyChallenge/Create|新增個人旅程挑戰
+PersonalJourneyChallenge/Delete|刪除個人旅程挑戰
+PersonalJourneyChallenge/Get|取得個人旅程挑戰
 Group/Create|新增群組(OK)
 Group/Update|修改群組
 Group/GetList|取得群組列表(OK)
@@ -598,6 +601,59 @@ response:
             "latitude": 123.123,
             "longitude": 123.123,
             "createDate": "2017-01-01 00:00:00"
+        }
+    ]
+}
+```
+
+## PersonalJourneyChallenge/Create(新增個人旅程挑戰)
+request:
+```json
+{
+    "selfPersonalJourneyId": 1,
+    "targetPersonalJourneyId": 1
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## PersonalJourneyChallenge/Delete(刪除個人旅程挑戰)
+request:
+```json
+{
+    "personalJourneyChallengeID": 1
+}
+```
+response:
+```json
+{
+    "result": 1
+}
+```
+
+## PersonalJourneyChallenge/GetList(取得個人旅程挑戰列表)
+request:
+```json
+{
+    "userId": "userId"
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "personalJourneyChallenges":[
+        {
+            "personalJourneyChallengeId": 1,
+            "targetUserId": "targetUserId",
+            "targetUserName": "targetUserName",
+            "targetUserPicture": "targetUserPicture",
+            "picturePath": "picturePath",
+            "name": "name"
         }
     ]
 }
