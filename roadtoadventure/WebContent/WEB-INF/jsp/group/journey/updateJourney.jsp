@@ -20,6 +20,11 @@
       height: 500px;
       width: 100%;
     }
+    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -54,6 +59,8 @@
               </li>
             </ul>
           </div>
+          <!-- 
+           -->
           <div class="col s12" id="routePlanning">
             <div  name ="wayPoint" class="row ">
               <div class="input-field col s10">
@@ -70,12 +77,17 @@
               <div class="input-field col s10">
                 <input class="validate" id="destination" name="destination" type="text"> <label for="destination">終點(請輸入目的地)</label>
               </div>
+              <!-- 
               <div class="col s2 right-align">
                 <button class="btn waves-effect waves-light btn-large" id="send"  type="button">路線規劃</button>
               </div>
+               -->
 			</div>
-            <div class="row">
-            </div>
+			<div class = "row col s12" >
+                <a class="col s2 offset-s2 btn waves-effect waves-light btn-small modal-trigger"  href="#modal1">等高線顯示</a>
+                <button class="col s2 offset-s2 btn waves-effect waves-light btn-small" id="send"  type="button">路線規劃</button>
+			
+			</div>
             <div class="row" id="map"></div>
           </div>
           <div class="col s12 row" id="journey">
@@ -145,6 +157,14 @@
     <li><a href="#!" class="subheader">路線規劃</a></li>
     <li><a class="subheader">團隊歷程</a></li>
   </ul>
+  
+  <!-- model  -->
+    <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+  
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
@@ -152,8 +172,14 @@
   <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.bundle.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/chart/utils.js"></script>
   <script type="text/javascript">
   CKEDITOR.replace('groupJourneyContent');
+  $(function(){
+	  $('.modal').modal();
+	  })
   function update(){
 		//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
 		$.ajax({
@@ -181,6 +207,9 @@
 		  }
 		});	  
   }
+  function closeModel(){
+	  $('#modal1').modal('close');
+	  }
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=planningMap">
