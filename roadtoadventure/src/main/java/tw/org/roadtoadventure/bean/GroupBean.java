@@ -24,6 +24,8 @@ public class GroupBean {
 	private String overviewPolylineArray [];
 	private String overviewPolyline;
 	private String locationArray[];
+	private String location;
+	private Integer groupJourneyDetailId;
 	
 //	Search type
 	private String searchType; 
@@ -129,7 +131,11 @@ public class GroupBean {
 		return groupJourneyContent;
 	}
 	public void setGroupJourneyContent(String groupJourneyContent) {
-		this.groupJourneyContent = groupJourneyContent.trim().equals("")?null:groupJourneyContent.trim();
+		if(groupJourneyContent == null) {
+			this.groupJourneyContent = "";
+		}else {
+			this.groupJourneyContent = groupJourneyContent.trim().equals("")?null:groupJourneyContent.trim();
+		}
 	}
 	public String[] getOverviewPolylineArray() {
 		return overviewPolylineArray;
@@ -148,6 +154,18 @@ public class GroupBean {
 	}
 	public void setOverviewPolyline(String overviewPolyline) {
 		this.overviewPolyline = overviewPolyline;
+	}
+	public Integer getGroupJourneyDetailId() {
+		return groupJourneyDetailId;
+	}
+	public void setGroupJourneyDetailId(Integer groupJourneyDetailId) {
+		this.groupJourneyDetailId = groupJourneyDetailId;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	

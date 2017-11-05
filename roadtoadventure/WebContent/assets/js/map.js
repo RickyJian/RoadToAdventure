@@ -12,7 +12,7 @@ var locationFormatArray ;
 //
 
 var decodeString ;
-
+var mapGlobal ;
 //map 初始
 
 function initMap() {
@@ -127,20 +127,16 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay,map) {
 // 位置定址
 
 function geocodeAddress(address) {
-	var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'location': address}, function(results, status) {
-      if (status === 'OK') {
-//        resultsMap.setCenter(results[0].geometry.location);
-        console.log(results[0].formatted_address)
-        locationFormatArray.push(results[0].formatted_address)
-//        console.log(results.length)
-        console.log(results)
-      } else {
-        console.log('Geocode was not successful for the following reason: ' + status);
-        locationFormatArray.push(address)
-      }
-    });
-  }
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({'location': address}, function(results, status) {
+    if (status === 'OK') {
+      locationFormatArray.push(results[0].formatted_address)
+    } else {
+      console.log('Geocode was not successful for the following reason: ' + status);
+      locationFormatArray.push(address)
+    }
+  });
+}
 
 // 中途點新增輸入inputtext
 
@@ -276,3 +272,118 @@ function decodeOverviewPolyline(val){
     'samples': 500
   }, plotElevation);
 }
+
+
+
+// read journey  func 
+
+
+function drawPolyline(){
+	decodeString = google.maps.geometry.encoding.decodePath(overviewPolyline);
+	mapGlobal = new google.maps.Map(document.getElementById('map'), {
+	  zoom: zoomSize,
+	  center: place
+	});
+    var path = new google.maps.Polyline({
+        path: decodeString,
+        geodesic: true,
+        strokeColor: '#6699ff',
+        strokeOpacity: 1,
+        strokeWeight: 4
+    });
+    path.setMap(mapGlobal);
+    var geocoder = new google.maps.Geocoder();
+    var no = [];
+    for(var i = locationArray.length ; i > 0 ; i --){
+    	no.push(i)
+    }
+    for(var i = 0 ; i < locationArray.length ; i ++){
+    	geocoder.geocode({'address': locationArray[i]}, function(results, status) {
+    		if (status === 'OK') {
+    			var marker = new google.maps.Marker({
+    				map: mapGlobal,
+    				label: String(no.pop()) ,
+    				position: results[0].geometry.location
+    			});
+    		} else {
+    			console.log('Geocode was not successful for the following reason: ' + status);
+    		}
+    	});
+    }
+    decodeOverviewPolylineForJourneyRead()
+}
+
+//decode path
+function decodeOverviewPolylineForJourneyRead(){
+  var elevator = new google.maps.ElevationService;
+  elevator.getElevationAlongPath({
+    'path': decodeString,
+    'samples': 500
+  }, plotElevation);
+}
+
+function plotElevation(elevations, status) {
+	$("#canvas").empty()
+	var  elevationArr = [];
+    var chartDiv = document.getElementById('view');
+    if (status !== 'OK') {
+      // Show the error code inside the chartDiv.
+      chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
+          status;
+      return;
+    }
+    // Create a new chart in the elevation_chart DIV.
+    for (var i = 0; i < elevations.length; i++) {
+        //console.log(elevations[i].elevation)
+    	elevationArr.push(elevations[i].elevation)
+    }
+    var ctx = document.getElementById("canvas").getContext("2d");
+    
+    var config = {
+            type: 'line',
+            data: {
+                labels: decodeString,
+                datasets: [{
+                    label: $("#start").val()+" 到 "+$("#destination").val(),
+                    backgroundColor: window.chartColors.blue,
+                    borderColor: window.chartColors.blue,
+                    data:  elevationArr,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'路線海拔'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '位置'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '海拔'
+                        }
+                    }]
+                }
+            }
+        };
+    window.myLine = new Chart(ctx, config);
+  }
+
+

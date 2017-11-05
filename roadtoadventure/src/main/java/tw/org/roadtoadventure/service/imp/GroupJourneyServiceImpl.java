@@ -18,7 +18,6 @@ import tw.org.roadtoadventure.vo.Group;
 import tw.org.roadtoadventure.vo.GroupJourney;
 import tw.org.roadtoadventure.vo.GroupJourneyDetail;
 import tw.org.roadtoadventure.vo.UserAccount;
-import tw.org.roadtoadventure.vo.UserInGroup;
 
 @Service
 public class GroupJourneyServiceImpl implements GroupJourneyService {
@@ -71,7 +70,7 @@ public class GroupJourneyServiceImpl implements GroupJourneyService {
 	@Override
 	public void update(GroupBean groupBean) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<GroupJourneyDetail> gjdList = groupJourneyDetailDAO.getIdByParamter(groupBean);			
+		List<GroupJourneyDetail> gjdList = groupJourneyDetailDAO.readByParamter(groupBean);			
 		for(GroupJourneyDetail gjd:gjdList) {
 			groupJourneyDetailDAO.delete(gjd);
 		}
@@ -95,6 +94,26 @@ public class GroupJourneyServiceImpl implements GroupJourneyService {
 		groupJourney.setModifyTime(new Date());
 		groupJourney.setUserAccountByModifyId(user);
 		groupJourneyDAO.merge(groupJourney);
+	}
+
+	@Override
+	public List<GroupBean> readDeatilByParameter(GroupBean groupBean) throws Exception {
+		List<GroupJourneyDetail> gjdList = groupJourneyDetailDAO.readByParamter(groupBean);
+		List<GroupBean> gbList = new ArrayList<>();
+		for(GroupJourneyDetail gjd :gjdList ) {
+			GroupBean gb=new GroupBean();
+			BeanUtility.copyProperties(gjd, gb);
+			gb.setOverviewPolyline(gjd.getGroupJourney().getOverviewPolyline());
+			gb.setBeginDate(gjd.getGroupJourney().getBeginDate());
+			gb.setEndDate(gjd.getGroupJourney().getEndDate());
+			gb.setGroupId(gjd.getGroupJourney().getGroup().getGroupId());
+			gb.setGroupJourneyId(gjd.getGroupJourney().getGroupJourneyId());
+			gb.setGroupJourneyDetailId(gjd.getGroupJourneyDetailId());
+			gb.setGroupJourneyName(gjd.getGroupJourney().getGroupJourneyName());
+			gb.setGroupJourneyContent(gjd.getGroupJourney().getGroupJourneyContent());
+			gbList.add(gb);
+		}
+		return gbList;
 	}
 
 }

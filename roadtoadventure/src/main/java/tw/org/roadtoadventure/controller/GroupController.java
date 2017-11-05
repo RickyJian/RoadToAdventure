@@ -37,7 +37,7 @@ public class GroupController {
 	private String dir = "/group";
 	private String subDir =  dir+"/journey";
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-	
+
 	private boolean isGroupUrlCorrect(Integer pathValue) {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		GroupBean groupBean = new GroupBean(pathValue);
@@ -60,7 +60,7 @@ public class GroupController {
 		}
 		return false;
 	}
-	
+
 	//	團隊首頁
 	@RequestMapping("/Group")
 	public ModelAndView groupIndex() {
@@ -71,7 +71,7 @@ public class GroupController {
 	public ModelAndView newGroupPage() {
 		return new ModelAndView(dir+"/createGroup");
 	}
-	
+
 	//	個人車隊讀取
 	@RequestMapping(value= "/Read" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupReadPage() {
@@ -88,7 +88,7 @@ public class GroupController {
 				arrayObj.put("groupName", gb.getGroupName());
 				arrayObj.put("groupPicture", gb.getGroupPicture());
 				array.add(arrayObj);
-				
+
 			}
 			o.put("success", "1");
 			o.put("groupArray", array);
@@ -97,7 +97,7 @@ public class GroupController {
 			o.put("success", "0");
 			o.put("message", "搜尋失敗。");
 			ex.printStackTrace();
-			
+
 		}
 		return mav;
 	}
@@ -153,7 +153,7 @@ public class GroupController {
 			return o.toString();
 		}
 	}
-	
+
 	//	新增車隊
 	@RequestMapping(value = "/Create")
 	public @ResponseBody String createGroup(CreateGroupForm createGroupForm) {
@@ -168,7 +168,7 @@ public class GroupController {
 			return o.toString();
 		}
 	}
-	
+
 	//	車隊搜尋頁面
 	@RequestMapping(value= "/ReadAll" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupReadAllPage() {
@@ -216,7 +216,7 @@ public class GroupController {
 		}
 		return null;
 	}
-	
+
 	//	新增歷程
 	@RequestMapping(value = "/{groupId}/Journey/Create", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String createJourney(CreateGroupJourneyForm createGroupJourneyForm) {
@@ -231,12 +231,12 @@ public class GroupController {
 			return o.toString();
 		}
 	}
-	
-//	歷程讀取
-	@RequestMapping(value= "/{id}/Journey/Read" , produces = "application/json;charset=UTF-8")
+
+	//	歷程讀取
+	@RequestMapping(value= "/{id}/Journey/ReadAll" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupJourneyPage(@PathVariable int id) {
 		if(isGroupUrlCorrect(id)) {
-			ModelAndView mav = new ModelAndView(subDir+"/readJourney");
+			ModelAndView mav = new ModelAndView(subDir+"/readAllJourney");
 			JSONObject o = new JSONObject();
 			try {
 				JSONArray array =new JSONArray();
@@ -256,16 +256,16 @@ public class GroupController {
 				o.put("success", "0");
 				o.put("message", "搜尋失敗。");
 				ex.printStackTrace();
-				
+
 			}
 			return mav;
 		}
 		return null;
-		
+
 	}
-//	歷程編輯
+	//	歷程編輯
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
-	public ModelAndView groupEditGroup(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
+	public ModelAndView journeyEdit(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
 			ModelAndView mav = new ModelAndView(subDir+"/updateJourney");
 			JSONObject o = new JSONObject();
@@ -278,6 +278,49 @@ public class GroupController {
 				o.put("success", "0");
 				o.put("message", "搜尋失敗。");
 				ex.printStackTrace();
+
+			}
+			return mav;
+		}
+		return null;
+
+	}
+	//	歷程詳情
+	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Read" , produces = "application/json;charset=UTF-8")
+	public ModelAndView journeyReadPage(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
+		if(isJourneyUrlCorrect(groupId,journeyId)) {
+			ModelAndView mav = new ModelAndView(subDir+"/readJourney");
+			JSONObject o = new JSONObject();
+			try {
+				GroupBean groupBean =  new GroupBean(groupId,journeyId);
+				String op = "";
+				String content ="";
+				JSONArray array =new JSONArray();
+				for(GroupBean gb : groupJourneyService.readDeatilByParameter(groupBean)) {
+					op = gb.getOverviewPolyline();
+					JSONObject arrayObj = new JSONObject();
+					content = gb.getGroupJourneyContent();
+					arrayObj.put("location",gb.getLocation());
+					arrayObj.put("detailId", gb.getGroupJourneyDetailId());
+//					arrayObj.put("overviewPolyline", gb.getOverviewPolyline());
+//					arrayObj.put("beginDate", sdf.format(gb.getBeginDate()));
+//					arrayObj.put("endDate", sdf.format(gb.getEndDate()));
+					array.add(arrayObj);
+				}
+				System.out.println(op);
+				op =op.replaceAll("\\\\", "\\\\\\\\");
+				o.put("array", array);
+				o.put("success", "1");
+				o.put("groupId ", groupId);
+				o.put("journeyId ", journeyId);
+				o.put("content", content);
+//				o.put();
+				mav.addObject("journey" ,o.toString());
+				mav.addObject("overviewPolyline", op);
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "路程搜尋失敗。");
+				ex.printStackTrace();
 				
 			}
 			return mav;
@@ -285,10 +328,9 @@ public class GroupController {
 		return null;
 		
 	}
-//	歷程編輯  修改
+	//	歷程編輯  修改
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
-//	public @ResponseBody String groupEditGroup(UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
-		public @ResponseBody String groupEditGroup(@PathVariable int groupId , @PathVariable int journeyId ,UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
+	public @ResponseBody String groupEditGroup(@PathVariable int groupId , @PathVariable int journeyId ,UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
 			JSONObject o = new JSONObject();
 			try {
@@ -314,6 +356,6 @@ public class GroupController {
 			}
 		}
 		return null;
-		
+
 	}
 }

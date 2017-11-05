@@ -62,11 +62,15 @@
           <!-- 
            -->
           <div class="col s12" id="routePlanning">
-            <div class="row" id="map"></div>
+            <div class = "row" >
+              <a class="col s2  offset-s5 btn waves-effect waves-light btn-small modal-trigger"  href="#modal1">等高線顯示</a>
+	        </div>
+          <div class="row" id="map"></div>
           </div>
           <div class="col s12 row" id="journey">
             
           </div>
+          
         </div><br>
         <br>
         <br>
@@ -146,37 +150,62 @@
   <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.bundle.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/chart/utils.js"></script>
+
   <script type="text/javascript">
   //CKEDITOR.replace('groupJourneyContent');
   $(function(){
 	  
 	  appendRoute()
+	  overviewPolyline = '${overviewPolyline}'
+      appendContent()
   })
   function appendRoute(){
+	locationArray= [];
     var result = JSON.parse('${journey}')
 	if(result.success =="1"){
 	  var html = "";
 	  for(var i = 0 ; i < result.array.length ; i++){
         html += "<div class=\"row\">"
-        html += "<div class=\"input-field col s12\">"
-        html += result.array[i].location
+        html += "<div class=\"col s12 center-align\">"
+        html += "<h5>"+result.array[i].location+"</h5>"
         html += "</div>"
         html += "</div>"
+        if(i!=(result.array.length-1)){
+          html += "<div class=\"row center-align\">"
+          html += "<i class = \"Large material-icons\">arrow_downward</i>"
+          html += "</div>"
+        }
+        locationArray.push(result.array[i].location)
       }
-	  $("#routePlanning").append(html)
+	  $("#routePlanning").prepend(html)
     }else{
       Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
 	}
   }
-  function closeModel(){
-	  $('#modal1').modal('close');
-	  }
+  function appendContent(){
+		var result = JSON.parse('${journey}')
+		var content = result.content;
+	    var html = "";
+		if(result.success =="1"){
+		html += "<div class =\"row\">"
+	    html += "<div class=\"col s12\">"
+		html += "<div class=\"card large\">"
+		html += "<div class=\"card-content\">"
+		html += "<p>"+content+"</p>"
+		html += "</div>"
+		html += "</div>"
+		html += "</div>"
+		html += "</div>"
+
+	      $("#journey").append(html)
+		}else{
+			Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+		}
+	  
+  }
   </script>
-  <!-- 
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=planningMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&libraries=geometry&callback=drawPolyline">
   </script>
-   -->
-  
   </body>
 </html>

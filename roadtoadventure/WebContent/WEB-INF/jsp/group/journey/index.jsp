@@ -136,7 +136,7 @@
         path += "/New"
         break;
     case "manage":
-        path += "/Read"
+        path += "/ReadAll"
         break;
     }
 	window.location=path;

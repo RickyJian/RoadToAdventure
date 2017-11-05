@@ -7,6 +7,6 @@ import tw.org.roadtoadventure.vo.GroupJourneyDetail;
 
 public interface GroupJourneyDetailDAO extends BaseDAO<GroupJourneyDetail> {
 
-	public List<GroupJourneyDetail> getIdByParamter(GroupBean groupBean);
+	public List<GroupJourneyDetail> readByParamter(GroupBean groupBean);
 	
 }

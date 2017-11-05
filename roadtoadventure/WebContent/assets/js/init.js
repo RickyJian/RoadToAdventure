@@ -24,6 +24,8 @@ function deletePre(data) {
 //  page load over
 $(function(){
 	$("#menu").sideNav();
+	 $('.modal').modal();
+	 $('#modal1').modal('close');
 	datepickerFunc()
 	timepickerFunc()
 })

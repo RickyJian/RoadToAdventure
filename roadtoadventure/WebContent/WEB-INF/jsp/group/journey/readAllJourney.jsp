@@ -145,7 +145,7 @@
     case "edit" :
       path += "/Edit"
     break;
-    case "search" :
+    case "read" :
       path += "/Read"
     break;
     }
