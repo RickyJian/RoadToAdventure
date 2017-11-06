@@ -152,7 +152,7 @@ function addWayPointField(i){
 	wpHTML += "<a id= \"remove\" class=\"btn-floating btn-large waves-effect waves-light\"  onclick = \"removeWayPointField()\"><i class=\"material-icons\" >remove</i></a>"
 	wpHTML += "</div>"
 	wpHTML += "</div>"
-  $( "body" ).find( "div[name='wayPoint']" ).eq(i).after(wpHTML).ready(function(){ adjustWayPointNo()})
+    $( "body" ).find( "div[name='wayPoint']" ).eq(i).after(wpHTML).ready(function(){ adjustWayPointNo()})
 }
 function removeWayPointField(i){
 	$( "body" ).find( "div[name='wayPoint']" ).eq(i).remove()

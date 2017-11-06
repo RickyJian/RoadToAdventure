@@ -178,8 +178,49 @@
   <script type="text/javascript">
   CKEDITOR.replace('groupJourneyContent');
   $(function(){
-	  $('.modal').modal();
-	  })
+    init()
+  })
+  function init(){
+    var result = JSON.parse('${journey}')
+    var wpHTML = "<div  name =\"wayPoint\" class=\"row\">"
+	wpHTML += "<div class=\"input-field col s10\">"
+	wpHTML += "<input class=\"validate\"  name=\"wayPoints\" type=\"text\"> <label for=\"start\">中途點(請輸入地點)</label>"
+	wpHTML += "</div>"
+	wpHTML += "<div class=\"col s1 right-align\">"
+	wpHTML += "<a id= \"add\" class=\"btn-floating btn-large waves-effect waves-light\" onclick = \"addWayPointField()\"><i class=\"material-icons\">add</i></a>"
+	wpHTML += "</div>"
+	wpHTML += "<div class=\"col s1 right-align\">"
+	wpHTML += "<a id= \"remove\" class=\"btn-floating btn-large waves-effect waves-light\"  onclick = \"removeWayPointField()\"><i class=\"material-icons\" >remove</i></a>"
+	wpHTML += "</div>"
+	wpHTML += "</div>"
+    if(result.success=="1"){
+      var arr = result.array;
+      for(var i = 0 ; i < result.array.length ; i++){
+	    if(i!=0&&i!=(result.array.length-1)){
+		  $( "body" ).find( "div[name='wayPoint']" ).eq(i-1).after(wpHTML).ready(function(){ 
+			adjustWayPointNo()
+		  })
+	    }
+      }
+      locationArray= [];
+      $.each(arr, function( index, value ) {
+        if(index==0){
+          $("#start").val(value.location)
+        }else if (index==(arr.length-1)){
+          $("#destination").val(value.location)
+        }else{
+     	  $( "body" ).find( "div[name='wayPoint']" ).eq(index).find("input[name='wayPoints']").val(value.location)
+        }
+        locationArray.push(value.location)
+      });
+      console.log(locationArray)
+      overviewPolyline = '${overviewPolyline}'
+      setTimeout(function(){
+    	  drawPolyline()
+          },5000)
+    }
+    $("#groupJourneyContent").val(CKEDITOR.instances.groupJourneyContent.setData(result.content));
+  }
   function update(){
 		//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
 		$.ajax({
@@ -212,7 +253,7 @@
 	  }
   </script>
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=planningMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&libraries=geometry&callback=planningMap">
   </script>
   
   </body>

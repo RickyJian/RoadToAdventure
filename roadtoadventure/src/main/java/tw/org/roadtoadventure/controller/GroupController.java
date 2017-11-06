@@ -88,7 +88,6 @@ public class GroupController {
 				arrayObj.put("groupName", gb.getGroupName());
 				arrayObj.put("groupPicture", gb.getGroupPicture());
 				array.add(arrayObj);
-
 			}
 			o.put("success", "1");
 			o.put("groupArray", array);
@@ -270,20 +269,35 @@ public class GroupController {
 			ModelAndView mav = new ModelAndView(subDir+"/updateJourney");
 			JSONObject o = new JSONObject();
 			try {
+				GroupBean groupBean =  new GroupBean(groupId,journeyId);
+				String op = "";
+				String content ="";
+				JSONArray array =new JSONArray();
+				for(GroupBean gb : groupJourneyService.readDeatilByParameter(groupBean)) {
+					op = gb.getOverviewPolyline();
+					JSONObject arrayObj = new JSONObject();
+					content = gb.getGroupJourneyContent();
+					arrayObj.put("location",gb.getLocation());
+					arrayObj.put("detailId", gb.getGroupJourneyDetailId());
+					array.add(arrayObj);
+				}
+				op =op.replaceAll("\\\\", "\\\\\\\\");
+				o.put("array", array);
 				o.put("success", "1");
 				o.put("groupId ", groupId);
 				o.put("journeyId ", journeyId);
-				mav.addObject("group" ,o.toString());
+				o.put("content", content);
+				mav.addObject("journey" ,o.toString());
+				mav.addObject("overviewPolyline", op);
 			}catch(Exception ex) {
 				o.put("success", "0");
-				o.put("message", "搜尋失敗。");
+				o.put("message", "路程搜尋失敗。");
 				ex.printStackTrace();
-
+				
 			}
 			return mav;
 		}
 		return null;
-
 	}
 	//	歷程詳情
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Read" , produces = "application/json;charset=UTF-8")
@@ -307,14 +321,12 @@ public class GroupController {
 //					arrayObj.put("endDate", sdf.format(gb.getEndDate()));
 					array.add(arrayObj);
 				}
-				System.out.println(op);
 				op =op.replaceAll("\\\\", "\\\\\\\\");
 				o.put("array", array);
 				o.put("success", "1");
 				o.put("groupId ", groupId);
 				o.put("journeyId ", journeyId);
 				o.put("content", content);
-//				o.put();
 				mav.addObject("journey" ,o.toString());
 				mav.addObject("overviewPolyline", op);
 			}catch(Exception ex) {
@@ -326,7 +338,6 @@ public class GroupController {
 			return mav;
 		}
 		return null;
-		
 	}
 	//	歷程編輯  修改
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
