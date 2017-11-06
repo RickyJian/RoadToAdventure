@@ -4,12 +4,12 @@ package tw.org.roadtoadventure.vo;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,63 +24,60 @@ import javax.persistence.TemporalType;
 @Table(name = "PersonalJourney", schema = "dbo", catalog = "RoadToAdventure")
 public class PersonalJourney implements java.io.Serializable {
 
-	private PersonalJourneyId id;
-	private UserAccount userAccountByUserId;
+	private Integer personalJourneyId;
+	private UserAccount userAccountByModifyId;
 	private UserAccount userAccountByCreateId;
 	private String personalJourneyName;
 	private String personalJourneyContent;
 	private Date createDate;
-	private String modifyId;
 	private Date modifyDate;
+	private String overviewPolyline;
+	private Date beginDate;
+	private Date endDate;
 	private Set<PersonalJourneyDetail> personalJourneyDetails = new HashSet<PersonalJourneyDetail>(0);
 
 	public PersonalJourney() {
 	}
 
-	public PersonalJourney(PersonalJourneyId id, UserAccount userAccountByUserId, UserAccount userAccountByCreateId,
-			String personalJourneyName, Date createDate) {
-		this.id = id;
-		this.userAccountByUserId = userAccountByUserId;
+	public PersonalJourney(UserAccount userAccountByCreateId, String personalJourneyName, Date createDate) {
 		this.userAccountByCreateId = userAccountByCreateId;
 		this.personalJourneyName = personalJourneyName;
 		this.createDate = createDate;
 	}
 
-	public PersonalJourney(PersonalJourneyId id, UserAccount userAccountByUserId, UserAccount userAccountByCreateId,
-			String personalJourneyName, String personalJourneyContent, Date createDate, String modifyId,
-			Date modifyDate, Set<PersonalJourneyDetail> personalJourneyDetails) {
-		this.id = id;
-		this.userAccountByUserId = userAccountByUserId;
+	public PersonalJourney(UserAccount userAccountByModifyId, UserAccount userAccountByCreateId,
+			String personalJourneyName, String personalJourneyContent, Date createDate, Date modifyDate,
+			String overviewPolyline, Set<PersonalJourneyDetail> personalJourneyDetails) {
+		this.userAccountByModifyId = userAccountByModifyId;
 		this.userAccountByCreateId = userAccountByCreateId;
 		this.personalJourneyName = personalJourneyName;
 		this.personalJourneyContent = personalJourneyContent;
 		this.createDate = createDate;
-		this.modifyId = modifyId;
 		this.modifyDate = modifyDate;
+		this.overviewPolyline = overviewPolyline;
 		this.personalJourneyDetails = personalJourneyDetails;
 	}
 
-	@EmbeddedId
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
-	@AttributeOverrides({
-			@AttributeOverride(name = "personalJourneyId", column = @Column(name = "PersonalJourneyID", nullable = false)),
-			@AttributeOverride(name = "userId", column = @Column(name = "UserID", nullable = false, length = 20)) })
-	public PersonalJourneyId getId() {
-		return this.id;
+	@Column(name = "PersonalJourneyID", unique = true, nullable = false)
+	public Integer getPersonalJourneyId() {
+		return this.personalJourneyId;
 	}
 
-	public void setId(PersonalJourneyId id) {
-		this.id = id;
+	public void setPersonalJourneyId(Integer personalJourneyId) {
+		this.personalJourneyId = personalJourneyId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false, insertable = false, updatable = false)
-	public UserAccount getUserAccountByUserId() {
-		return this.userAccountByUserId;
+	@JoinColumn(name = "ModifyID")
+	public UserAccount getUserAccountByModifyId() {
+		return this.userAccountByModifyId;
 	}
 
-	public void setUserAccountByUserId(UserAccount userAccountByUserId) {
-		this.userAccountByUserId = userAccountByUserId;
+	public void setUserAccountByModifyId(UserAccount userAccountByModifyId) {
+		this.userAccountByModifyId = userAccountByModifyId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -121,15 +118,6 @@ public class PersonalJourney implements java.io.Serializable {
 		this.createDate = createDate;
 	}
 
-	@Column(name = "ModifyID", length = 20)
-	public String getModifyId() {
-		return this.modifyId;
-	}
-
-	public void setModifyId(String modifyId) {
-		this.modifyId = modifyId;
-	}
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ModifyDate", length = 23)
 	public Date getModifyDate() {
@@ -140,6 +128,15 @@ public class PersonalJourney implements java.io.Serializable {
 		this.modifyDate = modifyDate;
 	}
 
+	@Column(name = "OverviewPolyline")
+	public String getOverviewPolyline() {
+		return this.overviewPolyline;
+	}
+
+	public void setOverviewPolyline(String overviewPolyline) {
+		this.overviewPolyline = overviewPolyline;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "personalJourney")
 	public Set<PersonalJourneyDetail> getPersonalJourneyDetails() {
 		return this.personalJourneyDetails;
@@ -147,6 +144,26 @@ public class PersonalJourney implements java.io.Serializable {
 
 	public void setPersonalJourneyDetails(Set<PersonalJourneyDetail> personalJourneyDetails) {
 		this.personalJourneyDetails = personalJourneyDetails;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "BeginDate", length = 23)
+	public Date getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EndDate", length = 23)
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 }

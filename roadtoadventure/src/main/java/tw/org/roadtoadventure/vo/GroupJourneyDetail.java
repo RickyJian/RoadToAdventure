@@ -24,27 +24,11 @@ public class GroupJourneyDetail implements java.io.Serializable {
 	private GroupJourney groupJourney;
 	private UserAccount userAccount;
 	private Date createDate;
-	private String overviewPolyline;
 	private String location;
 
 	public GroupJourneyDetail() {
 	}
 
-	public GroupJourneyDetail(GroupJourney groupJourney, UserAccount userAccount, Date createDate, String location) {
-		this.groupJourney = groupJourney;
-		this.userAccount = userAccount;
-		this.createDate = createDate;
-		this.location = location;
-	}
-
-	public GroupJourneyDetail(GroupJourney groupJourney, UserAccount userAccount, Date createDate,
-			String overviewPolyline, String location) {
-		this.groupJourney = groupJourney;
-		this.userAccount = userAccount;
-		this.createDate = createDate;
-		this.overviewPolyline = overviewPolyline;
-		this.location = location;
-	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -86,15 +70,6 @@ public class GroupJourneyDetail implements java.io.Serializable {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	@Column(name = "OverviewPolyline")
-	public String getOverviewPolyline() {
-		return this.overviewPolyline;
-	}
-
-	public void setOverviewPolyline(String overviewPolyline) {
-		this.overviewPolyline = overviewPolyline;
 	}
 
 	@Column(name = "Location", nullable = false, length = 50)

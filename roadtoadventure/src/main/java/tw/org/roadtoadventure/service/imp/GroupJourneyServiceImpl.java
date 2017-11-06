@@ -97,7 +97,7 @@ public class GroupJourneyServiceImpl implements GroupJourneyService {
 	}
 
 	@Override
-	public List<GroupBean> readDeatilByParameter(GroupBean groupBean) throws Exception {
+	public List<GroupBean> readDetailByParameter(GroupBean groupBean) throws Exception {
 		List<GroupJourneyDetail> gjdList = groupJourneyDetailDAO.readByParamter(groupBean);
 		List<GroupBean> gbList = new ArrayList<>();
 		for(GroupJourneyDetail gjd :gjdList ) {

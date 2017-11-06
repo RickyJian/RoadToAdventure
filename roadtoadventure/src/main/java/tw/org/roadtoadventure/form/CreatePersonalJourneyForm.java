@@ -4,11 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import tw.org.roadtoadventure.bean.GroupBean;
+import tw.org.roadtoadventure.bean.PersonalBean;
 
-public class CreateGroupJourneyForm extends GroupBean {
+public class CreatePersonalJourneyForm extends PersonalBean {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	
 	
 	private String beginDay ;
 	private String endDay ;
@@ -95,14 +96,15 @@ public class CreateGroupJourneyForm extends GroupBean {
 	}
 
 	@Override
-	public String getGroupJourneyName() {
+	public String getPersonalJourneyName() {
 		// TODO Auto-generated method stub
-		return super.getGroupJourneyName();
+		return super.getPersonalJourneyName();
 	}
 
 	@Override
-	public void setGroupJourneyName(String groupJourneyName) {
+	public void setPersonalJourneyName(String personalJourneyName) {
 		// TODO Auto-generated method stub
-		super.setGroupJourneyName(groupJourneyName);
-	}	
+		super.setPersonalJourneyName(personalJourneyName);
+	}
+
 }

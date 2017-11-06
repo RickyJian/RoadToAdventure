@@ -39,7 +39,7 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private Date createDate;
 	private String modifyId;
 	private Date modifyDate;
-	private Set<PersonalJourney> personalJourneysForUserId = new HashSet<PersonalJourney>(0);
+	private Set<PersonalJourney> personalJourneysForModifyId = new HashSet<PersonalJourney>(0);
 	private Set<PersonalJourney> personalJourneysForCreateId = new HashSet<PersonalJourney>(0);
 	private Set<GroupJourneyDetail> groupJourneyDetails = new HashSet<GroupJourneyDetail>(0);
 	private Set<Group> groupsForCreateId = new HashSet<Group>(0);
@@ -47,7 +47,6 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private Set<Group> groupsForModifyId = new HashSet<Group>(0);
 	private Set<GroupJourney> groupJourneysForCreateId = new HashSet<GroupJourney>(0);
 	private Set<GroupJourney> groupJourneysForModifyId = new HashSet<GroupJourney>(0);
-	private Set<PersonalJourney> personalJourneysForUserId_1 = new HashSet<PersonalJourney>(0);
 
 	public UserAccount() {
 	}
@@ -184,15 +183,6 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 		this.modifyDate = modifyDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByUserId")
-	public Set<PersonalJourney> getPersonalJourneysForUserId() {
-		return this.personalJourneysForUserId;
-	}
-
-	public void setPersonalJourneysForUserId(Set<PersonalJourney> personalJourneysForUserId) {
-		this.personalJourneysForUserId = personalJourneysForUserId;
-	}
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByCreateId")
 	public Set<PersonalJourney> getPersonalJourneysForCreateId() {
 		return this.personalJourneysForCreateId;
@@ -254,16 +244,14 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	public void setGroupJourneysForModifyId(Set<GroupJourney> groupJourneysForModifyId) {
 		this.groupJourneysForModifyId = groupJourneysForModifyId;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByUserId")
-	public Set<PersonalJourney> getPersonalJourneysForUserId_1() {
-		return this.personalJourneysForUserId_1;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByModifyId")
+	public Set<PersonalJourney> getPersonalJourneysForModifyId() {
+		return this.personalJourneysForModifyId;
 	}
 
-	public void setPersonalJourneysForUserId_1(Set<PersonalJourney> personalJourneysForUserId_1) {
-		this.personalJourneysForUserId_1 = personalJourneysForUserId_1;
+	public void setPersonalJourneysForModifyId(Set<PersonalJourney> personalJourneysForModifyId) {
+		this.personalJourneysForModifyId = personalJourneysForModifyId;
 	}
-
 	
 //	Authority
 	private Collection<GrantedAuthority> authorities;
