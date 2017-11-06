@@ -19,7 +19,10 @@ public class PersonalJourneyDetailDAOImpl extends BaseDAOImpl<PersonalJourneyDet
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PersonalJourneyDetail.class);
 		detachedCriteria.createAlias("personalJourney", "pj");
 		if(personalBean!=null) {
-			detachedCriteria.add(Restrictions.eq("pj.personalJourneyId", personalBean.getPersonalJourneyId()));
+			if(personalBean.getPersonalJourneyId()!=null) {
+				detachedCriteria.add(Restrictions.eq("pj.personalJourneyId", personalBean.getPersonalJourneyId()));
+				
+			}
 		}
 		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}

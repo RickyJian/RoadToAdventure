@@ -17,7 +17,10 @@ import net.sf.json.JSONObject;
 import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.bean.PersonalBean;
 import tw.org.roadtoadventure.form.CreatePersonalJourneyForm;
+import tw.org.roadtoadventure.form.UpdateGroupJourneyForm;
+import tw.org.roadtoadventure.form.UpdatePersonalJourneyForm;
 import tw.org.roadtoadventure.service.PersonalJourneyService;
+import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
 
 @Controller
@@ -34,7 +37,7 @@ public class PersonalJourneyController {
 	private boolean isJourneyUrlCorrect(Integer journeyId) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		PersonalBean pb = new PersonalBean();
-		pb.setCreateId(user.getCreateId());
+		pb.setCreateId(user.getUserId());
 		pb.setPersonalJourneyId(journeyId);
 		List<PersonalBean> pbList = personalJourneyService.readByParameter(pb);
 		if(pbList.size()==1) {
@@ -97,7 +100,7 @@ public class PersonalJourneyController {
 		}
 	}
 //	歷程編輯
-	@RequestMapping(value= "/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
+	@RequestMapping(value= "/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
 	public ModelAndView journeyEdit(@PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
 			ModelAndView mav = new ModelAndView(subDir+"/updateJourney");
@@ -133,4 +136,32 @@ public class PersonalJourneyController {
 		}
 		return null;
 	}	
+	//	歷程編輯  修改
+	@RequestMapping(value= "/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String groupEditGroup(@PathVariable int journeyId ,UpdatePersonalJourneyForm updatePersonalJourneyForm) throws Exception {
+		if(isJourneyUrlCorrect(journeyId)) {
+			JSONObject o = new JSONObject();
+			try {
+				PersonalBean personalBean = new PersonalBean();
+				BeanUtility.copyProperties(updatePersonalJourneyForm, personalBean);
+				personalBean.setPersonalJourneyId(journeyId);
+				String [] locationArray = new String [updatePersonalJourneyForm.getLocationArrayStr().split(",").length];
+				for(int i = 0 ; i < updatePersonalJourneyForm.getLocationArrayStr().split(",").length ; i ++) {
+					locationArray[i] = updatePersonalJourneyForm.getLocationArrayStr().split(",")[i];
+				}
+				personalBean.setLocationArray(locationArray);
+				personalJourneyService.update(personalBean);
+				o.put("success", "1");
+				o.put("journeyId ", journeyId);
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "更新失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
+		}
+		return null;
+
+	}
 }

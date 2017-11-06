@@ -226,14 +226,12 @@
 		$.ajax({
 		  type: "POST",
 		  datatype:"json",
-		  data:{
-			//"groupId":'${groupId}',
-			//"groupJourneyId":'${journeyId}',			
+		  data:{	
 		    "locationArrayStr":locationArray.join(),
 		    "overviewPolyline":overviewPolyline,
-		    "groupJourneyContent":CKEDITOR.instances.groupJourneyContent.getData()
+		    "personalJourneyContent":CKEDITOR.instances.groupJourneyContent.getData()
 		  },
-		  url:"${pageContext.request.contextPath}/Group/${groupId}/Journey/${journeyId}/Update",
+		  url:"${pageContext.request.contextPath}/Personal/Journey/${journeyId}/Update",
 		  async: false ,
 		  success: function(data){
 			var result = JSON.parse(data)

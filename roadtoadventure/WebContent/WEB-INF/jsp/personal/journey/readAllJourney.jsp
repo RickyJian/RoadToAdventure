@@ -139,7 +139,7 @@
 	}
   }
   function redirectPage( journeyId , type){
-    var path = "${pageContext.request.contextPath}/Journey/"+journeyId
+    var path = "${pageContext.request.contextPath}/Personal/Journey/"+journeyId
     switch (type){
     case "edit" :
       path += "/Edit"

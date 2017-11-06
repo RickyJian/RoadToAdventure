@@ -13,9 +13,9 @@ public class PersonalBean {
 	private Date modifyDate;
 	private String overviewPolyline;
 	private String createId;
-	
 //	Detail
 	private Integer personalJourneyDetailId;
+	private String locationArray[];
 	private String location;
 	public Integer getPersonalJourneyId() {
 		return personalJourneyId;
@@ -82,6 +82,12 @@ public class PersonalBean {
 	}
 	public void setCreateId(String createId) {
 		this.createId = createId;
+	}
+	public String[] getLocationArray() {
+		return locationArray;
+	}
+	public void setLocationArray(String[] locationArray) {
+		this.locationArray = locationArray;
 	}
 	
 	

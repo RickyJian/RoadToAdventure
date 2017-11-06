@@ -14,4 +14,6 @@ public interface PersonalJourneyService {
 	
 	public List<PersonalBean> readDetailByParameter (PersonalBean personalBean) throws Exception;
 	
+	public void update(PersonalBean personalBean) throws Exception;
+	
 }

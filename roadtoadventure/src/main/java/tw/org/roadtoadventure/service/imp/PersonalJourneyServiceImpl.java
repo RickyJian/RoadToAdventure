@@ -13,6 +13,8 @@ import tw.org.roadtoadventure.dao.PersonalJourneyDAO;
 import tw.org.roadtoadventure.dao.PersonalJourneyDetailDAO;
 import tw.org.roadtoadventure.service.PersonalJourneyService;
 import tw.org.roadtoadventure.utils.BeanUtility;
+import tw.org.roadtoadventure.vo.GroupJourney;
+import tw.org.roadtoadventure.vo.GroupJourneyDetail;
 import tw.org.roadtoadventure.vo.PersonalJourney;
 import tw.org.roadtoadventure.vo.PersonalJourneyDetail;
 import tw.org.roadtoadventure.vo.UserAccount;
@@ -64,6 +66,7 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 
 	@Override
 	public List<PersonalBean> readDetailByParameter(PersonalBean personalBean) throws Exception {
+		System.out.println("======"+personalBean.getPersonalJourneyId());
 		List<PersonalJourneyDetail> pjList = personalJourneyDetailDAO.readByParamter(personalBean);
 		List<PersonalBean> pbList = new ArrayList<>();
 		for(PersonalJourneyDetail pjd : pjList) {
@@ -75,6 +78,34 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 			pbList.add(pb);
 		}
 		return pbList;
+	}
+
+	@Override
+	public void update(PersonalBean personalBean) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<PersonalJourneyDetail> pjdList = personalJourneyDetailDAO.readByParamter(personalBean);			
+		for(PersonalJourneyDetail pjd:pjdList) {
+			personalJourneyDetailDAO.delete(pjd);
+		}
+		//		insert journey detail
+		for(int i = 0 ; i < personalBean.getLocationArray().length ; i++ ) {
+			PersonalJourneyDetail personalJourneyDetail = new PersonalJourneyDetail();
+			String location = personalBean.getLocationArray()[i];
+			//			String overviewPolyline = groupBean.getOverviewPolylineArray()[i];
+			personalJourneyDetail.setLocation(location);
+			personalJourneyDetail.setCreateDate(new Date());
+			PersonalJourney pj = new PersonalJourney();
+			pj.setPersonalJourneyId(personalBean.getPersonalJourneyId());
+			personalJourneyDetail.setPersonalJourney(pj);
+			//			groupJourneyDetail.setOverviewPolyline(overviewPolyline);
+			personalJourneyDetailDAO.create(personalJourneyDetail);
+		}
+		PersonalJourney personalJourney = personalJourneyDAO.getById(personalBean.getPersonalJourneyId());
+		personalJourney.setPersonalJourneyContent(personalBean.getPersonalJourneyContent());
+		personalJourney.setOverviewPolyline(personalBean.getOverviewPolyline());
+		personalJourney.setModifyDate(new Date());
+		personalJourney.setUserAccountByModifyId(user);
+		personalJourneyDAO.merge(personalJourney);
 	}
 
 }
