@@ -12,6 +12,7 @@ public class PersonalBean {
 	private Date createDate;
 	private Date modifyDate;
 	private String overviewPolyline;
+	private String createId;
 	
 //	Detail
 	private Integer personalJourneyDetailId;
@@ -75,6 +76,12 @@ public class PersonalBean {
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	public String getCreateId() {
+		return createId;
+	}
+	public void setCreateId(String createId) {
+		this.createId = createId;
 	}
 	
 	

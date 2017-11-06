@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>車隊管理-揪愛騎 Road To Adventure</title>
+  <title>個人歷程管理-揪愛騎 Road To Adventure</title>
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -105,15 +105,14 @@
     appendCards();
   })
   function appendCards(){
-	var result = JSON.parse('${group}')
+	var result = JSON.parse('${personal}')
 	if(result.success =="1"){
       var html = "";
-	  for(var i = 0 ; i < result.groupArray.length ; i++){
-		var journeyName = result.groupArray[i].journeyName
-		var groupId = result.groupArray[i].groupId
-		var journeyId = result.groupArray[i].journeyId
-		var beginDate = result.groupArray[i].beginDate
-		var endDate = result.groupArray[i].endDate
+	  for(var i = 0 ; i < result.personalArray.length ; i++){
+		var journeyName = result.personalArray[i].journeyName
+		var journeyId = result.personalArray[i].journeyId
+		var beginDate = result.personalArray[i].beginDate
+		var endDate = result.personalArray[i].endDate
         if(i%3==0){
           html += "<div class =\"row\">"
         }
@@ -125,8 +124,8 @@
 	    html += "<p>結束時間："+endDate+"</p>"
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
-	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" >編輯</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','read')\" >詳情</a>"
+	    html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+journeyId+"','edit')\" >編輯</a>"
+	    html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+journeyId+"','read')\" >詳情</a>"
 	    html += "</div>"
 	    html += "</div>"
 	    html += "</div>"
@@ -139,8 +138,8 @@
 		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
 	}
   }
-  function redirectPage(groupId , journeyId , type){
-    var path = "${pageContext.request.contextPath}/Group/"+groupId+"/Journey/"+journeyId
+  function redirectPage( journeyId , type){
+    var path = "${pageContext.request.contextPath}/Journey/"+journeyId
     switch (type){
     case "edit" :
       path += "/Edit"

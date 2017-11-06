@@ -1,6 +1,8 @@
 package tw.org.roadtoadventure.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import tw.org.roadtoadventure.bean.PersonalBean;
 import tw.org.roadtoadventure.dao.PersonalJourneyDAO;
+import tw.org.roadtoadventure.dao.PersonalJourneyDetailDAO;
 import tw.org.roadtoadventure.service.PersonalJourneyService;
 import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.vo.PersonalJourney;
+import tw.org.roadtoadventure.vo.PersonalJourneyDetail;
 import tw.org.roadtoadventure.vo.UserAccount;
 
 @Service
@@ -18,6 +22,8 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 
 	@Autowired
 	private PersonalJourneyDAO personalJourneyDAO;
+	@Autowired
+	private PersonalJourneyDetailDAO personalJourneyDetailDAO;
 	
 	@Override
 	public void create(PersonalBean personalBean) throws Exception {
@@ -27,6 +33,48 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 		pj.setCreateDate(new Date());
 		pj.setUserAccountByCreateId(user);
 		personalJourneyDAO.create(pj);
+	}
+
+	@Override
+	public List<PersonalBean> readAllByUserId() throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		PersonalBean personalBean = new PersonalBean();
+		personalBean.setCreateId(user.getUserId());
+		List<PersonalJourney> pjList = personalJourneyDAO.readByParameter(personalBean);
+		List<PersonalBean> pbList = new ArrayList<>();
+		for(PersonalJourney pj : pjList) {
+			PersonalBean pb = new PersonalBean();
+			BeanUtility.copyProperties(pj, pb);
+			pbList.add(pb);
+		}
+		return pbList;
+	}
+
+	@Override
+	public List<PersonalBean> readByParameter(PersonalBean personalBean) throws Exception {
+		List<PersonalJourney> pjList = personalJourneyDAO.readByParameter(personalBean);
+		List<PersonalBean> pbList = new ArrayList<>();
+		for(PersonalJourney pj : pjList) {
+			PersonalBean pb = new PersonalBean();
+			BeanUtility.copyProperties(pj, pb);
+			pbList.add(pb);
+		}
+		return pbList;
+	}
+
+	@Override
+	public List<PersonalBean> readDetailByParameter(PersonalBean personalBean) throws Exception {
+		List<PersonalJourneyDetail> pjList = personalJourneyDetailDAO.readByParamter(personalBean);
+		List<PersonalBean> pbList = new ArrayList<>();
+		for(PersonalJourneyDetail pjd : pjList) {
+			PersonalBean pb = new PersonalBean();
+			BeanUtility.copyProperties(pjd, pb);
+			pb.setLocation(pjd.getLocation());
+			pb.setPersonalJourneyContent(pjd.getPersonalJourney().getPersonalJourneyContent());
+			pb.setOverviewPolyline(pjd.getPersonalJourney().getOverviewPolyline());
+			pbList.add(pb);
+		}
+		return pbList;
 	}
 
 }
