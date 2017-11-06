@@ -12,7 +12,7 @@ public interface GroupJourneyService {
 	
 	public List<GroupBean> readByParameter(GroupBean groupBean) throws Exception;
 	
-	public List<GroupBean> readDeatilByParameter(GroupBean groupBean) throws Exception;
+	public List<GroupBean> readDetailByParameter(GroupBean groupBean) throws Exception;
 	
 	public void update(GroupBean groupBean) throws Exception;
 	

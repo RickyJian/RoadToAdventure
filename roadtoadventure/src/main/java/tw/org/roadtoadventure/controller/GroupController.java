@@ -273,7 +273,7 @@ public class GroupController {
 				String op = "";
 				String content ="";
 				JSONArray array =new JSONArray();
-				for(GroupBean gb : groupJourneyService.readDeatilByParameter(groupBean)) {
+				for(GroupBean gb : groupJourneyService.readDetailByParameter(groupBean)) {
 					op = gb.getOverviewPolyline();
 					JSONObject arrayObj = new JSONObject();
 					content = gb.getGroupJourneyContent();
@@ -310,7 +310,7 @@ public class GroupController {
 				String op = "";
 				String content ="";
 				JSONArray array =new JSONArray();
-				for(GroupBean gb : groupJourneyService.readDeatilByParameter(groupBean)) {
+				for(GroupBean gb : groupJourneyService.readDetailByParameter(groupBean)) {
 					op = gb.getOverviewPolyline();
 					JSONObject arrayObj = new JSONObject();
 					content = gb.getGroupJourneyContent();

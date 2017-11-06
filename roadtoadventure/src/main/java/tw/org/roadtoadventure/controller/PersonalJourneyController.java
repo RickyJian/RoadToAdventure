@@ -162,6 +162,45 @@ public class PersonalJourneyController {
 			}
 		}
 		return null;
-
+	}
+	//	歷程詳情
+	@RequestMapping(value= "/Journey/{journeyId}/Read" , produces = "application/json;charset=UTF-8")
+	public ModelAndView journeyReadPage(@PathVariable int journeyId) throws Exception {
+		if(isJourneyUrlCorrect(journeyId)) {
+			ModelAndView mav = new ModelAndView(subDir+"/readJourney");
+			JSONObject o = new JSONObject();
+			try {
+				PersonalBean personalBean = new PersonalBean();
+				personalBean.setPersonalJourneyId(journeyId);
+				String op = "";
+				String content ="";
+				JSONArray array =new JSONArray();
+				for(PersonalBean pb : personalJourneyService.readDetailByParameter(personalBean)) {
+					op = pb.getOverviewPolyline();
+					JSONObject arrayObj = new JSONObject();
+					content = pb.getPersonalJourneyContent();
+					arrayObj.put("location",pb.getLocation());
+					arrayObj.put("detailId", pb.getPersonalJourneyDetailId());
+//					arrayObj.put("overviewPolyline", gb.getOverviewPolyline());
+//					arrayObj.put("beginDate", sdf.format(gb.getBeginDate()));
+//					arrayObj.put("endDate", sdf.format(gb.getEndDate()));
+					array.add(arrayObj);
+				}
+				op =op.replaceAll("\\\\", "\\\\\\\\");
+				o.put("array", array);
+				o.put("success", "1");
+				o.put("journeyId ", journeyId);
+				o.put("content", content);
+				mav.addObject("journey" ,o.toString());
+				mav.addObject("overviewPolyline", op);
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "路程搜尋失敗。");
+				ex.printStackTrace();
+				
+			}
+			return mav;
+		}
+		return null;
 	}
 }
