@@ -12,6 +12,12 @@ public interface BaseDAO<T> {
 	public List<T> readAll();
 	
 	public void merge(T entity);
+	
+	public int createReturnPKIntType(T entity);
+
+	public T createReturnPK(T entity);
+
+	public String createReturnPKStringType(T entity);
 
 	public void create(T entity);
 

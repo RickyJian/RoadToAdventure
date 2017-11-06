@@ -41,8 +41,7 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private Date modifyDate;
 	private Set<PersonalJourney> personalJourneysForUserId = new HashSet<PersonalJourney>(0);
 	private Set<PersonalJourney> personalJourneysForCreateId = new HashSet<PersonalJourney>(0);
-	private Set<GroupJourneyDetail> groupJourneyDetailsForCreateId = new HashSet<GroupJourneyDetail>(0);
-	private Set<GroupJourneyDetail> groupJourneyDetailsForModifyId = new HashSet<GroupJourneyDetail>(0);
+	private Set<GroupJourneyDetail> groupJourneyDetails = new HashSet<GroupJourneyDetail>(0);
 	private Set<Group> groupsForCreateId = new HashSet<Group>(0);
 	private Set<UserInGroup> userInGroups = new HashSet<UserInGroup>(0);
 	private Set<Group> groupsForModifyId = new HashSet<Group>(0);
@@ -53,50 +52,6 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	public UserAccount() {
 	}
 
-	public UserAccount(String userId, String userName, String userRoleId, String email, String password,
-			String createId, Date createDate) {
-		this.userId = userId;
-		this.userName = userName;
-		this.userRoleId = userRoleId;
-		this.email = email;
-		this.password = password;
-		this.createId = createId;
-		this.createDate = createDate;
-	}
-
-	public UserAccount(String userId, String userName, String userPicture, String userRoleId, String email,
-			String password, String lastPassword, Date lastLoginTime, Character isEnabled, Character isVerification,
-			String createId, Date createDate, String modifyId, Date modifyDate,
-			Set<PersonalJourney> personalJourneysForUserId, Set<PersonalJourney> personalJourneysForCreateId,
-			Set<GroupJourneyDetail> groupJourneyDetailsForCreateId,
-			Set<GroupJourneyDetail> groupJourneyDetailsForModifyId, Set<Group> groupsForCreateId,
-			Set<UserInGroup> userInGroups, Set<Group> groupsForModifyId, Set<GroupJourney> groupJourneysForCreateId,
-			Set<GroupJourney> groupJourneysForModifyId, Set<PersonalJourney> personalJourneysForUserId_1) {
-		this.userId = userId;
-		this.userName = userName;
-		this.userPicture = userPicture;
-		this.userRoleId = userRoleId;
-		this.email = email;
-		this.password = password;
-		this.lastPassword = lastPassword;
-		this.lastLoginTime = lastLoginTime;
-		this.isEnabled = isEnabled;
-		this.isVerification = isVerification;
-		this.createId = createId;
-		this.createDate = createDate;
-		this.modifyId = modifyId;
-		this.modifyDate = modifyDate;
-		this.personalJourneysForUserId = personalJourneysForUserId;
-		this.personalJourneysForCreateId = personalJourneysForCreateId;
-		this.groupJourneyDetailsForCreateId = groupJourneyDetailsForCreateId;
-		this.groupJourneyDetailsForModifyId = groupJourneyDetailsForModifyId;
-		this.groupsForCreateId = groupsForCreateId;
-		this.userInGroups = userInGroups;
-		this.groupsForModifyId = groupsForModifyId;
-		this.groupJourneysForCreateId = groupJourneysForCreateId;
-		this.groupJourneysForModifyId = groupJourneysForModifyId;
-		this.personalJourneysForUserId_1 = personalJourneysForUserId_1;
-	}
 
 	@Id
 
@@ -246,23 +201,13 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	public void setPersonalJourneysForCreateId(Set<PersonalJourney> personalJourneysForCreateId) {
 		this.personalJourneysForCreateId = personalJourneysForCreateId;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByCreateId")
-	public Set<GroupJourneyDetail> getGroupJourneyDetailsForCreateId() {
-		return this.groupJourneyDetailsForCreateId;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccount")
+	public Set<GroupJourneyDetail> getGroupJourneyDetails() {
+		return this.groupJourneyDetails;
 	}
 
-	public void setGroupJourneyDetailsForCreateId(Set<GroupJourneyDetail> groupJourneyDetailsForCreateId) {
-		this.groupJourneyDetailsForCreateId = groupJourneyDetailsForCreateId;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByModifyId")
-	public Set<GroupJourneyDetail> getGroupJourneyDetailsForModifyId() {
-		return this.groupJourneyDetailsForModifyId;
-	}
-
-	public void setGroupJourneyDetailsForModifyId(Set<GroupJourneyDetail> groupJourneyDetailsForModifyId) {
-		this.groupJourneyDetailsForModifyId = groupJourneyDetailsForModifyId;
+	public void setGroupJourneyDetails(Set<GroupJourneyDetail> groupJourneyDetails) {
+		this.groupJourneyDetails = groupJourneyDetails;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByCreateId")

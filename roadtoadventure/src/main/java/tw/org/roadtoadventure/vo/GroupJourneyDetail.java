@@ -1,15 +1,13 @@
 package tw.org.roadtoadventure.vo;
-// Generated 2017/10/30 �U�� 10:59:10 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,55 +20,46 @@ import javax.persistence.TemporalType;
 @Table(name = "GroupJourneyDetail", schema = "dbo", catalog = "RoadToAdventure")
 public class GroupJourneyDetail implements java.io.Serializable {
 
-	private GroupJourneyDetailId id;
+	private Integer groupJourneyDetailId;
 	private GroupJourney groupJourney;
-	private UserAccount userAccountByCreateId;
-	private UserAccount userAccountByModifyId;
-	private String latitude;
-	private String longitude;
-	private Date modifyDate;
+	private UserAccount userAccount;
+	private Date createDate;
+	private String overviewPolyline;
+	private String location;
 
 	public GroupJourneyDetail() {
 	}
 
-	public GroupJourneyDetail(GroupJourneyDetailId id, GroupJourney groupJourney, UserAccount userAccountByCreateId,
-			String latitude, String longitude) {
-		this.id = id;
+	public GroupJourneyDetail(GroupJourney groupJourney, UserAccount userAccount, Date createDate, String location) {
 		this.groupJourney = groupJourney;
-		this.userAccountByCreateId = userAccountByCreateId;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.userAccount = userAccount;
+		this.createDate = createDate;
+		this.location = location;
 	}
 
-	public GroupJourneyDetail(GroupJourneyDetailId id, GroupJourney groupJourney, UserAccount userAccountByCreateId,
-			UserAccount userAccountByModifyId, String latitude, String longitude, Date modifyDate) {
-		this.id = id;
+	public GroupJourneyDetail(GroupJourney groupJourney, UserAccount userAccount, Date createDate,
+			String overviewPolyline, String location) {
 		this.groupJourney = groupJourney;
-		this.userAccountByCreateId = userAccountByCreateId;
-		this.userAccountByModifyId = userAccountByModifyId;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.modifyDate = modifyDate;
+		this.userAccount = userAccount;
+		this.createDate = createDate;
+		this.overviewPolyline = overviewPolyline;
+		this.location = location;
 	}
 
-	@EmbeddedId
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
-	@AttributeOverrides({
-			@AttributeOverride(name = "groupJourneyId", column = @Column(name = "GroupJourneyID", nullable = false)),
-			@AttributeOverride(name = "groupId", column = @Column(name = "GroupID", nullable = false)),
-			@AttributeOverride(name = "createDate", column = @Column(name = "CreateDate", nullable = false, length = 23)) })
-	public GroupJourneyDetailId getId() {
-		return this.id;
+	@Column(name = "GroupJourneyDetailID", unique = true, nullable = false)
+	public Integer getGroupJourneyDetailId() {
+		return this.groupJourneyDetailId;
 	}
 
-	public void setId(GroupJourneyDetailId id) {
-		this.id = id;
+	public void setGroupJourneyDetailId(Integer groupJourneyDetailId) {
+		this.groupJourneyDetailId = groupJourneyDetailId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({
-			@JoinColumn(name = "GroupJourneyID", referencedColumnName = "GroupJourneyID", nullable = false, insertable = false, updatable = false),
-			@JoinColumn(name = "GroupID", referencedColumnName = "GroupID", nullable = false, insertable = false, updatable = false) })
+	@JoinColumn(name = "GroupJourneyID", nullable = false)
 	public GroupJourney getGroupJourney() {
 		return this.groupJourney;
 	}
@@ -81,50 +70,40 @@ public class GroupJourneyDetail implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CreateID", nullable = false)
-	public UserAccount getUserAccountByCreateId() {
-		return this.userAccountByCreateId;
+	public UserAccount getUserAccount() {
+		return this.userAccount;
 	}
 
-	public void setUserAccountByCreateId(UserAccount userAccountByCreateId) {
-		this.userAccountByCreateId = userAccountByCreateId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ModifyID")
-	public UserAccount getUserAccountByModifyId() {
-		return this.userAccountByModifyId;
-	}
-
-	public void setUserAccountByModifyId(UserAccount userAccountByModifyId) {
-		this.userAccountByModifyId = userAccountByModifyId;
-	}
-
-	@Column(name = "Latitude", nullable = false, length = 30)
-	public String getLatitude() {
-		return this.latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	@Column(name = "Longitude", nullable = false, length = 30)
-	public String getLongitude() {
-		return this.longitude;
-	}
-
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ModifyDate", length = 23)
-	public Date getModifyDate() {
-		return this.modifyDate;
+	@Column(name = "CreateDate", nullable = false, length = 23)
+	public Date getCreateDate() {
+		return this.createDate;
 	}
 
-	public void setModifyDate(Date modifyDate) {
-		this.modifyDate = modifyDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Column(name = "OverviewPolyline")
+	public String getOverviewPolyline() {
+		return this.overviewPolyline;
+	}
+
+	public void setOverviewPolyline(String overviewPolyline) {
+		this.overviewPolyline = overviewPolyline;
+	}
+
+	@Column(name = "Location", nullable = false, length = 50)
+	public String getLocation() {
+		return this.location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }

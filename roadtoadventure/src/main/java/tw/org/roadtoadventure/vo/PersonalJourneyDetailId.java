@@ -1,5 +1,5 @@
 package tw.org.roadtoadventure.vo;
-// Generated 2017/10/30 �U�� 10:59:10 by Hibernate Tools 5.2.5.Final
+// Generated 2017/11/3 �W�� 02:21:29 by Hibernate Tools 5.2.5.Final
 
 import java.util.Date;
 import javax.persistence.Column;
