@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.sf.json.JSONObject;
 import tw.org.roadtoadventure.bean.GroupBean;
+import tw.org.roadtoadventure.bean.UserBean;
 import tw.org.roadtoadventure.form.SignUpForm;
+import tw.org.roadtoadventure.form.UpdateUserAccountForm;
 import tw.org.roadtoadventure.service.UserService;
 import tw.org.roadtoadventure.utils.PasswordUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
@@ -58,6 +60,31 @@ public class UserAccountController {
 	}
 	@RequestMapping(value = "/Edit" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView editPage () {
-		return new ModelAndView(dir + "/update");
+		ModelAndView mav =  new ModelAndView(dir + "/update");
+		JSONObject o = new JSONObject();
+		try {
+			UserBean user = userService.readUserInfo();
+			o.put("userId", user.getUserId());
+			o.put("name", user.getUserName());
+			o.put("email", user.getEmail());
+			o.put("success", "1");
+			mav.addObject("user",o.toString());
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			o.put("success", "0");
+		}
+		return mav;
+	}
+	@RequestMapping(value = "/Setting/Edit/Update" ,  produces = "application/json;charset=UTF-8")
+	public @ResponseBody String update (UpdateUserAccountForm updateUserAccountForm) {
+		JSONObject o = new JSONObject();
+		try {
+			userService.update(updateUserAccountForm);
+			o.put("success", "1");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			o.put("success", "0");
+		}
+		return o.toString();	
 	}
 }

@@ -43,15 +43,29 @@
         <div class="row">
           <br>
           <br>
-          <form class="col s12" id="signUpForm" name="signUpForm">
+          <form class="col s12" id="userForm" name="userForm">
             <div class="row">
               <div class="input-field col s12 center-align">
-                <img class="circle" src="${pageContext.request.contextPath}/assets/images/p1.png" style="width:120px;height:120px;"> 
+                <img id="userPicture"  class="circle" src="${pageContext.request.contextPath}/assets/images/p1.png" style="width:120px;height:120px;" >              
               </div>
+            </div>
+            <div class ="row">
+              <div class="file-field input-field col s10 ">
+                <div class="btn">
+                  <span>照片上傳</span> 
+                  <input type="file"  id = "uploadImage" name ="uploadImage">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>             
+              <div class="col s2">
+                <a class="waves-effect waves-light btn-large" onclick="upload()">確認</a>
+              </div>                  
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userId" name="userId" type="text"> <label for="userId">帳號</label>
+                <h5 id = "userIdLabel"></h5>
               </div>
             </div>
             <div class="row">
@@ -61,38 +75,15 @@
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="password" name="password" type="password"> <label for="password">密碼</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input class="validate" id="checkPassword" name="checkPassword" type="password"> <label for="checkPassword">確認密碼</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
                 <input class="validate" id="email" name="email" type="email"> <label for="email">email</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <span>照片上傳</span> <input type="file">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" id="userPicture" type="text">
-                </div>
               </div>
             </div>
           </form>
         </div>
         <div>
-          <div class="row center">
-            <div class="col s6">
-              <a class="waves-effect waves-light btn" onclick="rewrite()">重新輸入</a>
-            </div>
-            <div class="col s6">
-              <a class="waves-effect waves-light btn" onclick="signUp()">送出</a>
+          <div class="row">
+            <div class="col s6 offset-s5">
+              <a class="waves-effect waves-light btn" onclick="update()">送出</a>
             </div>
           </div>
         </div>
@@ -180,25 +171,48 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
-  function signUp (){
-	$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+  $(function(){
+    init();
+  })
+  function init(){
+	var result = JSON.parse('${user}')
+	if(result.success=="1"){
+      $("#userIdLabel").empty().append(result.userId)
+      $("#userName").val(result.name)
+      $("#email").val(result.email)
+	}
+  }
+  function upload(){
+    imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
+        console.log(result)
+        $("#userPicture").attr("src",result)
+	      //create(result)
+	})
+  }
+  function update (){
+	//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
 	$.ajax({
 	  type: "POST",
 	  datatype:"json",
-	  data:$("#signUpForm").serialize(),
-	  url:  "${pageContext.request.contextPath}/User/SignUp/Create",
+	  data:{
+		  "userName":$("#userName").val(),
+		  "email":$("#email").val(),
+		  "userPicture":$("#userPicture").attr("src")
+	  },
+	  url:  "${pageContext.request.contextPath}/User/Setting/Edit/Update",
 	  async: false ,
 	  success: function(data){
 		var result = JSON.parse(data)
         if(result.success=="1"){
-        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-	           window.location="${pageContext.request.contextPath}/Index"
-             })
+        	 //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
+	         //  window.location="${pageContext.request.contextPath}/Index"
+             //})
         }else{
-	      $("#main").unblock()
-          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
+	      //$("#main").unblock()
+          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
         }
 	  }
 	});	  
