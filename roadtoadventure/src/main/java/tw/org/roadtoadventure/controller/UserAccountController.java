@@ -103,7 +103,7 @@ public class UserAccountController {
 	@RequestMapping(value = "/Setting/Friend/ReadAllUser" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView readAllUserPage () {
 		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		ModelAndView mav = new ModelAndView(subDir + "/readAllUser");
+		ModelAndView mav = new ModelAndView(dir + "/readAllUser");
 		JSONObject o = new JSONObject();
 		try {
 			List<UserBean> ubList =  userService.readAllUser();
