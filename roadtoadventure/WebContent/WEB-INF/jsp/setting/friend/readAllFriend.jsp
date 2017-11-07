@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>系統管理-揪愛騎 Road To Adventure</title>
+  <title>搜尋車隊-揪愛騎 Road To Adventure</title>
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -32,42 +32,27 @@
 
 
   <div id = "main">
-  <div class="container">
-    <div class="section">
-      <br><br><br>
-      <!-- 
-
-       -->
-      <div class = "row">
-        <div class="col s4 offset-s2">
-          <div class="card">
-            <br>
-            <div class="card-content black-text center-align">
-			  <h3>個資修改</h3>
-            </div>
-            <br>
-            <div class="card-action center-align">
-              <a class="waves-effect waves-light btn" onclick ="redirectPage('edit')">進入</a>
-            </div>
+    <div class="container">
+      <div class="section">
+        <br><br><br>
+        <div class = "row">
+          <div class="input-field col s10">
+            <i class="material-icons prefix">search</i>
+            <input id="groupName" name ="groupName" type="text" >
+            <label for="groupName">團隊搜尋(請輸入團隊名稱)</label>
           </div>
-        </div>
-        <div class="col s4 ">
-          <div class="card">
-            <br>
-            <div class="card-content black-text center-align">
-			  <h3>好友系統</h3>
-            </div>
-            <br>
-            <div class="card-action center-align">
-              <a class="waves-effect waves-light btn" onclick ="redirectPage('manage')">進入</a>
-            </div>
+          <div class="input-field col s2">
+		    <a class="waves-effect waves-light btn" onclick = "read()">查詢</a>
           </div>
         </div>
       </div>
-	  <br><br><br>
+      <div class="section">
+        <div id ="cardDiv">
+        </div>
+	    <br><br><br>
+      </div>
+      <br><br>
     </div>
-    <br><br>
-  </div>
   </div>
 
   <footer class="page-footer blue lighten-1">
@@ -128,18 +113,78 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
-  function redirectPage(value){
-	var path = "${pageContext.request.contextPath}/User/Setting"
-		
-    switch (value){
-    case "edit" :
-        path += "/Edit"
-        break;
-    case "manage":
-        path += "/Friend"
-        break;
+  $(function(){
+    appendCards('${group}');
+  })
+  function appendCards(jsonObj){
+	$("#cardDiv").empty();
+	if(typeof jsonObj === "object"){
+	  var result = jsonObj
+    }else{
+	  var result = JSON.parse(jsonObj)
     }
-	window.location=path;
+	if(result.success =="1"){
+      var html = "";
+	  for(var i = 0 ; i < result.groupArray.length ; i++){
+		var image = result.groupArray[i].groupPicture
+		var groupId = result.groupArray[i].groupId
+		var name = result.groupArray[i].groupName
+        if(i%3==0){
+          html += "<div class =\"row\">"
+        }
+        html += "<div class=\"col s4\">"
+        html += "<div class=\"card small hoverable\">"
+		html += "<div class=\"card-image\">"
+		html += "<img class =\"activator\" src=\""+image+"\">"
+	    html += "</div>"
+		html += "<div class=\"card-content\">"
+		html += "<span class=\"card-title activator grey-text text-darken-4\">"+name+"<i class=\"material-icons right\">more_vert</i></span>"
+		html += "</div>"		    
+	    html += "<div class=\"card-action center-align\">"
+	    html += "<a class=\"waves-effect waves-light btn\" onclick =\"join('"+groupId+"')\" >加入</a>"
+	    html += "</div>"
+	    html += "</div>"
+	    html += "</div>"
+        if(i%3==2){
+          html += "</div>"
+        }
+      }
+		$("#cardDiv").append(html)
+	}else{
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+	}
+  }
+  function read(){
+    $.ajax({
+	  type: "POST",
+	  dataType: 'json',
+	  data:{
+	    "groupName":$("#groupName").val(),
+	  },
+	  url:"${pageContext.request.contextPath}/Group/ReadByParameter",
+	  async: false ,
+	  success: function(data){
+	    appendCards(data);
+	  }
+    })
+  }
+  function join(id){
+	    $.ajax({
+	  	  type: "POST",
+	  	  dataType: 'json',
+	  	  data:{
+	  	    "groupId":id,
+	  	  },
+	  	  url:"${pageContext.request.contextPath}/Group/Create/Join",
+	  	  async: false ,
+	  	  success: function(data){
+	  	    if(data.success=="1"){
+	          Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
+		  	}else{
+	          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+			}
+	  	  }
+	    })
   }
   </script>
 

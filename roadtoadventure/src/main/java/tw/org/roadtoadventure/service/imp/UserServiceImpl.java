@@ -1,6 +1,8 @@
 package tw.org.roadtoadventure.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,6 +59,18 @@ public class UserServiceImpl implements UserService {
 		result.setUserName(userBean.getUserName());
 		result.setUserPicture(userBean.getUserPicture());
 		userAccountDAO.merge(result);
+	}
+
+	@Override
+	public List<UserBean> readAllUser() throws Exception {
+		List<UserAccount> userList = userAccountDAO.readAll();
+		List<UserBean> userBeanList= new ArrayList<>();
+		for(UserAccount uer : userList) {
+			UserBean userBean = new UserBean();
+			BeanUtility.copyProperties(uer, userBean);
+			userBeanList.add(userBean);
+		}
+		return userBeanList;
 	}
 
 	

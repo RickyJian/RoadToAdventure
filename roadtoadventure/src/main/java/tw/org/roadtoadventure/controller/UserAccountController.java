@@ -24,6 +24,7 @@ import tw.org.roadtoadventure.vo.UserAccount;
 public class UserAccountController {
 	
 	private String dir = "/setting" ;
+	private String subDir = dir+"/friend" ;
 	
 	@Autowired
 	private UserService userService;
@@ -53,12 +54,13 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	
+//	管理頁面
 	@RequestMapping(value = "/Setting" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView settingPage () {
 		return new ModelAndView(dir + "/index");
 	}
-	@RequestMapping(value = "/Edit" ,  produces = "application/json;charset=UTF-8")
+//	個資修改 
+	@RequestMapping(value = "/Setting/Edit" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView editPage () {
 		ModelAndView mav =  new ModelAndView(dir + "/update");
 		JSONObject o = new JSONObject();
@@ -86,5 +88,9 @@ public class UserAccountController {
 			o.put("success", "0");
 		}
 		return o.toString();	
+	}
+	@RequestMapping(value = "/Setting/Friend" ,  produces = "application/json;charset=UTF-8")
+	public ModelAndView friendIndexPage () {
+		return new ModelAndView(subDir + "/index");
 	}
 }

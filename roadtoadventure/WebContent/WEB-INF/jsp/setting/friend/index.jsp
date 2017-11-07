@@ -43,11 +43,11 @@
           <div class="card">
             <br>
             <div class="card-content black-text center-align">
-			  <h3>個資修改</h3>
+			  <h3>好友管理</h3>
             </div>
             <br>
             <div class="card-action center-align">
-              <a class="waves-effect waves-light btn" onclick ="redirectPage('edit')">進入</a>
+              <a class="waves-effect waves-light btn" onclick ="redirectPage('readAllFriend')">進入</a>
             </div>
           </div>
         </div>
@@ -55,11 +55,11 @@
           <div class="card">
             <br>
             <div class="card-content black-text center-align">
-			  <h3>好友系統</h3>
+			  <h3>帳戶搜尋</h3>
             </div>
             <br>
             <div class="card-action center-align">
-              <a class="waves-effect waves-light btn" onclick ="redirectPage('manage')">進入</a>
+              <a class="waves-effect waves-light btn" onclick ="redirectPage('readAllUser')">進入</a>
             </div>
           </div>
         </div>
@@ -129,14 +129,14 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
   function redirectPage(value){
-	var path = "${pageContext.request.contextPath}/User/Setting"
+	var path = "${pageContext.request.contextPath}/User/Setting/Friend"
 		
     switch (value){
-    case "edit" :
-        path += "/Edit"
+    case "readAllUser" :
+        path += "/ReadAllUser"
         break;
-    case "manage":
-        path += "/Friend"
+    case "readAllFriend":
+        path += "/ReadAllFriend"
         break;
     }
 	window.location=path;

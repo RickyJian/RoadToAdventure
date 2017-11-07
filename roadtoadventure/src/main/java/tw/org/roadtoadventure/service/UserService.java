@@ -1,5 +1,7 @@
 package tw.org.roadtoadventure.service;
 
+import java.util.List;
+
 import tw.org.roadtoadventure.bean.UserBean;
 import tw.org.roadtoadventure.form.SignUpForm;
 
@@ -10,4 +12,6 @@ public interface UserService {
 	public UserBean readUserInfo() throws Exception;
 	
 	public void update(UserBean userBean) throws Exception; 
+	
+	public List<UserBean> readAllUser() throws Exception;
 }
