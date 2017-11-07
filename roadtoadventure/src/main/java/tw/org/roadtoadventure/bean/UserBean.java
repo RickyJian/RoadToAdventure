@@ -18,6 +18,10 @@ public class UserBean {
 	private Date createDate;
 	private String modifyId;
 	private Date modifyDate;
+	
+//	Search 
+	private String searchType; 
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -101,6 +105,12 @@ public class UserBean {
 	}
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
 	}
 	
 	

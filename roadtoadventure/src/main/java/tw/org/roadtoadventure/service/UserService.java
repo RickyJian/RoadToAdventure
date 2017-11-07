@@ -14,4 +14,9 @@ public interface UserService {
 	public void update(UserBean userBean) throws Exception; 
 	
 	public List<UserBean> readAllUser() throws Exception;
+	
+	public List<UserBean> readAllFriend() throws Exception;
+	
+	public List<UserBean> readByParameter(UserBean userBean) throws Exception;
+	
 }

@@ -38,8 +38,8 @@
         <div class = "row">
           <div class="input-field col s10">
             <i class="material-icons prefix">search</i>
-            <input id="groupName" name ="groupName" type="text" >
-            <label for="groupName">團隊搜尋(請輸入團隊名稱)</label>
+            <input id="userName" name ="userName" type="text" >
+            <label for="userName">帳戶搜尋(請輸入帳戶名稱)</label>
           </div>
           <div class="input-field col s2">
 		    <a class="waves-effect waves-light btn" onclick = "read()">查詢</a>
@@ -114,7 +114,7 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
   $(function(){
-    appendCards('${group}');
+    appendCards('${user}');
   })
   function appendCards(jsonObj){
 	$("#cardDiv").empty();
@@ -125,10 +125,11 @@
     }
 	if(result.success =="1"){
       var html = "";
-	  for(var i = 0 ; i < result.groupArray.length ; i++){
-		var image = result.groupArray[i].groupPicture
-		var groupId = result.groupArray[i].groupId
-		var name = result.groupArray[i].groupName
+	  for(var i = 0 ; i < result.array.length ; i++){
+		var image = result.array[i].picture
+		var email = result.array[i].email
+		var userId = result.array[i].userId
+		var name = result.array[i].name
         if(i%3==0){
           html += "<div class =\"row\">"
         }
@@ -138,10 +139,10 @@
 		html += "<img class =\"activator\" src=\""+image+"\">"
 	    html += "</div>"
 		html += "<div class=\"card-content\">"
-		html += "<span class=\"card-title activator grey-text text-darken-4\">"+name+"<i class=\"material-icons right\">more_vert</i></span>"
+		html += "<span class=\"card-title activator grey-text text-darken-4\">"+name+"</span>"
 		html += "</div>"		    
 	    html += "<div class=\"card-action center-align\">"
-	    html += "<a class=\"waves-effect waves-light btn\" onclick =\"join('"+groupId+"')\" >加入</a>"
+	    html += "<a class=\"waves-effect waves-light btn\" onclick =\"join('"+userId+"')\" >邀請</a>"
 	    html += "</div>"
 	    html += "</div>"
 	    html += "</div>"
@@ -159,9 +160,9 @@
 	  type: "POST",
 	  dataType: 'json',
 	  data:{
-	    "groupName":$("#groupName").val(),
+	    "userName":$("#userName").val(),
 	  },
-	  url:"${pageContext.request.contextPath}/Group/ReadByParameter",
+	  url:"${pageContext.request.contextPath}/User/Setting/Friend/ReadByParameter",
 	  async: false ,
 	  success: function(data){
 	    appendCards(data);
@@ -173,9 +174,9 @@
 	  	  type: "POST",
 	  	  dataType: 'json',
 	  	  data:{
-	  	    "groupId":id,
+	  	    "userId":id,
 	  	  },
-	  	  url:"${pageContext.request.contextPath}/Group/Create/Join",
+	  	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Create/Join",
 	  	  async: false ,
 	  	  success: function(data){
 	  	    if(data.success=="1"){

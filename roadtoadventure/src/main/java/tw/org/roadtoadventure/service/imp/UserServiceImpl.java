@@ -66,9 +66,35 @@ public class UserServiceImpl implements UserService {
 		List<UserAccount> userList = userAccountDAO.readAll();
 		List<UserBean> userBeanList= new ArrayList<>();
 		for(UserAccount uer : userList) {
+			uer.setUserId(uer.getUserId());
 			UserBean userBean = new UserBean();
 			BeanUtility.copyProperties(uer, userBean);
 			userBeanList.add(userBean);
+		}
+		return userBeanList;
+	}
+
+	@Override
+	public List<UserBean> readAllFriend() throws Exception {
+		List<UserAccount> userList = userAccountDAO.readAll();
+		List<UserBean> userBeanList= new ArrayList<>();
+		for(UserAccount uer : userList) {
+			UserBean userBean = new UserBean();
+			BeanUtility.copyProperties(uer, userBean);
+			userBeanList.add(userBean);
+		}
+		return userBeanList;
+	}
+
+	@Override
+	public List<UserBean> readByParameter(UserBean userBean) throws Exception {
+		List<UserAccount> userList = userAccountDAO.readByParameter(userBean);
+		List<UserBean> userBeanList= new ArrayList<>();
+		for(UserAccount user : userList) {
+			UserBean ub = new UserBean();
+			BeanUtility.copyProperties(user, ub);
+			ub.setUserId(user.getUserId());
+			userBeanList.add(ub);
 		}
 		return userBeanList;
 	}
