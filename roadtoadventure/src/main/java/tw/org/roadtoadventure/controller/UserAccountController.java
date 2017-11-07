@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +18,7 @@ import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.bean.UserBean;
 import tw.org.roadtoadventure.form.SignUpForm;
 import tw.org.roadtoadventure.form.UpdateUserAccountForm;
+import tw.org.roadtoadventure.service.UserFriendService;
 import tw.org.roadtoadventure.service.UserService;
 import tw.org.roadtoadventure.utils.PasswordUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
@@ -30,6 +32,9 @@ public class UserAccountController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserFriendService userFriendService;
 
 
 	@RequestMapping("/Login")
@@ -139,8 +144,6 @@ public class UserAccountController {
 			List<UserBean> ubList = userService.readByParameter(userBean);
 			if(ubList.size()>0) {
 				for(UserBean ub :ubList) {
-					System.out.println(ub);
-					System.out.println(ub.getUserId());
 					if(!ub.getUserId().equals(user.getUserId())) {
 					JSONObject arrayObj = new JSONObject();
 					arrayObj.put("picture", ub.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":ub.getUserPicture());
@@ -160,6 +163,21 @@ public class UserAccountController {
 		}catch(Exception ex) {
 			o.put("success", "0");
 			o.put("message", "搜尋失敗。");
+			ex.printStackTrace();
+			return o.toString();
+		}
+	}
+	//	新增加入車隊
+	@RequestMapping(value = "/Setting/Friend/Create/Join")
+	public @ResponseBody String join(@RequestParam String userId) {
+		JSONObject o = new JSONObject();
+		try {
+			userFriendService.createFriend(userId);
+			o.put("success", "1");
+			return o.toString();
+		}catch(Exception ex) {
+			o.put("success", "0");
+			o.put("message", "加入失敗。");
 			ex.printStackTrace();
 			return o.toString();
 		}
