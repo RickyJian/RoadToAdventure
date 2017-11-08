@@ -16,8 +16,28 @@ public class UserFriendDAOImpl extends BaseDAOImpl<UserFriend> implements UserFr
 	@Override
 	public List<UserFriend> readByParameter(UserBean userBean) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserFriend.class);
-		
-		return null;
+		detachedCriteria.createAlias("userAccountByUserId", "user");
+		detachedCriteria.createAlias("userAccountByFriendId", "friend");
+		if(userBean!=null) {
+			if(userBean.getUserName()!=null&&!userBean.getUserName().equals("")) {
+				if(userBean.getSearchType().equals("like")) {
+					detachedCriteria.add(Restrictions.like("user.userName", "%"+userBean.getUserName()+"%"));
+				}else {
+					detachedCriteria.add(Restrictions.eq("user.userName", userBean.getUserName()));
+				}
+			}
+			if(userBean.getUserId()!=null&&!userBean.getUserId().equals("")) {
+				detachedCriteria.add(Restrictions.eq("user.userId", userBean.getUserId()));
+			}
+			if(userBean.getFriendName()!=null&&!userBean.getFriendName().equals("")) {
+				if(userBean.getSearchType().equals("like")) {
+					detachedCriteria.add(Restrictions.like("friend.userName", "%"+userBean.getFriendName()+"%"));
+				}else {
+					detachedCriteria.add(Restrictions.eq("friend.userName", userBean.getFriendName()));
+				}
+			}
+		}
+		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 
 	@Override

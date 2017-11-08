@@ -100,14 +100,29 @@ public class UserFriendServiceImpl implements UserFriendService {
 		id.setUserId(user.getUserId());
 		id.setFriendId(friendId);
 		UserFriend userFriend = userFriendDAO.getById(id);
-		System.out.println(userFriend);
 		userFriendDAO.delete(userFriend);
 		UserFriendId id2 = new UserFriendId();
 		id2.setFriendId(user.getUserId());
 		id2.setUserId(friendId);
 		UserFriend userFriend2 = userFriendDAO.getById(id2);
-		System.out.println(userFriend2);
 		userFriendDAO.delete(userFriend2);
+	}
+
+	@Override
+	public List<UserBean> readByParameter(UserBean userBean) throws Exception {
+		List<UserFriend> ufList = userFriendDAO.readByParameter(userBean);
+		System.out.println("========="+ufList.size());
+		List<UserBean> ubList = new ArrayList<>();
+		for(UserFriend userFriend :ufList){
+			UserBean ub = new UserBean();
+			ub.setUserName(userFriend.getUserAccountByFriendId().getUserName());
+			ub.setUserId(userFriend.getId().getUserId());
+			ub.setFriendId(userFriend.getId().getFriendId());
+			ub.setCreateDate(userFriend.getCreateDate());
+			ub.setStatus(userFriend.getStatus());
+			ubList.add(ub);
+		}
+		return ubList;
 	}
 
 }

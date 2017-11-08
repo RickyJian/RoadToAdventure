@@ -159,7 +159,7 @@ public class UserAccountController {
 
 	//	帳戶搜尋
 	@RequestMapping(value= "/Setting/Account/ReadByParameter" , produces = "application/json;charset=UTF-8")
-	public @ResponseBody String readByParameter(UserBean userBean) {
+	public @ResponseBody String readAccountByParameter(UserBean userBean) {
 		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JSONObject o = new JSONObject();
 		try {
@@ -176,6 +176,42 @@ public class UserAccountController {
 						arrayObj.put("email", ub.getEmail());
 						array.add(arrayObj);
 					}
+				}
+				o.put("success", "1");
+				o.put("array", array);
+			}else {
+				o.put("success", "0");
+				o.put("message", "搜尋出0筆資料。");
+			}
+			return o.toString();
+		}catch(Exception ex) {
+			o.put("success", "0");
+			o.put("message", "搜尋失敗。");
+			ex.printStackTrace();
+			return o.toString();
+		}
+	}
+	//	帳戶搜尋
+	@RequestMapping(value= "/Setting/Friend/ReadByParameter" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String readFriendByParameter(UserBean userBean) {
+		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		JSONObject o = new JSONObject();
+		try {
+			JSONArray array =new JSONArray();
+			userBean.setSearchType("like");
+			userBean.setUserId(user.getUserId());
+
+			List<UserBean> ubList = userFriendService.readByParameter(userBean);
+			if(ubList.size()>0) {
+				for(UserBean ub :ubList) {
+					JSONObject arrayObj = new JSONObject();
+					arrayObj.put("picture", ub.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":userBean.getUserPicture());
+					arrayObj.put("name", ub.getUserName());
+					arrayObj.put("userId", ub.getUserId());
+					arrayObj.put("friendId", ub.getFriendId());
+					arrayObj.put("status", ub.getStatus());
+					arrayObj.put("email", ub.getEmail());
+					array.add(arrayObj);
 				}
 				o.put("success", "1");
 				o.put("array", array);

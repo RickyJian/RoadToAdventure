@@ -143,7 +143,9 @@
     appendCards('${user}');
   })
   function appendCards(jsonObj){
-	$("#cardDiv").empty();
+	$("#cardDiv1").empty();
+	$("#cardDiv0").empty();
+	$("#cardDiv3").empty();
 	if(typeof jsonObj === "object"){
 	  var result = jsonObj
     }else{
@@ -158,7 +160,7 @@
 		var friendId = result.array[i].friendId
 		var name = result.array[i].name
 		var status = result.array[i].status
-	    console.log(friendId)
+	    console.log(status)
 	    switch (status){
 	    case "0":
 	    	countArr[0]++;
@@ -175,7 +177,6 @@
 	    }
 
       }
-		$("#cardDiv").append(html)
 	}else{
 		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
 	}
@@ -221,7 +222,7 @@
 	  type: "POST",
 	  dataType: 'json',
 	  data:{
-	    "userName":$("#userName").val(),
+	    "friendName":$("#userName").val(),
 	  },
 	  url:"${pageContext.request.contextPath}/User/Setting/Friend/ReadByParameter",
 	  async: false ,

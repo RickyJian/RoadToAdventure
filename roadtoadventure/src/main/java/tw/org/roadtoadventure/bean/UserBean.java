@@ -22,6 +22,7 @@ public class UserBean {
 //	Friend
 	private char status;
 	private String friendId;
+	private String friendName;
 	
 //	Search 
 	private String searchType; 
@@ -127,6 +128,12 @@ public class UserBean {
 	}
 	public void setFriendId(String friendId) {
 		this.friendId = friendId;
+	}
+	public String getFriendName() {
+		return friendName;
+	}
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
 	}
 	
 }
