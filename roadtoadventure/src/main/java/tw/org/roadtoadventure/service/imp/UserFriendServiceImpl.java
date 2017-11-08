@@ -1,6 +1,8 @@
 package tw.org.roadtoadventure.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,5 +56,21 @@ public class UserFriendServiceImpl implements UserFriendService {
 		userFriendDAO.create(userFriend2);
 		
     }
+
+	@Override
+	public List<UserBean> readAllWithJoin() throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<UserFriend> ufList = userFriendDAO.readAllByUesrId(user.getUserId());
+		List<UserBean> ubList = new ArrayList<>();
+		for(UserFriend userFriend: ufList) {
+			UserBean userBean = new UserBean();
+			userBean.setUserName(userFriend.getUserAccountByFriendId().getUserName());
+			userBean.setUserId(userFriend.getId().getUserId());
+			userBean.setFriendId(userFriend.getId().getFriendId());
+			userBean.setCreateDate(userFriend.getCreateDate());
+			ubList.add(userBean);
+		}
+		return ubList;
+	}
 
 }

@@ -32,7 +32,7 @@ public class UserAccountController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserFriendService userFriendService;
 
@@ -128,9 +128,33 @@ public class UserAccountController {
 		}
 		return mav;
 	}
+
+	//	朋友搜尋
 	@RequestMapping(value = "/Setting/Friend/ReadAllFriend" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView readAllFriendPage () {
-		return new ModelAndView(subDir + "/readAllFriend");
+		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView mav = new ModelAndView(subDir + "/readAllFriend");
+		JSONObject o = new JSONObject();
+		try {
+			List<UserBean> ubList = userFriendService.readAllWithJoin();
+			JSONArray array = new JSONArray();
+			for(UserBean userBean :ubList) {
+				JSONObject arrayObj = new JSONObject();
+				arrayObj.put("picture", userBean.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":userBean.getUserPicture());
+				arrayObj.put("name", userBean.getUserName());
+				arrayObj.put("userId", userBean.getUserId());
+				arrayObj.put("email", userBean.getEmail());
+				array.add(arrayObj);
+
+			}
+			o.put("array", array);
+			o.put("success", "1");
+			mav.addObject("user" ,o.toString() );			
+		}catch(Exception ex) {
+			o.put("success", "0");
+			ex.printStackTrace();
+		}
+		return mav;
 	}
 
 	//	帳戶搜尋
@@ -145,12 +169,12 @@ public class UserAccountController {
 			if(ubList.size()>0) {
 				for(UserBean ub :ubList) {
 					if(!ub.getUserId().equals(user.getUserId())) {
-					JSONObject arrayObj = new JSONObject();
-					arrayObj.put("picture", ub.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":ub.getUserPicture());
-					arrayObj.put("name", ub.getUserName());
-					arrayObj.put("userId", ub.getUserId());
-					arrayObj.put("email", ub.getEmail());
-					array.add(arrayObj);
+						JSONObject arrayObj = new JSONObject();
+						arrayObj.put("picture", ub.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":ub.getUserPicture());
+						arrayObj.put("name", ub.getUserName());
+						arrayObj.put("userId", ub.getUserId());
+						arrayObj.put("email", ub.getEmail());
+						array.add(arrayObj);
 					}
 				}
 				o.put("success", "1");
@@ -167,7 +191,7 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	//	新增加入車隊
+	//	新增邀請好友
 	@RequestMapping(value = "/Setting/Friend/Create/Join")
 	public @ResponseBody String join(@RequestParam String userId) {
 		JSONObject o = new JSONObject();
