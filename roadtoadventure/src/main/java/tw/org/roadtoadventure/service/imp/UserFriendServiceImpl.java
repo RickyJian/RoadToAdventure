@@ -111,7 +111,6 @@ public class UserFriendServiceImpl implements UserFriendService {
 	@Override
 	public List<UserBean> readByParameter(UserBean userBean) throws Exception {
 		List<UserFriend> ufList = userFriendDAO.readByParameter(userBean);
-		System.out.println("========="+ufList.size());
 		List<UserBean> ubList = new ArrayList<>();
 		for(UserFriend userFriend :ufList){
 			UserBean ub = new UserBean();
