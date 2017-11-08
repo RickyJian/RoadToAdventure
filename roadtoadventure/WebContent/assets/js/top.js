@@ -1,0 +1,10 @@
+var topHTML ="<nav class=\"light-blue lighten-1\" role=\"navigation\">"
+	      +"<div class=\"nav-wrapper container\"><a id=\"logo-container\" href=\"#\" class=\"brand-logo\">Logo</a>"
+	        +"<ul class=\"right hide-on-med-and-down\">"
+	          +"<li><a href=\"#\">註冊</a></li>"
+	          +"<li><a href=\"#\">登入</a></li>"
+	          +"<li><a id=\"menu\" data-activates=\"slide-out\" ><i class=\"material-icons\">menu</i></a></li>"
+	        +"</ul>"
+	     +"</div>"
+	   +"</nav>" 
+document.write(topHTML)

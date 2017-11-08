@@ -1,0 +1,18 @@
+var menuHTML =  "<ul id=\"slide-out\" class=\"side-nav\">"
+    			 +"<li><div class=\"user-view\">"
+    			 +"<div class=\"background\">"
+    			   +"<img src=\"assets/images/office.jpg\">"
+    			 +"</div>"
+    			 +"<a href=\"#!user\"><img class=\"circle\" src=\"assets/images/yuna.jpg\"></a>"
+    			 +"<a href=\"#!name\"><span class=\"white-text name\">John Doe</span></a>"
+    			   +"<a href=\"#!email\"><span class=\"white-text email\">jdandturk@gmail.com</span></a>"
+    			 +"</div></li>"
+    			 +"<li><a>個人歷程系統</a></li>"
+    			 +"<li><a href=\"#!\" class=\"subheader\">路線規劃</a></li>"
+    			 +"<li><a class=\"subheader\">我的歷程</a></li>"
+    			 +"<li><a >車隊管理系統</a></li>"
+    			 +"<li><a href=\"#!\" class=\"subheader\">路線規劃</a></li>"
+    			 +"<li><a class=\"subheader\">團隊歷程</a></li>"
+    			 +"</ul>"
+document.write(menuHTML)   	 
+    		
