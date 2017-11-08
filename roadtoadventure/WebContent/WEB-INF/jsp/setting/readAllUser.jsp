@@ -162,7 +162,7 @@
 	  data:{
 	    "userName":$("#userName").val(),
 	  },
-	  url:"${pageContext.request.contextPath}/User/Setting/Friend/ReadByParameter",
+	  url:"${pageContext.request.contextPath}/User/Setting/Account/ReadByParameter",
 	  async: false ,
 	  success: function(data){
 	    appendCards(data);

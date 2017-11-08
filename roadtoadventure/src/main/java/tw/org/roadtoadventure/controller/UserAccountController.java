@@ -132,7 +132,6 @@ public class UserAccountController {
 	//	朋友搜尋
 	@RequestMapping(value = "/Setting/Friend/ReadAllFriend" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView readAllFriendPage () {
-		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView mav = new ModelAndView(subDir + "/readAllFriend");
 		JSONObject o = new JSONObject();
 		try {
@@ -143,9 +142,10 @@ public class UserAccountController {
 				arrayObj.put("picture", userBean.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":userBean.getUserPicture());
 				arrayObj.put("name", userBean.getUserName());
 				arrayObj.put("userId", userBean.getUserId());
+				arrayObj.put("friendId", userBean.getFriendId());
+				arrayObj.put("status", userBean.getStatus());
 				arrayObj.put("email", userBean.getEmail());
 				array.add(arrayObj);
-
 			}
 			o.put("array", array);
 			o.put("success", "1");
@@ -158,7 +158,7 @@ public class UserAccountController {
 	}
 
 	//	帳戶搜尋
-	@RequestMapping(value= "/Setting/Friend/ReadByParameter" , produces = "application/json;charset=UTF-8")
+	@RequestMapping(value= "/Setting/Account/ReadByParameter" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readByParameter(UserBean userBean) {
 		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JSONObject o = new JSONObject();
@@ -205,5 +205,36 @@ public class UserAccountController {
 			ex.printStackTrace();
 			return o.toString();
 		}
+	}
+	//	接受邀請
+	@RequestMapping(value = "/Setting/Friend/Update/Accept")
+	public @ResponseBody String accept(@RequestParam String userId) {
+		JSONObject o = new JSONObject();
+		try {
+			userFriendService.updateAccept(userId);
+			o.put("success", "1");
+			return o.toString();
+		}catch(Exception ex) {
+			o.put("success", "0");
+			o.put("message", "加入失敗。");
+			ex.printStackTrace();
+			return o.toString();
+		}
+	}
+	//	接受邀請
+	@RequestMapping(value = "/Setting/Friend/Delete")
+	public @ResponseBody String deleteFriend(@RequestParam String userId) {
+		return userId;
+//		JSONObject o = new JSONObject();
+//		try {
+//			userFriendService.update(userBean);
+//			o.put("success", "1");
+//			return o.toString();
+//		}catch(Exception ex) {
+//			o.put("success", "0");
+//			o.put("message", "加入失敗。");
+//			ex.printStackTrace();
+//			return o.toString();
+//		}
 	}
 }

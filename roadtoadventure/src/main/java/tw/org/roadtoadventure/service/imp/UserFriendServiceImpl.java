@@ -68,9 +68,29 @@ public class UserFriendServiceImpl implements UserFriendService {
 			userBean.setUserId(userFriend.getId().getUserId());
 			userBean.setFriendId(userFriend.getId().getFriendId());
 			userBean.setCreateDate(userFriend.getCreateDate());
+			userBean.setStatus(userFriend.getStatus());
 			ubList.add(userBean);
 		}
 		return ubList;
+	}
+
+	@Transactional
+	@Override
+	public void updateAccept(String friendId) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserFriendId id = new UserFriendId();
+		id.setUserId(user.getUserId());
+		id.setFriendId(friendId);
+		UserFriend userFriend = userFriendDAO.getById(id);
+//		UserFriend userFriend = new UserFriend();
+		userFriend.setStatus('1');
+		userFriendDAO.merge(userFriend);
+		UserFriendId id2 = new UserFriendId();
+		id2.setFriendId(user.getUserId());
+		id2.setUserId(friendId);
+		UserFriend userFriend2 = userFriendDAO.getById(id);
+		userFriend2.setStatus('1');
+		userFriendDAO.merge(userFriend2);
 	}
 
 }

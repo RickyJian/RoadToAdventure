@@ -46,11 +46,36 @@
           </div>
         </div>
       </div>
-      <div class="section">
-        <div id ="cardDiv">
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s4"><a class="active" href="#status1">好友</a></li>
+            <li class="tab col s4"><a href="#status0">邀請中</a></li>
+            <li class="tab col s4"><a href="#status3">待接收邀請</a></li>
+          </ul>
         </div>
-	    <br><br><br>
-      </div>
+        <div id="status1" class="col s12">
+          <div class="section">
+            <div id ="cardDiv1">
+            </div>
+	        <br><br><br>
+          </div>        
+        </div>
+        <div id="status0" class="col s12">
+          <div class="section">
+            <div id ="cardDiv0">
+            </div>
+	        <br><br><br>
+          </div>          
+        </div>
+        <div id="status3" class="col s12">
+          <div class="section">
+            <div id ="cardDiv3">
+            </div>
+	        <br><br><br>
+          </div>          
+        </div>
+      </div>      
       <br><br>
     </div>
   </div>
@@ -113,9 +138,9 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
+  var countArr = [0,0,0];
   $(function(){
     appendCards('${user}');
-    console.log('${user}')
   })
   function appendCards(jsonObj){
 	$("#cardDiv").empty();
@@ -130,8 +155,33 @@
 		var image = result.array[i].picture
 		var email = result.array[i].email
 		var userId = result.array[i].userId
+		var friendId = result.array[i].friendId
 		var name = result.array[i].name
-        if(i%3==0){
+		var status = result.array[i].status
+	    console.log(friendId)
+	    switch (status){
+	    case "0":
+	    	countArr[0]++;
+	      apendCardHTML(countArr[0] , image , name , friendId , "cardDiv0",html)
+		  break;
+	    case "1":
+	    	countArr[1]++;
+	      apendCardHTML(countArr[1] , image , name , friendId , "cardDiv1",html)
+		  break;
+	    case "3":
+	    	countArr[2]++;
+	      apendCardHTML(countArr[2] , image , name , friendId , "cardDiv3",html)
+		  break;
+	    }
+
+      }
+		$("#cardDiv").append(html)
+	}else{
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+	}
+  }
+  function apendCardHTML(i , image , name , userId , divId , html){
+      if(i%3==0){
           html += "<div class =\"row\">"
         }
         html += "<div class=\"col s4\">"
@@ -141,20 +191,30 @@
 	    html += "</div>"
 		html += "<div class=\"card-content\">"
 		html += "<span class=\"card-title activator grey-text text-darken-4\">"+name+"</span>"
-		html += "</div>"		    
-	    html += "<div class=\"card-action center-align\">"
-	    html += "<a class=\"waves-effect waves-light btn\" onclick =\"join('"+userId+"')\" >邀請</a>"
-	    html += "</div>"
+		html += "</div>"	
+		switch (divId){
+		case "cardDiv0" :
+	      html += "<div class=\"card-action center-align\">"
+	      html += "<a class=\"waves-effect waves-light btn\" onclick =\"accept('"+userId+"')\" >接受</a>"
+	      html += "</div>"
+		  break;
+		case "cardDiv1" :
+	      html += "<div class=\"card-action center-align\">"
+	      html += "<a class=\"waves-effect waves-light btn  red darken-1 \" onclick =\"delete('"+userId+"')\" >刪除</a>"
+	      html += "</div>"
+		  break;
+		case "cardDiv3" :
+	      html += "<div class=\"card-action center-align\">"
+	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >邀請中</a>"
+	      html += "</div>"
+		  break;
+		}	    
 	    html += "</div>"
 	    html += "</div>"
         if(i%3==2){
           html += "</div>"
-        }
-      }
-		$("#cardDiv").append(html)
-	}else{
-		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
-	}
+        }  
+	    $("#"+divId).append(html)
   }
   function read(){
     $.ajax({
@@ -170,14 +230,14 @@
 	  }
     })
   }
-  function join(id){
+  function accept(id){
 	    $.ajax({
 	  	  type: "POST",
 	  	  dataType: 'json',
 	  	  data:{
 	  	    "userId":id,
 	  	  },
-	  	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Create/Join",
+	  	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Update/Accept",
 	  	  async: false ,
 	  	  success: function(data){
 	  	    if(data.success=="1"){
