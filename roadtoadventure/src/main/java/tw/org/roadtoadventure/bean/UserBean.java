@@ -18,6 +18,15 @@ public class UserBean {
 	private Date createDate;
 	private String modifyId;
 	private Date modifyDate;
+	
+//	Friend
+	private char status;
+	private String friendId;
+	private String friendName;
+	
+//	Search 
+	private String searchType; 
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -102,6 +111,29 @@ public class UserBean {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	public char getStatus() {
+		return status;
+	}
+	public void setStatus(char status) {
+		this.status = status;
+	}
+	public String getFriendId() {
+		return friendId;
+	}
+	public void setFriendId(String friendId) {
+		this.friendId = friendId;
+	}
+	public String getFriendName() {
+		return friendName;
+	}
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
+	}
 	
 }

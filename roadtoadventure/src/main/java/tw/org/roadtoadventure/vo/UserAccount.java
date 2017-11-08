@@ -47,7 +47,9 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private Set<Group> groupsForModifyId = new HashSet<Group>(0);
 	private Set<GroupJourney> groupJourneysForCreateId = new HashSet<GroupJourney>(0);
 	private Set<GroupJourney> groupJourneysForModifyId = new HashSet<GroupJourney>(0);
-
+	private Set<UserFriend> userFriendsForUserId = new HashSet<UserFriend>(0);
+	private Set<UserFriend> userFriendsForFriendId = new HashSet<UserFriend>(0);
+	
 	public UserAccount() {
 	}
 
@@ -251,6 +253,24 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 
 	public void setPersonalJourneysForModifyId(Set<PersonalJourney> personalJourneysForModifyId) {
 		this.personalJourneysForModifyId = personalJourneysForModifyId;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByUserId")
+	public Set<UserFriend> getUserFriendsForUserId() {
+		return this.userFriendsForUserId;
+	}
+
+	public void setUserFriendsForUserId(Set<UserFriend> userFriendsForUserId) {
+		this.userFriendsForUserId = userFriendsForUserId;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountByFriendId")
+	public Set<UserFriend> getUserFriendsForFriendId() {
+		return this.userFriendsForFriendId;
+	}
+
+	public void setUserFriendsForFriendId(Set<UserFriend> userFriendsForFriendId) {
+		this.userFriendsForFriendId = userFriendsForFriendId;
 	}
 	
 //	Authority

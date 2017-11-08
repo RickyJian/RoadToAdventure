@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import tw.org.roadtoadventure.dao.UserAccountDAO;
+import tw.org.roadtoadventure.bean.UserBean;
 import tw.org.roadtoadventure.vo.UserAccount;
 
 @Repository
@@ -22,6 +23,21 @@ public class UserAccountDAOImpl extends BaseDAOImpl<UserAccount> implements User
 			return uaList.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<UserAccount> readByParameter(UserBean userBean) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserAccount.class);
+		if(userBean!=null) {
+			if(userBean.getUserName()!=null&&!userBean.getUserName().equals("")) {
+				if(userBean.getSearchType().equals("like")) {
+					detachedCriteria.add(Restrictions.like("userName", "%"+userBean.getUserName()+"%"));
+				}else {
+					detachedCriteria.add(Restrictions.eq("userName", userBean.getUserName()));
+				}
+			}
+		}
+		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 
 }
