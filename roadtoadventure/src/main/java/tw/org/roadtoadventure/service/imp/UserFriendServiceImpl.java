@@ -18,7 +18,7 @@ import tw.org.roadtoadventure.vo.UserFriendId;
 
 @Service
 public class UserFriendServiceImpl implements UserFriendService {
-	
+
 	@Autowired
 	private UserFriendDAO userFriendDAO;
 
@@ -36,7 +36,7 @@ public class UserFriendServiceImpl implements UserFriendService {
 	@Transactional
 	@Override
 	public void createFriend(String friendId) throws Exception {
-//		status 邀請人 3 被邀請 0
+		//		status 邀請人 3 被邀請 0
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserFriend userFriend = new UserFriend();
 		UserFriendId id = new UserFriendId();
@@ -54,8 +54,8 @@ public class UserFriendServiceImpl implements UserFriendService {
 		userFriend2.setId(id2);
 		userFriend2.setCreateDate(new Date());
 		userFriendDAO.create(userFriend2);
-		
-    }
+
+	}
 
 	@Override
 	public List<UserBean> readAllWithJoin() throws Exception {
@@ -82,7 +82,6 @@ public class UserFriendServiceImpl implements UserFriendService {
 		id.setUserId(user.getUserId());
 		id.setFriendId(friendId);
 		UserFriend userFriend = userFriendDAO.getById(id);
-//		UserFriend userFriend = new UserFriend();
 		userFriend.setStatus('1');
 		userFriendDAO.merge(userFriend);
 		UserFriendId id2 = new UserFriendId();
@@ -91,6 +90,24 @@ public class UserFriendServiceImpl implements UserFriendService {
 		UserFriend userFriend2 = userFriendDAO.getById(id);
 		userFriend2.setStatus('1');
 		userFriendDAO.merge(userFriend2);
+	}
+
+	@Transactional
+	@Override
+	public void delete(String friendId) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserFriendId id = new UserFriendId();
+		id.setUserId(user.getUserId());
+		id.setFriendId(friendId);
+		UserFriend userFriend = userFriendDAO.getById(id);
+		System.out.println(userFriend);
+		userFriendDAO.delete(userFriend);
+		UserFriendId id2 = new UserFriendId();
+		id2.setFriendId(user.getUserId());
+		id2.setUserId(friendId);
+		UserFriend userFriend2 = userFriendDAO.getById(id2);
+		System.out.println(userFriend2);
+		userFriendDAO.delete(userFriend2);
 	}
 
 }

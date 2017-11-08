@@ -12,6 +12,8 @@ public interface UserFriendService {
 	
 	public void createFriend (String friendId) throws Exception;
 	
+	public void delete (String friendId) throws Exception;
+	
 	public List<UserBean> readAllWithJoin () throws Exception;
 
 }

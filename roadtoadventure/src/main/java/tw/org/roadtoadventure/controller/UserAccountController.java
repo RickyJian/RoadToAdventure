@@ -192,7 +192,7 @@ public class UserAccountController {
 		}
 	}
 	//	新增邀請好友
-	@RequestMapping(value = "/Setting/Friend/Create/Join")
+	@RequestMapping(value = "/Setting/Friend/Create/Join" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String join(@RequestParam String userId) {
 		JSONObject o = new JSONObject();
 		try {
@@ -207,7 +207,7 @@ public class UserAccountController {
 		}
 	}
 	//	接受邀請
-	@RequestMapping(value = "/Setting/Friend/Update/Accept")
+	@RequestMapping(value = "/Setting/Friend/Update/Accept" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String accept(@RequestParam String userId) {
 		JSONObject o = new JSONObject();
 		try {
@@ -222,19 +222,18 @@ public class UserAccountController {
 		}
 	}
 	//	接受邀請
-	@RequestMapping(value = "/Setting/Friend/Delete")
-	public @ResponseBody String deleteFriend(@RequestParam String userId) {
-		return userId;
-//		JSONObject o = new JSONObject();
-//		try {
-//			userFriendService.update(userBean);
-//			o.put("success", "1");
-//			return o.toString();
-//		}catch(Exception ex) {
-//			o.put("success", "0");
-//			o.put("message", "加入失敗。");
-//			ex.printStackTrace();
-//			return o.toString();
-//		}
+	@RequestMapping(value = "/Setting/Friend/Delete" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String deleteFriend(@RequestParam String friendId) {
+		JSONObject o = new JSONObject();
+		try {
+			userFriendService.delete(friendId);
+			o.put("success", "1");
+			return o.toString();
+		}catch(Exception ex) {
+			o.put("success", "0");
+			o.put("message", "加入失敗。");
+			ex.printStackTrace();
+			return o.toString();
+		}
 	}
 }

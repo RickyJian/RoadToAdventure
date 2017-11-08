@@ -200,7 +200,7 @@
 		  break;
 		case "cardDiv1" :
 	      html += "<div class=\"card-action center-align\">"
-	      html += "<a class=\"waves-effect waves-light btn  red darken-1 \" onclick =\"delete('"+userId+"')\" >刪除</a>"
+	      html += "<a class=\"waves-effect waves-light btn  red darken-1 \" onclick =\"deleteFriend('"+userId+"')\" >刪除</a>"
 	      html += "</div>"
 		  break;
 		case "cardDiv3" :
@@ -231,22 +231,40 @@
     })
   }
   function accept(id){
-	    $.ajax({
-	  	  type: "POST",
-	  	  dataType: 'json',
-	  	  data:{
-	  	    "userId":id,
-	  	  },
-	  	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Update/Accept",
-	  	  async: false ,
-	  	  success: function(data){
-	  	    if(data.success=="1"){
+    $.ajax({
+	  type: "POST",
+	  dataType: 'json',
+	  data:{
+	    "userId":id,
+	  },
+	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Update/Accept",
+	  async: false ,
+	  success: function(data){
+	    if(data.success=="1"){
 	          //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
-		  	}else{
-	          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
-			}
-	  	  }
-	    })
+		}else{
+	        //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+		}
+	  }
+	})
+  }
+  function deleteFriend(id){
+    $.ajax({
+	  type: "POST",
+	  dataType: 'json',
+	  data:{
+	    "friendId":id,
+	  },
+	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Delete",
+	  async: false ,
+	  success: function(data){
+	    if(data.success=="1"){
+	          //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
+		}else{
+	        //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+		}
+	  }
+	})
   }
   </script>
 
