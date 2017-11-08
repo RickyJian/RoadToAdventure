@@ -2,11 +2,11 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>RoadToAdventure</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>/</welcome-file>
   </welcome-file-list> 
   
   <session-config>
-		<session-timeout>240</session-timeout>
+		<session-timeout>60</session-timeout>
   </session-config>
   <filter>
     <filter-name>openSessionInViewFilter</filter-name>
@@ -133,11 +133,6 @@
     <url-pattern>*.mp4</url-pattern>
    </servlet-mapping>
    <error-page> 
-   <error-code>404</error-code>
-    <location>/error404.jsp</location> 
-   </error-page>
-   <error-page> 
-   <error-code>500</error-code>
-    <location>/error500.jsp</location> 
+    <location>/error</location> 
    </error-page>
  </web-app>

@@ -36,17 +36,6 @@ public class UserAccountController {
 	@Autowired
 	private UserFriendService userFriendService;
 
-
-	@RequestMapping("/Login")
-	public ModelAndView login () {
-		return new  ModelAndView("/login");
-	}
-
-	@RequestMapping("/SignUp")
-	public ModelAndView signUp() {
-		return new ModelAndView("/signUp");
-	}
-
 	@RequestMapping(value = "/SignUp/Create" ,  produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
 	public @ResponseBody String create (SignUpForm signUpForm){
 		JSONObject o = new JSONObject();

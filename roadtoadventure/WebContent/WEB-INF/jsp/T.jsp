@@ -14,23 +14,7 @@
 
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">註冊</a></li>
-        <li><a href="#">登入</a></li>
-        <li><a id="menu" data-activates="slide-out" ><i class="material-icons">menu</i> </a></li>
-      </ul>
-
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">註冊</a></li>
-        <li><a href="#">登入</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
-
-
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
   <div id = "main">
   <div class="container">
     <div class="section">
