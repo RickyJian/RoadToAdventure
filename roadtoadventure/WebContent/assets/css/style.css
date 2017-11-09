@@ -35,3 +35,8 @@ footer {
 .side-nav {
 	z-index: 99999999;
 }
+
+.error{
+	color : #f44336;
+	font-size : 14px;
+}
