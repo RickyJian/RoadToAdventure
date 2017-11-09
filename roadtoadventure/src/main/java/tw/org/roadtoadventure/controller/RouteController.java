@@ -45,11 +45,11 @@ public class RouteController {
 		return errorPage;
 	}
 
-	@RequestMapping(value = "/timeout")
+	@RequestMapping(value = "/Timeout")
 	public ModelAndView timeoutPage() {
 		return new ModelAndView("timeout");
 	}
-	@RequestMapping(value = "/accessdeny")
+	@RequestMapping(value = "/Accessdeny")
 	public ModelAndView accessdenyPage() {
 		return new ModelAndView("accessdeny");
 	}
