@@ -29,9 +29,9 @@ PersonalJourneyComment/Create|新增個人旅程評論(OK)
 PersonalJourneyComment/GetList|取得個人旅程評論列表
 PersonalJourneyDetail/Create|新增個人旅程細節
 PersonalJourneyDetail/GetAll|取得個人旅程所有細節
-PersonalJourneyChallenge/Create|新增個人旅程挑戰
-PersonalJourneyChallenge/Delete|刪除個人旅程挑戰
-PersonalJourneyChallenge/Get|取得個人旅程挑戰
+PersonalJourneyChallenge/Create|新增個人旅程挑戰(OK)
+PersonalJourneyChallenge/Delete|刪除個人旅程挑戰(OK)
+PersonalJourneyChallenge/Get|取得個人旅程挑戰(OK)
 Group/Create|新增群組(OK)
 Group/Update|修改群組
 Group/GetList|取得群組列表(OK)
@@ -39,6 +39,7 @@ Group/Get|取得群組(OK)
 GroupUser/Create|新增群組使用者(OK)
 GroupUser/Update|修改群組使用者
 GroupUser/Delete|刪除群組使用者(OK)
+GroupUser/GetList|取得群組使用者列表(OK)
 GroupChat/Create|新增群組聊天(OK)
 GroupChat/GetList|取得群組聊天列表(OK)
 GroupJourney/Create|新增群組旅程(OK)
@@ -239,6 +240,7 @@ response:
 request:
 ```json
 {
+    "userId": "userId",
     "userName": "userName"
 }
 ```
@@ -796,6 +798,29 @@ response:
 }
 ```
 
+## GroupUser/GetList(取得群組使用者列表)
+request:
+```json
+{
+    "groupId": 1
+}
+```
+response:
+```json
+{
+    "result": 1,
+    "members": [
+        {
+            "userId": "userId",
+            "userName": "userName",
+            "userPicture": "userPicture",
+            "groupRoleId": "groupRoleId",
+            "groupRoleName": "groupRoleName",
+        }
+    ]
+}
+```
+
 ## GroupChat/Create(新增群組聊天)
 request:
 ```json
@@ -975,10 +1000,11 @@ request:
 {
     "groupJourneyId": 1,
     "userId": "userId",
-    "groupJourneyDetails": [
+    "locations": [
         {
-            "latitude": 123.123,
-            "longitude": 123.123
+            "latitude": "123.123",
+            "longitude": "123.123",
+            "createDate": ""
         }
     ]
 }
