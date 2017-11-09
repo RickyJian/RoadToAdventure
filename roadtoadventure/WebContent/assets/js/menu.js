@@ -11,8 +11,13 @@ var menuHTML =  "<ul id=\"slide-out\" class=\"side-nav\">"
     			 +"<li><a href=\"#!\" class=\"subheader\">路線規劃</a></li>"
     			 +"<li><a class=\"subheader\">我的歷程</a></li>"
     			 +"<li><a >車隊管理系統</a></li>"
+    			 +"<li><div class=\"divider\"></div></li>"
     			 +"<li><a href=\"#!\" class=\"subheader\">路線規劃</a></li>"
     			 +"<li><a class=\"subheader\">團隊歷程</a></li>"
+    			 +"<li><a href=\""+contextPath+"/User/Setting\" ><i class= \"material-icons\">settings</i>設定</a></li>"
+    			 +"<li><div class=\"divider\"></div></li>"
+    			 +"<li><a href=\""+contextPath+"/User/Setting/Edit\">個資修改</a></li>"
+    			 +"<li><a href=\""+contextPath+"/User/Setting/Friend\">好友系統</a></li>"
     			 +"</ul>"
 document.write(menuHTML)   	 
     		

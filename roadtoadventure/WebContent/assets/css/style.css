@@ -12,3 +12,18 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+footer {
+	position: fixed;
+	/*position:relative;*/
+	display:block;
+	height:180px;
+	/*loat:left;*/
+	width:100%;
+	bottom:0px;
+	z-index: 99;
+}
+
+.side-nav{
+	z-index: 99999999;
+}
