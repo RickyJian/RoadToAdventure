@@ -23,7 +23,7 @@
           <form class="col s12" id="signUpForm" name="signUpForm">
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userId" name="userId" type="text"> <label for="userId">帳號</label>
+                <input class="validate" id="userId" name="userId" type="text" onblur = "isUserIdCorrect($(this).val())"> <label for="userId">帳號</label>
               </div>
             </div>
             <div class="row">
@@ -76,21 +76,73 @@
       </div>
     </div>
   </div>
-
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
 
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/jquery.validate.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
+  var check = false;
+  $(function(){
+	  formValidate()
+  })
+  function formValidate(){
+    $("#signUpForm").validate({
+	  rules: {
+	    userId: {
+	      required: true,
+	      minlength: 5,
+	      maxlength: 20
+	    },
+	    userName: {
+		  required: true,
+		  minlength: 1,
+		  maxlength: 50
+	    },
+	    password: {
+	 	  required: true,
+	 	  minlength: 8,
+	 	  maxlength: 20
+	 	},
+	 	checkPassword: {
+	 	  required: true,
+	 	  minlength: 8,
+	 	  maxlength: 20,
+	 	  equalTo: "#password"
+	 	},
+	 	email: {
+            required: true,
+            email:true
+        }
+	  },
+	  errorElement : 'div',
+	  errorPlacement: function(error, element) {
+	    var placement = $(element).data('error');
+	    if (placement) {
+	      $(placement).append(error)
+	    } else {
+	      error.insertAfter(element);
+	    }
+	  }
+	});	
+  }
   function signUp (){
-	$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+	if($("#signUpForm").valid()){
+	  if(!check){
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 請檢查帳戶是否驗證成功", 5000)
+		return;
+	  }
+	block("main")
 	$.ajax({
 	  type: "POST",
 	  datatype:"json",
@@ -98,7 +150,7 @@
 	  url:  "${pageContext.request.contextPath}/User/SignUp/Create",
 	  async: false ,
 	  success: function(data){
-		var result = JSON.parse(data)
+		var result = jsonFmt(data)
         if(result.success=="1"){
         	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
 	           window.location="${pageContext.request.contextPath}/"
@@ -109,6 +161,33 @@
         }
 	  }
 	});	  
+
+    }
+  }
+  function isUserIdCorrect (userId){
+	if(userId!=""){
+	  $.ajax({
+	    type: "POST",
+	    datatype:"json",
+	    data:{"userId":userId},
+	    url:  "${pageContext.request.contextPath}/User/Read/IsUserIdCorrect",
+	    async: false ,
+	    success: function(data){
+		  var result = jsonFmt(data)
+	      if(result.success=="1"){
+	    	if(result.isEmpty){
+		      check = true;
+	          Materialize.toast("<i class = \"material-icons\">check</i>&nbsp;帳號驗證成功。", 3000) 			  
+		    }else{
+		      check = false;
+	          Materialize.toast("<i class = \"material-icons\">clear</i>&nbsp;帳號已申請過，請更換帳號。", 3000) 			  
+			}
+	      }else{
+		    check = false;
+		  }
+	    }
+	  });	 
+    }  
   }
   </script>
 
