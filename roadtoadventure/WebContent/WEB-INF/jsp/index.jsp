@@ -83,7 +83,11 @@
       </div>
 
     </div>
-    <br><br>
+    <div class = "section">
+      <div class = "row">
+        <br><br><br><br><br><br><br>
+      </div>
+    </div>
   </div>
 
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
