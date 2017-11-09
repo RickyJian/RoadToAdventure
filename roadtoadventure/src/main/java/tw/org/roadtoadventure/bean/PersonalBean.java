@@ -13,6 +13,7 @@ public class PersonalBean {
 	private Date modifyDate;
 	private String overviewPolyline;
 	private String createId;
+	private char status;
 //	Detail
 	private Integer personalJourneyDetailId;
 	private String locationArray[];
@@ -89,6 +90,10 @@ public class PersonalBean {
 	public void setLocationArray(String[] locationArray) {
 		this.locationArray = locationArray;
 	}
-	
-	
+	public char getStatus() {
+		return status;
+	}
+	public void setStatus(char status) {
+		this.status = status;
+	}
 }

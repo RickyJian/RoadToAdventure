@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterBatchUpdateUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,18 +47,21 @@ public class PersonalJourneyController {
 		return false;
 	}
 	
-//	個人歷程首頁
+//	個人歷程系統首頁
+	@PreAuthorize("hasAnyRole('admin','P00')")
 	@RequestMapping(value = "/Personal")
 	public ModelAndView indexPage() {
 		return new ModelAndView(dir+"/index");
 	}
 	
 //	個人歷程新增 頁面
+	@PreAuthorize("hasAnyRole('admin','P01')")
 	@RequestMapping(value = "/New")
 	public ModelAndView newPage() {
 		return new ModelAndView(subDir+"/createJourney");
 	}
-//	個人歷程搜尋 頁面
+//	個人歷程管理 頁面
+	@PreAuthorize("hasAnyRole('admin','P02')")
 	@RequestMapping(value = "/ReadAll")
 	public ModelAndView readAllPage() {
 		ModelAndView mav = new ModelAndView(subDir+"/readAllJourney");
@@ -86,6 +90,7 @@ public class PersonalJourneyController {
 		return mav;
 	}
 //  新增歷程
+	@PreAuthorize("hasAnyRole('admin','P21')")
 	@RequestMapping(value = "/Create")
 	public @ResponseBody String createGroup(CreatePersonalJourneyForm createPersonalJourneyForm) {
 		JSONObject o = new JSONObject();

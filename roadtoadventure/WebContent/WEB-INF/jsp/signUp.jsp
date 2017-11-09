@@ -23,27 +23,27 @@
           <form class="col s12" id="signUpForm" name="signUpForm">
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userId" name="userId" type="text" onblur = "isUserIdCorrect($(this).val())"> <label for="userId">帳號</label>
+                <input class="validate" id="userId" name="userId" type="text" data-length="20" onblur = "isUserIdCorrect($(this).val())"> <label for="userId">帳號</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userName" name="userName" type="text"> <label for="uerName">名稱</label>
+                <input class="validate" id="userName" name="userName" type="text" data-length="50"> <label for="uerName">名稱</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="password" name="password" type="password"> <label for="password">密碼</label>
+                <input class="validate" id="password" name="password" type="password" data-length="20"> <label for="password">密碼</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="checkPassword" name="checkPassword" type="password"> <label for="checkPassword">確認密碼</label>
+                <input class="validate" id="checkPassword" name="checkPassword" type="password" data-length="20"> <label for="checkPassword">確認密碼</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="email" name="email" type="email"> <label for="email">email</label>
+                <input class="validate" id="email" name="email" type="email" data-length="50" > <label for="email">email</label>
               </div>
             </div>
             <div class="row">
@@ -89,8 +89,6 @@
   <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
   var check = false;
   $(function(){
@@ -122,7 +120,8 @@
 	 	},
 	 	email: {
             required: true,
-            email:true
+            email:true,
+            maxlength:50
         }
 	  },
 	  errorElement : 'div',

@@ -15,6 +15,7 @@
 </head>
 <body>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
+  <br><br>
   <div id="main">
     <div class="container">
       <div class="section">
@@ -69,35 +70,75 @@
     </div>
   </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
-
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/jquery.validate.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>  
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
   <script type="text/javascript">
-  function send(){
-    $("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
-    $.ajax({
-	  type: "POST",
-	  dataType: 'json',
-	  data:$("#journeyForm").serialize(),
-	  url:"${pageContext.request.contextPath}/Personal/Create",
-      async: false ,
-	  success: function(data){
-		if(data.success =="1"){
-       	  //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;新增成功，自動跳轉管理頁面。", 3000,'',function(){
-	      //     window.location="${pageContext.request.contextPath}/Group/${groupId}/Journey/Read"
-          //})
-	    }else{
-	      //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗。", 5000)
+  $(function(){
+	  formValidate()
+  })
+  function formValidate(){
+    $("#journeyForm").validate({
+	  rules: {
+		personalJourneyName: {
+	      required: true,
+	      minlength: 1,
+	      maxlength: 50
+	    },
+	    beginDay: {
+		  required: true
+	    },
+	    beginTime: {
+	 	  required: true
+	 	},
+	 	endDay: {
+	 	  required: true
+	 	},
+	 	endTime: {
+            required: true
+        }
+	  },
+	  errorElement : 'div',
+	  errorPlacement: function(error, element) {
+	    var placement = $(element).data('error');
+	    if (placement) {
+	      $(placement).append(error)
+	    } else {
+	      error.insertAfter(element);
 	    }
-	    $("#main").unblock();
 	  }
-    })    
+	});	
+  }
+  function send(){
+	if($("#journeyForm").valid()){
+	  block("main")	
+      $.ajax({
+	    type: "POST",
+	    dataType: 'json',
+	    data:$("#journeyForm").serialize(),
+	    url:"${pageContext.request.contextPath}/Personal/Create",
+        async: false ,
+	    success: function(data){
+		  var result = jsonFmt(data)
+		  if(result.success =="1"){
+       	    Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;新增成功，自動跳轉歷程管理頁面。", 3000,'',function(){
+	          window.location="${pageContext.request.contextPath}/Personal/ReadAll"
+            })
+	      }else{
+	        Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗，請在試一次。", 5000)
+	      }
+	      $("#main").unblock();
+	    }
+      })    
+    }  
+    
   }
   </script>
 
