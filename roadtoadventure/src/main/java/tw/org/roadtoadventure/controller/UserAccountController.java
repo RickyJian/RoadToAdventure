@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,8 @@ public class UserAccountController {
 	@Autowired
 	private UserFriendService userFriendService;
 
+//	註冊功能
+	@PreAuthorize("hasAnyRole('admin','S21')")
 	@RequestMapping(value = "/SignUp/Create" ,  produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
 	public @ResponseBody String create (SignUpForm signUpForm){
 		JSONObject o = new JSONObject();
@@ -51,11 +54,13 @@ public class UserAccountController {
 		}
 	}
 	//	管理頁面
+	@PreAuthorize("hasAnyRole('admin','S03')")
 	@RequestMapping(value = "/Setting" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView settingPage () {
 		return new ModelAndView(dir + "/index");
 	}
-	//	個資修改 
+	//	個資修改 頁面
+	@PreAuthorize("hasAnyRole('admin','S04')")
 	@RequestMapping(value = "/Setting/Edit" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView editPage () {
 		ModelAndView mav =  new ModelAndView(dir + "/update");
@@ -73,6 +78,9 @@ public class UserAccountController {
 		}
 		return mav;
 	}
+	
+	//	個資修改 修改功能
+	@PreAuthorize("hasAnyRole('admin','S34')")
 	@RequestMapping(value = "/Setting/Edit/Update" ,  produces = "application/json;charset=UTF-8")
 	public @ResponseBody String update (UpdateUserAccountForm updateUserAccountForm) {
 		JSONObject o = new JSONObject();
@@ -85,10 +93,16 @@ public class UserAccountController {
 		}
 		return o.toString();	
 	}
+	
+	//	好友系統 頁面
+	@PreAuthorize("hasAnyRole('admin','S05')")
 	@RequestMapping(value = "/Setting/Friend" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView friendIndexPage () {
 		return new ModelAndView(subDir + "/index");
 	}
+	
+//	 帳戶搜尋 頁面
+	@PreAuthorize("hasAnyRole('admin','S07')")
 	@RequestMapping(value = "/Setting/Friend/ReadAllUser" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView readAllUserPage () {
 		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -118,7 +132,8 @@ public class UserAccountController {
 		return mav;
 	}
 
-	//	朋友搜尋
+	//	好友管理 頁面
+	@PreAuthorize("hasAnyRole('admin','S06')")
 	@RequestMapping(value = "/Setting/Friend/ReadAllFriend" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView readAllFriendPage () {
 		ModelAndView mav = new ModelAndView(subDir + "/readAllFriend");
@@ -146,7 +161,8 @@ public class UserAccountController {
 		return mav;
 	}
 
-	//	帳戶搜尋
+	//	帳戶搜尋 搜尋功能
+	@PreAuthorize("hasAnyRole('admin','S17')")
 	@RequestMapping(value= "/Setting/Account/ReadByParameter" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readAccountByParameter(UserBean userBean) {
 		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -180,7 +196,9 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	//	帳戶搜尋
+	
+	//	好友管理 搜尋功能
+	@PreAuthorize("hasAnyRole('admin','S16')")
 	@RequestMapping(value= "/Setting/Friend/ReadByParameter" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readFriendByParameter(UserBean userBean) {
 		UserAccount  user= (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -216,7 +234,8 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	//	新增邀請好友
+	// 帳戶搜尋	新增好友
+	@PreAuthorize("hasAnyRole('admin','S27')")
 	@RequestMapping(value = "/Setting/Friend/Create/Join" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String join(@RequestParam String userId) {
 		JSONObject o = new JSONObject();
@@ -231,7 +250,8 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	//	接受邀請
+	//	好友管理 異動功能 接受邀請 
+	@PreAuthorize("hasAnyRole('admin','S36')")
 	@RequestMapping(value = "/Setting/Friend/Update/Accept" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String accept(@RequestParam String userId) {
 		JSONObject o = new JSONObject();
@@ -246,7 +266,8 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	//	接受邀請
+	// 好友管理 異動功能 拒絕邀請
+	@PreAuthorize("hasAnyRole('admin','S46')")
 	@RequestMapping(value = "/Setting/Friend/Delete" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String deleteFriend(@RequestParam String friendId) {
 		JSONObject o = new JSONObject();

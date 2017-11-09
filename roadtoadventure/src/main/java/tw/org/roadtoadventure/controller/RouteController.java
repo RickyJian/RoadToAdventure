@@ -20,11 +20,9 @@ public class RouteController {
 	}
 	@RequestMapping(value = "/error")
 	public ModelAndView errorPage(HttpServletRequest httpRequest) {
-
 		ModelAndView errorPage = new ModelAndView("error");
 		String errorMsg = "";
 		int httpErrorCode = getErrorCode(httpRequest);
-
 		switch (httpErrorCode) {
 		case 400: {
 			errorMsg = "Http Error Code: 400. Bad Request";
