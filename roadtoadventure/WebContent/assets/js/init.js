@@ -87,3 +87,17 @@ function imageUpload(id , path ,callback){
     }
   });
 }
+
+function block (id){
+  $("#"+id).block({ css: { 
+      border: 'none', 
+      padding: '15px', 
+      backgroundColor: 'rgba(0, 0, 0, 0)', 
+      '-webkit-border-radius': '10px', 
+      '-moz-border-radius': '10px', 
+      //opacity: .2, 
+      color: '#fff' 
+      },
+      message: $("#preDiv")
+    })
+}
