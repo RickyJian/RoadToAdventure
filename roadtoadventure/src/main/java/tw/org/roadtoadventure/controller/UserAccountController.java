@@ -36,9 +36,29 @@ public class UserAccountController {
 
 	@Autowired
 	private UserFriendService userFriendService;
+	
+//	註冊用 搜尋帳號是否註冊
+	@RequestMapping(value = "/Read/IsUserIdCorrect" ,  produces = "application/json;charset=UTF-8")
+	public @ResponseBody String isUserIdCorrect (@RequestParam String userId) {
+		UserBean userBean = new UserBean();
+		userBean.setUserId(userId);
+		JSONObject o = new JSONObject();
+		try {
+			List<UserBean> userList =  userService.readByParameter(userBean);
+			if(userList.size()==0) {
+				o.put("isEmpty", true);
+			}else {				
+				o.put("isEmpty", false);
+			}
+			o.put("success", "1");
+		}catch(Exception ex) {
+			o.put("success", "0");
+			ex.printStackTrace();
+		}
+		return o.toString();
+	}
 
 //	註冊功能
-	@PreAuthorize("hasAnyRole('admin','S21')")
 	@RequestMapping(value = "/SignUp/Create" ,  produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
 	public @ResponseBody String create (SignUpForm signUpForm){
 		JSONObject o = new JSONObject();
