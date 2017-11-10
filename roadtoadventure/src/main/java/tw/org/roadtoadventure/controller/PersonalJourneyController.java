@@ -89,7 +89,7 @@ public class PersonalJourneyController {
 		}
 		return mav;
 	}
-//  新增歷程
+//  個人歷程新增 功能
 	@PreAuthorize("hasAnyRole('admin','P21')")
 	@RequestMapping(value = "/Create")
 	public @ResponseBody String createGroup(CreatePersonalJourneyForm createPersonalJourneyForm) {
