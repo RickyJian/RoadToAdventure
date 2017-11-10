@@ -66,13 +66,17 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 
 	@Override
 	public List<PersonalBean> readDetailByParameter(PersonalBean personalBean) throws Exception {
-		System.out.println("======"+personalBean.getPersonalJourneyId());
 		List<PersonalJourneyDetail> pjList = personalJourneyDetailDAO.readByParamter(personalBean);
 		List<PersonalBean> pbList = new ArrayList<>();
 		for(PersonalJourneyDetail pjd : pjList) {
 			PersonalBean pb = new PersonalBean();
 			BeanUtility.copyProperties(pjd, pb);
+			pb.setPersonalJourneyName(pjd.getPersonalJourney().getPersonalJourneyName());
+			pb.setBeginDate(pjd.getPersonalJourney().getBeginDate());
+			pb.setEndDate(pjd.getPersonalJourney().getEndDate());
+			pb.setPersonalJourneyName(pjd.getPersonalJourney().getPersonalJourneyName());
 			pb.setLocation(pjd.getLocation());
+			pb.setStatus(pjd.getPersonalJourney().getStatus());
 			pb.setPersonalJourneyContent(pjd.getPersonalJourney().getPersonalJourneyContent());
 			pb.setOverviewPolyline(pjd.getPersonalJourney().getOverviewPolyline());
 			pbList.add(pb);

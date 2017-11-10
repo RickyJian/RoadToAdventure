@@ -34,6 +34,8 @@ public class PersonalJourneyController {
 	private String dir = "/personal";
 	private String subDir =  dir+"/journey";
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	private SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy/MM/dd");
+	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
 	
 	private boolean isJourneyUrlCorrect(Integer journeyId) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -115,19 +117,37 @@ public class PersonalJourneyController {
 				personalBean.setPersonalJourneyDetailId(journeyId);
 				String op = "";
 				String content ="";
+				String beginDay ="";
+				String endDay ="";
+				String beginTime ="";
+				String endTime ="";
+				String journeyName = "";
+				char status = 0 ;
 				JSONArray array =new JSONArray();
 				for(PersonalBean pb : personalJourneyService.readDetailByParameter(personalBean)) {
 					op = pb.getOverviewPolyline();
 					JSONObject arrayObj = new JSONObject();
 					content = pb.getPersonalJourneyContent();
+					beginDay = sdfDay.format(pb.getBeginDate());
+					beginTime = sdfTime.format(pb.getBeginDate());
+					endDay = sdfDay.format(pb.getEndDate());
+					endTime = sdfTime.format(pb.getEndDate());
+					status = pb.getStatus();
+					journeyName = pb.getPersonalJourneyName();
 					arrayObj.put("location",pb.getLocation());
 					arrayObj.put("detailId", pb.getPersonalJourneyDetailId());
 					array.add(arrayObj);
 				}
 				op =op.replaceAll("\\\\", "\\\\\\\\");
 				o.put("array", array);
+				o.put("beginDay", beginDay);
+				o.put("endDay", endDay);
+				o.put("beginTime", beginTime);
+				o.put("endTime", endTime);
+				o.put("status", String.valueOf(status));
 				o.put("success", "1");
-				o.put("journeyId ", journeyId);
+				o.put("journeyId", journeyId);
+				o.put("journeyName", journeyName);
 				o.put("content", content);
 				mav.addObject("journey" ,o.toString());
 				mav.addObject("overviewPolyline", op);

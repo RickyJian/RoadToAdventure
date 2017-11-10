@@ -62,7 +62,7 @@
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input class="validate" id="personalJourneyName" name="personalJourneyName" type="text" data-length="50"> <label for="groupName">歷程名稱</label>
+                    <input class="validate" id="personalJourneyName" name="personalJourneyName" type="text" data-length="50"> <label for="personalJourneyName">歷程名稱</label>
                   </div>
                 </div>
             <div class="row">
@@ -195,8 +195,14 @@
       setTimeout(function(){
         drawPolyline()
       },5000)
+      alert(result.journeyName)
+      $("#personalJourneyName").val(result.journeyName)
+      $("#beginDay").val(result.beginDay)
+      $("#endDay").val(result.endDay)
+      $("#beginTime").val(result.beginTime)
+      $("#endTime").val(result.endTime)
+      $("#personalJourneyContent").val(CKEDITOR.instances.personalJourneyContent.setData(result.content));
     }
-    $("#personalJourneyContent").val(CKEDITOR.instances.personalJourneyContent.setData(result.content));
   }
   function update(){
 		//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
