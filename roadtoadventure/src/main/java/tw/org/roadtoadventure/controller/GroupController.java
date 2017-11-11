@@ -2,6 +2,8 @@ package tw.org.roadtoadventure.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +21,11 @@ import net.sf.json.JSONObject;
 import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.form.CreateGroupForm;
 import tw.org.roadtoadventure.form.CreateGroupJourneyForm;
+import tw.org.roadtoadventure.form.UpdateGroupForm;
 import tw.org.roadtoadventure.form.UpdateGroupJourneyForm;
 import tw.org.roadtoadventure.service.GroupJourneyService;
 import tw.org.roadtoadventure.service.GroupService;
+import tw.org.roadtoadventure.service.UserInGroupService;
 import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.utils.PasswordUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
@@ -33,17 +37,19 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 	@Autowired
+	private UserInGroupService userInGroupService;
+	@Autowired
 	private GroupJourneyService groupJourneyService;
 
 	private String dir = "/group";
 	private String subDir =  dir+"/journey";
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
-	private boolean isGroupUrlCorrect(Integer pathValue) {
+	private boolean isGroupUrlCorrect(Integer pathValue) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		GroupBean groupBean = new GroupBean(pathValue);
 		groupBean.setUserId(user.getUserId());
-		List<GroupBean> gbList = groupService.readByParameter(groupBean);
+		List<GroupBean> gbList = userInGroupService.readByParameter(groupBean);
 		if(gbList.size()==1) {
 			if(gbList.get(0).getStatus()=='1') {
 				return true;
@@ -69,7 +75,7 @@ public class GroupController {
 		return new ModelAndView(dir+"/index");
 	}
 	//	車隊新增頁面
-	@PreAuthorize("hasAnyRole('admin','P01')")
+	@PreAuthorize("hasAnyRole('admin','G01')")
 	@RequestMapping("/New")
 	public ModelAndView newGroupPage() {
 		return new ModelAndView(dir+"/createGroup");
@@ -82,7 +88,7 @@ public class GroupController {
 		JSONObject o = new JSONObject();
 		try {
 			JSONArray array =new JSONArray();
-			for(GroupBean gb :groupService.readAll()) {
+			for(GroupBean gb :userInGroupService.readAllByUserId()) {
 				JSONObject arrayObj = new JSONObject();
 				arrayObj.put("userId", gb.getUserId());
 				arrayObj.put("groupId", gb.getGroupId());
@@ -103,14 +109,61 @@ public class GroupController {
 		}
 		return mav;
 	}
+	@PreAuthorize("hasAnyRole('admin','G04')")
+	@RequestMapping(value= "/{groupId}/Edit" , produces = "application/json;charset=UTF-8")
+	public ModelAndView groupEditPage(@PathVariable Integer groupId) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			ModelAndView mav = new ModelAndView(dir+"/updateGroup");
+			JSONObject o = new JSONObject();
+			try {
+				GroupBean gb =groupService.readByGroupId(groupId);
+				o.put("userId", gb.getUserId());
+				o.put("groupId", gb.getGroupId());
+				o.put("status", String.valueOf(gb.getStatus()));
+				o.put("groupDescription", gb.getGroupDescription());
+				o.put("groupName", gb.getGroupName());
+				o.put("groupPicture", gb.getGroupPicture());
+				o.put("success", "1");
+				mav.addObject("group" ,o.toString());
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+
+			}
+			return mav;
+		}
+		return null;
+
+	}
+	@PreAuthorize("hasAnyRole('admin','G34')")
+	@RequestMapping(value= "/{groupId}/Update" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String groupUpdate(@PathVariable Integer groupId,UpdateGroupForm updateGroupForm) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				groupService.update(updateGroupForm);;
+				o.put("success", "1");
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
+		}
+		return null;
+
+	}
 	//	團隊搜尋
+	@PreAuthorize("hasAnyRole('admin','G12')")
 	@RequestMapping(value= "/ReadByParameter" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readByParameter(GroupBean groupBean) {
 		JSONObject o = new JSONObject();
 		try {
 			JSONArray array =new JSONArray();
 			groupBean.setSearchType("like");
-			List<GroupBean> gbList = groupService.readByParameter(groupBean);
+			List<GroupBean> gbList = userInGroupService.readByParameter(groupBean);
 			if(gbList.size()>0) {
 				for(GroupBean gb :gbList) {
 					if(gb.getStatus()!='1') {
@@ -136,7 +189,79 @@ public class GroupController {
 			return o.toString();
 		}
 	}
+	@RequestMapping(value= "{groupId}/User/ReadAll" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String readAllMember(@PathVariable int groupId,GroupBean groupBean) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				JSONArray array =new JSONArray();
+				List<GroupBean> gbList = userInGroupService.readByParameter(new GroupBean(groupId));
+				if(gbList.size()>0) {
+					for(GroupBean gb :gbList) {
+						JSONObject arrayObj = new JSONObject();
+						arrayObj.put("userId", gb.getUserId());
+						arrayObj.put("userName", gb.getUserName());
+						arrayObj.put("userPicture", gb.getUserPicture());
+						arrayObj.put("status", String.valueOf(gb.getStatus()));
+						array.add(arrayObj);
+					}
+					o.put("success", "1");
+					o.put("userArray", array);
+				}else {
+					o.put("success", "0");
+					o.put("message", "搜尋出0筆資料。");
+				}
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
+
+		}
+		return null;
+	}
+	@RequestMapping(value= "{groupId}/Update/Friend/Accept" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String updateFriendAccept(@PathVariable int groupId,@RequestParam String userId) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				GroupBean gb = new GroupBean();
+				gb.setStatus('1');
+				gb.setGroupId(groupId);
+				gb.setUserId(userId);
+				userInGroupService.update(gb);
+				o.put("success", "1");
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				ex.printStackTrace();
+				return o.toString();
+			}
+
+		}
+		return null;
+	}
+	@RequestMapping(value= "{groupId}/Update/Friend/Delete" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String updateFriendDelete(@PathVariable int groupId,@RequestParam String userId) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				userInGroupService.delete(userId , groupId);
+				o.put("success", "1");
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				ex.printStackTrace();
+				return o.toString();
+			}
+			
+		}
+		return null;
+	}
 	//	新增加入車隊
+	@PreAuthorize("hasAnyRole('admin','G22')")
 	@RequestMapping(value = "/Create/Join")
 	public @ResponseBody String join(@RequestParam int groupId) {
 		JSONObject o = new JSONObject();
@@ -145,7 +270,7 @@ public class GroupController {
 			gb.setStatus('0');
 			gb.setGroupId(groupId);
 			gb.setGroupRoleId("2");
-			groupService.update(gb);
+			userInGroupService.create(gb);
 			o.put("success", "1");
 			return o.toString();
 		}catch(Exception ex) {
@@ -180,15 +305,22 @@ public class GroupController {
 		ModelAndView mav = new ModelAndView(dir+"/readAllGroup");
 		JSONObject o = new JSONObject();
 		try {
+			List<GroupBean> gbList =  groupService.readAll();
+			List<GroupBean> userList = userInGroupService.readAllByUserId();
+			Map <Integer , GroupBean>  map = new TreeMap<>();
+			for(GroupBean gb : userList) {
+				map.put(gb.getGroupId(), gb);
+			}
 			JSONArray array =new JSONArray();
-			for(GroupBean gb :groupService.readAllWithoutUserId()) {
-				JSONObject arrayObj = new JSONObject();
-				arrayObj.put("userId", gb.getUserId());
-				arrayObj.put("groupId", gb.getGroupId());
-				arrayObj.put("groupName", gb.getGroupName());
-				arrayObj.put("groupPicture", gb.getGroupPicture());
-				array.add(arrayObj);
-
+			for(GroupBean gb :gbList) {
+				if(!map.containsKey(gb.getGroupId())) {
+					JSONObject arrayObj = new JSONObject();
+					arrayObj.put("userId", gb.getUserId());
+					arrayObj.put("groupId", gb.getGroupId());
+					arrayObj.put("groupName", gb.getGroupName());
+					arrayObj.put("groupPicture", gb.getGroupPicture());
+					array.add(arrayObj);
+				}
 			}
 			o.put("success", "1");
 			o.put("groupArray", array);
@@ -204,7 +336,7 @@ public class GroupController {
 
 	//	車隊歷程頁面
 	@RequestMapping(value = "/{id}/Journey" , produces = "application/json;charset=UTF-8")
-	public ModelAndView jorneyIndexPage(@PathVariable int id ) {
+	public ModelAndView jorneyIndexPage(@PathVariable int id ) throws Exception {
 		if(isGroupUrlCorrect(id)) {
 			return new ModelAndView(subDir+"/index","groupId",id);
 		}
@@ -213,7 +345,7 @@ public class GroupController {
 
 	//	歷程 新增頁面
 	@RequestMapping("/{id}/Journey/New")
-	public ModelAndView newJourneyPage(@PathVariable int id ) {
+	public ModelAndView newJourneyPage(@PathVariable int id ) throws Exception {
 		if(isGroupUrlCorrect(id)) {
 			return new ModelAndView(subDir+"/createJourney","groupId",id);
 		}
@@ -237,7 +369,7 @@ public class GroupController {
 
 	//	歷程讀取
 	@RequestMapping(value= "/{id}/Journey/ReadAll" , produces = "application/json;charset=UTF-8")
-	public ModelAndView groupJourneyPage(@PathVariable int id) {
+	public ModelAndView groupJourneyPage(@PathVariable int id) throws Exception {
 		if(isGroupUrlCorrect(id)) {
 			ModelAndView mav = new ModelAndView(subDir+"/readAllJourney");
 			JSONObject o = new JSONObject();
@@ -345,7 +477,7 @@ public class GroupController {
 	}
 	//	歷程編輯  修改
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
-	public @ResponseBody String groupEditGroup(@PathVariable int groupId , @PathVariable int journeyId ,UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
+	public @ResponseBody String journeyUpdate(@PathVariable int groupId , @PathVariable int journeyId ,UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
 			JSONObject o = new JSONObject();
 			try {

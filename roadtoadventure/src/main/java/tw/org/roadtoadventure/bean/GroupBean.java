@@ -15,6 +15,8 @@ public class GroupBean {
 	private String groupDescription;
 //	UserInGroup
 	private String userId;
+	private String userName;
+	private String userPicture;
 //	Journey
 	private Integer groupJourneyId;
 	private String groupJourneyName;
@@ -166,6 +168,18 @@ public class GroupBean {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserPicture() {
+		return userPicture;
+	}
+	public void setUserPicture(String userPicture) {
+		this.userPicture = userPicture;
 	}
 	
 	

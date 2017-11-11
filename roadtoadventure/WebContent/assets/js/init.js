@@ -78,12 +78,8 @@ function imageUpload(id , path ,callback){
     fileElementId:id,
     dataType: 'text/html;charset=UTF-8',
     success: function (data)  {
-      var result = JSON.parse(data)
-      if(result.success=="1"){
-        callback(result.image);
-      }else{
-    	alert(result.message);
-      }
+      var result = jsonFmt(data)
+      callback(result);
     }
   });
 }
