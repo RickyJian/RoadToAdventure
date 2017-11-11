@@ -9,12 +9,10 @@ public interface GroupService {
 
 	public void create(GroupBean groupBean) throws Exception;
 	
-	public void update(GroupBean groupBean) throws Exception;
-	
-	public List<GroupBean> readAllByUserId() throws Exception;
-	
 	public List<GroupBean> readAll() throws Exception;
 	
-	public List<GroupBean> readByParameter(GroupBean groupBean);
+	public void update(GroupBean groupBean) throws Exception;
+	
+	public GroupBean readByGroupId(Integer groupId) throws Exception;
 	
 }

@@ -19,8 +19,9 @@ import net.sf.json.JSONObject;
 @RequestMapping("/File")
 public class FileUploadController {
 	
-	@RequestMapping(value = "/UploadImg" , method = RequestMethod.POST)
+	@RequestMapping(value = "/UploadImg"  , method = RequestMethod.POST)
 	public @ResponseBody String uploadImg (@RequestParam MultipartFile[] uploadImage){
+//		error code 0 : 未選擇封面圖片 ; code 1 : 圖片格式錯誤，請選擇JPG或PNG格式。 ; 
 		JSONObject o = new JSONObject();
 		try{
 			if(uploadImage.length>0&&uploadImage[0].getSize()>0){//檢查檔案是否上傳
@@ -58,23 +59,23 @@ public class FileUploadController {
 					return o.toString();
 				}else{
 					o.put("success", "0");
-					o.put("message", "圖片格式錯誤，請選擇JPG或PNG格式。");
+					o.put("code", "1");
 					return o.toString();
 				}
 
 			}else{
 				o.put("success", "0");
-				o.put("message", "未選擇封面圖片");
+				o.put("code", "0");
 				return o.toString();
 			}
 		}catch(IllegalArgumentException ex){
 			o.put("success", "0");
-			o.put("message", "圖片格式錯誤，請選擇JPG或PNG格式。");
+			o.put("code", "1");
 			return o.toString();
 		}catch(Exception e){
 			e.printStackTrace();
 			o.put("success", "0");
-			o.put("message", "未選擇封面圖片");
+			o.put("code", "0");
 			return o.toString();
 		}
 	}

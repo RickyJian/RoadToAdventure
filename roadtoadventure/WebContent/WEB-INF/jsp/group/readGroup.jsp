@@ -19,9 +19,28 @@
     <div class="container">
       <div class="section">
         <br><br><br>
-        <div id ="cardDiv">
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s6"><a class="active" href="#status1">群組</a></li>
+            <li class="tab col s6"><a href="#status0">待審核</a></li>
+          </ul>
         </div>
-	    <br><br><br>
+        <div id="status1" class="col s12">
+          <div class="section">
+            <div id ="cardDiv1">
+            </div>
+	        <br><br><br>
+          </div>        
+        </div>
+        <div id="status0" class="col s12">
+          <div class="section">
+            <div id ="cardDiv0">
+            </div>
+	        <br><br><br>
+          </div>          
+        </div>
+      </div>  
       </div>
       <div class = "section">
         <div class = "row">
@@ -38,6 +57,7 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
+  var countArr = [0,0];
   $(function(){
     appendCards();
   })
@@ -51,7 +71,23 @@
 		var name = result.groupArray[i].groupName
 		var status = result.groupArray[i].status
 		var description = result.groupArray[i].groupDescription
-        if(i%3==0){
+	    switch (status){
+	    case "0":
+	      countArr[0]++;
+	      apendCardHTML(countArr[0] , image , name , description , status , id , "cardDiv0",html)
+		  break;
+	    case "1":
+	      countArr[1]++;
+	      apendCardHTML(countArr[1] , image , name , description , status , id , "cardDiv1",html)
+		  break;
+	    }
+	  }
+	}else{
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+	}
+  }
+  function apendCardHTML(i , image , name , description , status , groupId , divId , html){
+      if(i%3==0){
           html += "<div class =\"row\">"
         }
         html += "<div class=\"col s4\">"
@@ -64,9 +100,11 @@
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
-	      html += "<a class=\"waves-effect waves-light btn\"onclick= \"redirectPage('"+id+"')\" >進入</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','read')\" >進入</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >管理</a>"
 	    }else{
-	      html += "<span class = \"red-text text-lighten-1\">待車隊管理員審核</span>"
+		    
+	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >待車隊管理員審核</a>"
  		}
 	    html += "</div>"
 	    html += "<div class=\"card-reveal\">"
@@ -79,14 +117,19 @@
         if(i%3==2){
           html += "</div>"
         }
+	    $("#"+divId).append(html)
       }
-      $("#cardDiv").append(html)
-	}else{
-		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
-	}
-  }
-  function redirectPage(id){
-    window.location = "${pageContext.request.contextPath}/Group/"+id+"/Journey"
+  function redirectPage(id,type){
+	var path = "${pageContext.request.contextPath}/Group/"+id+""
+    switch (type){
+    case "edit" :
+      path += "/Edit"
+    break;
+    case "read" :
+      path += "/Journey"
+    break;
+    }
+    window.location =path
   }
   </script>
 

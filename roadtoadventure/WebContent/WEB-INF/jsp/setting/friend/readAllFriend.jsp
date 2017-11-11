@@ -96,7 +96,6 @@
 		var friendId = result.array[i].friendId
 		var name = result.array[i].name
 		var status = result.array[i].status
-	    console.log(status)
 	    switch (status){
 	    case "0":
 	    	countArr[0]++;

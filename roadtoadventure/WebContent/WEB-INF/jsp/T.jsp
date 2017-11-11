@@ -28,8 +28,8 @@
   </div>
 
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
-
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
