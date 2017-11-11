@@ -173,22 +173,22 @@ public class GroupController {
 	}
 
 	//	車隊搜尋頁面
+	@PreAuthorize("hasAnyRole('admin','G02')")
 	@RequestMapping(value= "/ReadAll" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupReadAllPage() {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView mav = new ModelAndView(dir+"/readAllGroup");
 		JSONObject o = new JSONObject();
 		try {
 			JSONArray array =new JSONArray();
-			for(GroupBean gb :groupService.readAll()) {
+			for(GroupBean gb :groupService.readAllWithoutUserId()) {
 				JSONObject arrayObj = new JSONObject();
-				//				自己的車隊不搜尋出來
-				if(gb.getStatus()!='1') {
-					arrayObj.put("userId", gb.getUserId());
-					arrayObj.put("groupId", gb.getGroupId());
-					arrayObj.put("groupName", gb.getGroupName());
-					arrayObj.put("groupPicture", gb.getGroupPicture());
-					array.add(arrayObj);
-				}
+				arrayObj.put("userId", gb.getUserId());
+				arrayObj.put("groupId", gb.getGroupId());
+				arrayObj.put("groupName", gb.getGroupName());
+				arrayObj.put("groupPicture", gb.getGroupPicture());
+				array.add(arrayObj);
+
 			}
 			o.put("success", "1");
 			o.put("groupArray", array);
@@ -297,7 +297,7 @@ public class GroupController {
 				o.put("success", "0");
 				o.put("message", "路程搜尋失敗。");
 				ex.printStackTrace();
-				
+
 			}
 			return mav;
 		}
@@ -320,9 +320,9 @@ public class GroupController {
 					content = gb.getGroupJourneyContent();
 					arrayObj.put("location",gb.getLocation());
 					arrayObj.put("detailId", gb.getGroupJourneyDetailId());
-//					arrayObj.put("overviewPolyline", gb.getOverviewPolyline());
-//					arrayObj.put("beginDate", sdf.format(gb.getBeginDate()));
-//					arrayObj.put("endDate", sdf.format(gb.getEndDate()));
+					//					arrayObj.put("overviewPolyline", gb.getOverviewPolyline());
+					//					arrayObj.put("beginDate", sdf.format(gb.getBeginDate()));
+					//					arrayObj.put("endDate", sdf.format(gb.getEndDate()));
 					array.add(arrayObj);
 				}
 				op =op.replaceAll("\\\\", "\\\\\\\\");
@@ -337,7 +337,7 @@ public class GroupController {
 				o.put("success", "0");
 				o.put("message", "路程搜尋失敗。");
 				ex.printStackTrace();
-				
+
 			}
 			return mav;
 		}

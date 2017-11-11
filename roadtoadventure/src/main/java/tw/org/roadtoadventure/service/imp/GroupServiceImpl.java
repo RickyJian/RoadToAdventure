@@ -125,4 +125,21 @@ public class GroupServiceImpl implements GroupService {
 		userInGroupDAO.merge(userInGroup);
 	}
 
+	@Override
+	public List<GroupBean> readAllWithoutUserId() throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<GroupBean> gbList = new ArrayList<GroupBean>();
+		List<UserInGroup> uigList = userInGroupDAO.readAllWithoutUserId(user.getUserId());
+		for(UserInGroup uig :uigList) {
+			GroupBean gb = new GroupBean();
+			gb.setUserId(uig.getId().getUserId());
+			gb.setGroupId(uig.getId().getGroupId());
+			gb.setGroupName(uig.getGroup().getGroupName());
+			gb.setGroupPicture(uig.getGroup().getGroupPicture());
+			gb.setCreateDate(uig.getGroup().getCreateDate());
+			gbList.add(gb);
+		}
+		return gbList;
+	}
+
 }

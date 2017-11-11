@@ -56,6 +56,15 @@ public class UserInGroupDAOImpl extends BaseDAOImpl<UserInGroup> implements User
 		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 
+	@Override
+	public List<UserInGroup> readAllWithoutUserId(String userId) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserInGroup.class);
+		detachedCriteria.createAlias("group", "g");
+		detachedCriteria.createAlias("userAccount", "u");
+		detachedCriteria.add(Restrictions.ne("id.userId", userId));
+		return this.getHibernateTemplate().findByCriteria(detachedCriteria);
+	}
+
 
 
 }

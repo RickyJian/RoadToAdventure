@@ -11,6 +11,8 @@ public interface GroupService {
 	
 	public void update(GroupBean groupBean) throws Exception;
 	
+	public List<GroupBean> readAllWithoutUserId() throws Exception; 
+	
 	public List<GroupBean> readAllByUserId() throws Exception;
 	
 	public List<GroupBean> readAll() throws Exception;
