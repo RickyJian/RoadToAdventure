@@ -33,7 +33,6 @@ import tw.org.roadtoadventure.vo.UserAccount;
 @Controller
 @RequestMapping("/Group")
 public class GroupController {
-
 	@Autowired
 	private GroupService groupService;
 	@Autowired
@@ -68,7 +67,7 @@ public class GroupController {
 		return false;
 	}
 
-	//	團隊首頁
+	//	車隊首頁
 	@PreAuthorize("hasAnyRole('admin','G00')")
 	@RequestMapping("/Group")
 	public ModelAndView groupIndexPage() {
@@ -82,6 +81,7 @@ public class GroupController {
 	}
 
 	//	個人車隊讀取
+	@PreAuthorize("hasAnyRole('admin','G03')")
 	@RequestMapping(value= "/Read" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupReadPage() {
 		ModelAndView mav = new ModelAndView(dir+"/readGroup");
@@ -159,10 +159,12 @@ public class GroupController {
 	@PreAuthorize("hasAnyRole('admin','G12')")
 	@RequestMapping(value= "/ReadByParameter" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readByParameter(GroupBean groupBean) {
+		UserAccount uer  = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JSONObject o = new JSONObject();
 		try {
 			JSONArray array =new JSONArray();
 			groupBean.setSearchType("like");
+			groupBean.setUserId(uer.getUserId());
 			List<GroupBean> gbList = userInGroupService.readByParameter(groupBean);
 			if(gbList.size()>0) {
 				for(GroupBean gb :gbList) {
@@ -189,6 +191,7 @@ public class GroupController {
 			return o.toString();
 		}
 	}
+	@PreAuthorize("hasAnyRole('admin','G14')")
 	@RequestMapping(value= "{groupId}/User/ReadAll" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readAllMember(@PathVariable int groupId,GroupBean groupBean) throws Exception {
 		if(isGroupUrlCorrect(groupId)) {
@@ -222,6 +225,7 @@ public class GroupController {
 		}
 		return null;
 	}
+	@PreAuthorize("hasAnyRole('admin','G35')")
 	@RequestMapping(value= "{groupId}/Update/Friend/Accept" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String updateFriendAccept(@PathVariable int groupId,@RequestParam String userId) throws Exception {
 		if(isGroupUrlCorrect(groupId)) {
@@ -243,6 +247,7 @@ public class GroupController {
 		}
 		return null;
 	}
+	@PreAuthorize("hasAnyRole('admin','G45')")
 	@RequestMapping(value= "{groupId}/Update/Friend/Delete" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String updateFriendDelete(@PathVariable int groupId,@RequestParam String userId) throws Exception {
 		if(isGroupUrlCorrect(groupId)) {
@@ -335,6 +340,7 @@ public class GroupController {
 	}
 
 	//	車隊歷程頁面
+	@PreAuthorize("hasAnyRole('admin','G07')")
 	@RequestMapping(value = "/{id}/Journey" , produces = "application/json;charset=UTF-8")
 	public ModelAndView jorneyIndexPage(@PathVariable int id ) throws Exception {
 		if(isGroupUrlCorrect(id)) {
@@ -344,6 +350,7 @@ public class GroupController {
 	}
 
 	//	歷程 新增頁面
+	@PreAuthorize("hasAnyRole('admin','G08')")
 	@RequestMapping("/{id}/Journey/New")
 	public ModelAndView newJourneyPage(@PathVariable int id ) throws Exception {
 		if(isGroupUrlCorrect(id)) {
@@ -353,6 +360,7 @@ public class GroupController {
 	}
 
 	//	新增歷程
+	@PreAuthorize("hasAnyRole('admin','G28')")
 	@RequestMapping(value = "/{groupId}/Journey/Create", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String createJourney(CreateGroupJourneyForm createGroupJourneyForm) {
 		JSONObject o = new JSONObject();
@@ -368,6 +376,7 @@ public class GroupController {
 	}
 
 	//	歷程讀取
+	@PreAuthorize("hasAnyRole('admin','G09')")
 	@RequestMapping(value= "/{id}/Journey/ReadAll" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupJourneyPage(@PathVariable int id) throws Exception {
 		if(isGroupUrlCorrect(id)) {
@@ -399,6 +408,7 @@ public class GroupController {
 
 	}
 	//	歷程編輯
+	@PreAuthorize("hasAnyRole('admin','G010')")
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
 	public ModelAndView journeyEdit(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
@@ -436,6 +446,7 @@ public class GroupController {
 		return null;
 	}
 	//	歷程詳情
+	@PreAuthorize("hasAnyRole('admin','G19')")
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Read" , produces = "application/json;charset=UTF-8")
 	public ModelAndView journeyReadPage(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
@@ -476,6 +487,7 @@ public class GroupController {
 		return null;
 	}
 	//	歷程編輯  修改
+	@PreAuthorize("hasAnyRole('admin','G310')")
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String journeyUpdate(@PathVariable int groupId , @PathVariable int journeyId ,UpdateGroupJourneyForm updateGroupJourneyForm) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
