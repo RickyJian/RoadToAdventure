@@ -14,23 +14,7 @@
 
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">註冊</a></li>
-        <li><a href="#">登入</a></li>
-        <li><a id="menu" data-activates="slide-out" ><i class="material-icons">menu</i> </a></li>
-      </ul>
-
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">註冊</a></li>
-        <li><a href="#">登入</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
-
-
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
   <div id = "main">
     <div class="container">
       <div class="section">
@@ -76,63 +60,15 @@
           </div>          
         </div>
       </div>      
-      <br><br>
+      <div class = "section">
+        <div class = "row">
+          <br><br><br><br><br><br><br>
+        </div>
+      </div>
     </div>
   </div>
-
-  <footer class="page-footer blue lighten-1">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- leftSlideNav -->
-  <ul id="slide-out" class="side-nav">
-    <li><div class="user-view">
-      <div class="background">
-        <img src="assets/images/office.jpg">
-      </div>
-      <a href="#!user"><img class="circle" src="assets/images/yuna.jpg"></a>
-      <a href="#!name"><span class="white-text name">John Doe</span></a>
-      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    <li><a>個人歷程系統</a></li>
-    <li><a href="#!" class="subheader">路線規劃</a></li>
-    <li><a class="subheader">我的歷程</a></li>
-    <li><a >車隊管理系統</a></li>
-    <li><a href="#!" class="subheader">路線規劃</a></li>
-    <li><a class="subheader">團隊歷程</a></li>
-  </ul>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
@@ -160,7 +96,6 @@
 		var friendId = result.array[i].friendId
 		var name = result.array[i].name
 		var status = result.array[i].status
-	    console.log(status)
 	    switch (status){
 	    case "0":
 	    	countArr[0]++;

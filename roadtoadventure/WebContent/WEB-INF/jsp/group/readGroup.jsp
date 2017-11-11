@@ -14,93 +14,50 @@
 
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">註冊</a></li>
-        <li><a href="#">登入</a></li>
-        <li><a id="menu" data-activates="slide-out" ><i class="material-icons">menu</i> </a></li>
-      </ul>
-
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">註冊</a></li>
-        <li><a href="#">登入</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
-
-
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
   <div id = "main">
     <div class="container">
       <div class="section">
         <br><br><br>
-        <div id ="cardDiv">
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s6"><a class="active" href="#status1">群組</a></li>
+            <li class="tab col s6"><a href="#status0">待審核</a></li>
+          </ul>
         </div>
-	    <br><br><br>
+        <div id="status1" class="col s12">
+          <div class="section">
+            <div id ="cardDiv1">
+            </div>
+	        <br><br><br>
+          </div>        
+        </div>
+        <div id="status0" class="col s12">
+          <div class="section">
+            <div id ="cardDiv0">
+            </div>
+	        <br><br><br>
+          </div>          
+        </div>
+      </div>  
       </div>
+      <div class = "section">
+        <div class = "row">
+          <br><br><br><br><br><br><br>
+        </div>
+      </div>              
       <br><br>
     </div>
   </div>
-
-  <footer class="page-footer blue lighten-1">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- leftSlideNav -->
-  <ul id="slide-out" class="side-nav">
-    <li><div class="user-view">
-      <div class="background">
-        <img src="assets/images/office.jpg">
-      </div>
-      <a href="#!user"><img class="circle" src="assets/images/yuna.jpg"></a>
-      <a href="#!name"><span class="white-text name">John Doe</span></a>
-      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    <li><a>個人歷程系統</a></li>
-    <li><a href="#!" class="subheader">路線規劃</a></li>
-    <li><a class="subheader">我的歷程</a></li>
-    <li><a >車隊管理系統</a></li>
-    <li><a href="#!" class="subheader">路線規劃</a></li>
-    <li><a class="subheader">團隊歷程</a></li>
-  </ul>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
+  var countArr = [0,0];
   $(function(){
     appendCards();
   })
@@ -114,7 +71,23 @@
 		var name = result.groupArray[i].groupName
 		var status = result.groupArray[i].status
 		var description = result.groupArray[i].groupDescription
-        if(i%3==0){
+	    switch (status){
+	    case "0":
+	      countArr[0]++;
+	      apendCardHTML(countArr[0] , image , name , description , status , id , "cardDiv0",html)
+		  break;
+	    case "1":
+	      countArr[1]++;
+	      apendCardHTML(countArr[1] , image , name , description , status , id , "cardDiv1",html)
+		  break;
+	    }
+	  }
+	}else{
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+	}
+  }
+  function apendCardHTML(i , image , name , description , status , groupId , divId , html){
+      if(i%3==0){
           html += "<div class =\"row\">"
         }
         html += "<div class=\"col s4\">"
@@ -127,9 +100,11 @@
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
-	      html += "<a class=\"waves-effect waves-light btn\"onclick= \"redirectPage('"+id+"')\" >進入</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','read')\" >進入</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >管理</a>"
 	    }else{
-	      html += "<span class = \"red-text text-lighten-1\">待車隊管理員審核</span>"
+		    
+	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >待車隊管理員審核</a>"
  		}
 	    html += "</div>"
 	    html += "<div class=\"card-reveal\">"
@@ -142,14 +117,19 @@
         if(i%3==2){
           html += "</div>"
         }
+	    $("#"+divId).append(html)
       }
-      $("#cardDiv").append(html)
-	}else{
-		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
-	}
-  }
-  function redirectPage(id){
-    window.location = "${pageContext.request.contextPath}/Group/"+id+"/Journey"
+  function redirectPage(id,type){
+	var path = "${pageContext.request.contextPath}/Group/"+id+""
+    switch (type){
+    case "edit" :
+      path += "/Edit"
+    break;
+    case "read" :
+      path += "/Journey"
+    break;
+    }
+    window.location =path
   }
   </script>
 

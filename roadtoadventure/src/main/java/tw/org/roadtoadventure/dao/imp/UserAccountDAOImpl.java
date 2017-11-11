@@ -29,6 +29,9 @@ public class UserAccountDAOImpl extends BaseDAOImpl<UserAccount> implements User
 	public List<UserAccount> readByParameter(UserBean userBean) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserAccount.class);
 		if(userBean!=null) {
+			if(userBean.getUserId()!=null) {
+				detachedCriteria.add(Restrictions.eq("userId", userBean.getUserId()));
+			}
 			if(userBean.getUserName()!=null&&!userBean.getUserName().equals("")) {
 				if(userBean.getSearchType().equals("like")) {
 					detachedCriteria.add(Restrictions.like("userName", "%"+userBean.getUserName()+"%"));

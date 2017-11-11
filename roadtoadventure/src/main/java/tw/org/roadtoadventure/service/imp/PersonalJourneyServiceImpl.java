@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import tw.org.roadtoadventure.bean.PersonalBean;
 import tw.org.roadtoadventure.dao.PersonalJourneyDAO;
@@ -66,13 +67,17 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 
 	@Override
 	public List<PersonalBean> readDetailByParameter(PersonalBean personalBean) throws Exception {
-		System.out.println("======"+personalBean.getPersonalJourneyId());
 		List<PersonalJourneyDetail> pjList = personalJourneyDetailDAO.readByParamter(personalBean);
 		List<PersonalBean> pbList = new ArrayList<>();
 		for(PersonalJourneyDetail pjd : pjList) {
 			PersonalBean pb = new PersonalBean();
 			BeanUtility.copyProperties(pjd, pb);
+			pb.setPersonalJourneyName(pjd.getPersonalJourney().getPersonalJourneyName());
+			pb.setBeginDate(pjd.getPersonalJourney().getBeginDate());
+			pb.setEndDate(pjd.getPersonalJourney().getEndDate());
+			pb.setPersonalJourneyName(pjd.getPersonalJourney().getPersonalJourneyName());
 			pb.setLocation(pjd.getLocation());
+			pb.setStatus(pjd.getPersonalJourney().getStatus());
 			pb.setPersonalJourneyContent(pjd.getPersonalJourney().getPersonalJourneyContent());
 			pb.setOverviewPolyline(pjd.getPersonalJourney().getOverviewPolyline());
 			pbList.add(pb);
@@ -80,6 +85,7 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 		return pbList;
 	}
 
+	@Transactional
 	@Override
 	public void update(PersonalBean personalBean) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -102,6 +108,9 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 		}
 		PersonalJourney personalJourney = personalJourneyDAO.getById(personalBean.getPersonalJourneyId());
 		personalJourney.setPersonalJourneyContent(personalBean.getPersonalJourneyContent());
+		personalJourney.setStatus(personalBean.getStatus());
+		personalJourney.setBeginDate(personalBean.getBeginDate());
+		personalJourney.setEndDate(personalBean.getEndDate());
 		personalJourney.setOverviewPolyline(personalBean.getOverviewPolyline());
 		personalJourney.setModifyDate(new Date());
 		personalJourney.setUserAccountByModifyId(user);

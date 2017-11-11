@@ -12,6 +12,15 @@ function deletePre(data) {
   var result = data;
   return result;
 }
+
+function jsonFmt(val){
+  	if(typeof val==="object"){
+  	  return val
+  	}else{
+  		return JSON.parse(val)
+  	}
+}
+
 (function($){
   $(function(){
 
@@ -69,12 +78,22 @@ function imageUpload(id , path ,callback){
     fileElementId:id,
     dataType: 'text/html;charset=UTF-8',
     success: function (data)  {
-      var result = JSON.parse(data)
-      if(result.success=="1"){
-        callback(result.image);
-      }else{
-    	alert(result.message);
-      }
+      var result = jsonFmt(data)
+      callback(result);
     }
   });
+}
+
+function block (id){
+  $("#"+id).block({ css: { 
+      border: 'none', 
+      padding: '15px', 
+      backgroundColor: 'rgba(0, 0, 0, 0)', 
+      '-webkit-border-radius': '10px', 
+      '-moz-border-radius': '10px', 
+      //opacity: .2, 
+      color: '#fff' 
+      },
+      message: $("#preDiv")
+    })
 }

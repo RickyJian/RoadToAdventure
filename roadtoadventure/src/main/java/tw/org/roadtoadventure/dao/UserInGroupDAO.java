@@ -12,6 +12,8 @@ public interface UserInGroupDAO extends BaseDAO<UserInGroup> {
 	
 	public List<UserInGroup> readAllWithJoin();
 	
+	public List<UserInGroup> readAllWithoutUserId(String userId);
+	
 	public List<UserInGroup> readByParameter(GroupBean groupBean);
 	
 }

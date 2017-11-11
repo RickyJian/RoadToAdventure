@@ -13,30 +13,7 @@
 
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container">
-      <a class="brand-logo" href="#" id="logo-container">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li>
-          <a href="#">註冊</a>
-        </li>
-        <li>
-          <a href="#">登入</a>
-        </li>
-        <li>
-          <a data-activates="slide-out" id="menu"><i class="material-icons">menu</i></a>
-        </li>
-      </ul>
-      <ul class="side-nav" id="nav-mobile">
-        <li>
-          <a href="#">註冊</a>
-        </li>
-        <li>
-          <a href="#">登入</a>
-        </li>
-      </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
   <div id="main">
     <div class="container">
       <div class="section">
@@ -46,27 +23,27 @@
           <form class="col s12" id="signUpForm" name="signUpForm">
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userId" name="userId" type="text"> <label for="userId">帳號</label>
+                <input class="validate" id="userId" name="userId" type="text" data-length="20" onblur = "isUserIdCorrect($(this).val())"> <label for="userId">帳號</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="userName" name="userName" type="text"> <label for="uerName">名稱</label>
+                <input class="validate" id="userName" name="userName" type="text" data-length="50"> <label for="uerName">名稱</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="password" name="password" type="password"> <label for="password">密碼</label>
+                <input class="validate" id="password" name="password" type="password" data-length="20"> <label for="password">密碼</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="checkPassword" name="checkPassword" type="password"> <label for="checkPassword">確認密碼</label>
+                <input class="validate" id="checkPassword" name="checkPassword" type="password" data-length="20"> <label for="checkPassword">確認密碼</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input class="validate" id="email" name="email" type="email"> <label for="email">email</label>
+                <input class="validate" id="email" name="email" type="email" data-length="50" > <label for="email">email</label>
               </div>
             </div>
             <div class="row">
@@ -91,94 +68,80 @@
             </div>
           </div>
         </div>
-      </div><br>
-      <br>
+      </div>
+      <div class = "section">
+        <div class = "row">
+          <br><br><br><br><br><br><br>
+        </div>
+      </div>
     </div>
   </div>
-  <footer class="page-footer blue lighten-1">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li>
-              <a class="white-text" href="#!">Link 1</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 2</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 3</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 4</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li>
-              <a class="white-text" href="#!">Link 1</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 2</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 3</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 4</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-        Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer><!-- leftSlideNav -->
-  <ul class="side-nav" id="slide-out">
-    <li>
-      <div class="user-view">
-        <div class="background"><img src="assets/images/office.jpg"></div><a href="#!user"><img class="circle" src="assets/images/yuna.jpg"></a> <a href="#!name"><span class="white-text name">John Doe</span></a> <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-      </div>
-    </li>
-    <li>
-      <a>個人歷程系統</a>
-    </li>
-    <li>
-      <a class="subheader" href="#!">路線規劃</a>
-    </li>
-    <li>
-      <a class="subheader">我的歷程</a>
-    </li>
-    <li>
-      <a>車隊管理系統</a>
-    </li>
-    <li>
-      <a class="subheader" href="#!">路線規劃</a>
-    </li>
-    <li>
-      <a class="subheader">團隊歷程</a>
-    </li>
-  </ul>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
+
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
+
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/jquery.validate.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
+  var check = false;
+  $(function(){
+	  formValidate()
+  })
+  function formValidate(){
+    $("#signUpForm").validate({
+	  rules: {
+	    userId: {
+	      required: true,
+	      minlength: 5,
+	      maxlength: 20
+	    },
+	    userName: {
+		  required: true,
+		  minlength: 1,
+		  maxlength: 50
+	    },
+	    password: {
+	 	  required: true,
+	 	  minlength: 8,
+	 	  maxlength: 20
+	 	},
+	 	checkPassword: {
+	 	  required: true,
+	 	  minlength: 8,
+	 	  maxlength: 20,
+	 	  equalTo: "#password"
+	 	},
+	 	email: {
+            required: true,
+            email:true,
+            maxlength:50
+        }
+	  },
+	  errorElement : 'div',
+	  errorPlacement: function(error, element) {
+	    var placement = $(element).data('error');
+	    if (placement) {
+	      $(placement).append(error)
+	    } else {
+	      error.insertAfter(element);
+	    }
+	  }
+	});	
+  }
   function signUp (){
-	$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+	if($("#signUpForm").valid()){
+	  if(!check){
+		Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 請檢查帳戶是否驗證成功", 5000)
+		return;
+	  }
+	block("main")
 	$.ajax({
 	  type: "POST",
 	  datatype:"json",
@@ -186,10 +149,10 @@
 	  url:  "${pageContext.request.contextPath}/User/SignUp/Create",
 	  async: false ,
 	  success: function(data){
-		var result = JSON.parse(data)
+		var result = jsonFmt(data)
         if(result.success=="1"){
         	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-	           window.location="${pageContext.request.contextPath}/Index"
+	           window.location="${pageContext.request.contextPath}/"
              })
         }else{
 	      $("#main").unblock()
@@ -197,6 +160,33 @@
         }
 	  }
 	});	  
+
+    }
+  }
+  function isUserIdCorrect (userId){
+	if(userId!=""){
+	  $.ajax({
+	    type: "POST",
+	    datatype:"json",
+	    data:{"userId":userId},
+	    url:  "${pageContext.request.contextPath}/User/Read/IsUserIdCorrect",
+	    async: false ,
+	    success: function(data){
+		  var result = jsonFmt(data)
+	      if(result.success=="1"){
+	    	if(result.isEmpty){
+		      check = true;
+	          Materialize.toast("<i class = \"material-icons\">check</i>&nbsp;帳號驗證成功。", 3000) 			  
+		    }else{
+		      check = false;
+	          Materialize.toast("<i class = \"material-icons\">clear</i>&nbsp;帳號已申請過，請更換帳號。", 3000) 			  
+			}
+	      }else{
+		    check = false;
+		  }
+	    }
+	  });	 
+    }  
   }
   </script>
 

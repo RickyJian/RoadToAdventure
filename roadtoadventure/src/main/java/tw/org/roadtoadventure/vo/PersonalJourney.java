@@ -34,6 +34,7 @@ public class PersonalJourney implements java.io.Serializable {
 	private String overviewPolyline;
 	private Date beginDate;
 	private Date endDate;
+	private char status;
 	private Set<PersonalJourneyDetail> personalJourneyDetails = new HashSet<PersonalJourneyDetail>(0);
 
 	public PersonalJourney() {
@@ -106,6 +107,14 @@ public class PersonalJourney implements java.io.Serializable {
 
 	public void setPersonalJourneyContent(String personalJourneyContent) {
 		this.personalJourneyContent = personalJourneyContent;
+	}
+	@Column(name = "Status", nullable = false, length = 1)
+	public char getStatus() {
+		return status;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

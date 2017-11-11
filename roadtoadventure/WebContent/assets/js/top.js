@@ -1,0 +1,11 @@
+var topHTML ="<nav class=\"light-blue lighten-1\" role=\"navigation\">"
+	      +"<div class=\"nav-wrapper container\"><a id=\"logo-container\" href=\""+contextPath+"/\" class=\"brand-logo\">Logo</a>"
+	        +"<ul class=\"right hide-on-med-and-down\">"
+	          +"<li><a href=\""+contextPath+"/SignUp\">註冊</a></li>"
+	          +"<li><a href=\""+contextPath+"/Login\">登入</a></li>"
+	          +"<li><a href=\""+contextPath+"/j_spring_security_logout.jsp\">登出</a></li>"
+	          +"<li><a id=\"menu\" data-activates=\"slide-out\" ><i class=\"material-icons\">menu</i></a></li>"
+	        +"</ul>"
+	     +"</div>"
+	   +"</nav>" 
+document.write(topHTML)

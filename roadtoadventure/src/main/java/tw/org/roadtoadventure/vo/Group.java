@@ -32,6 +32,7 @@ public class Group implements java.io.Serializable {
 	private String groupDescription;
 	private Date createDate;
 	private Date modifyDate;
+	private char status;
 	private Set<GroupJourney> groupJourneys = new HashSet<GroupJourney>(0);
 	private Set<UserInGroup> userInGroups = new HashSet<UserInGroup>(0);
 
@@ -116,6 +117,15 @@ public class Group implements java.io.Serializable {
 
 	public void setGroupPicture(String groupPicture) {
 		this.groupPicture = groupPicture;
+	}
+	
+	@Column(name = "Status", nullable = false, length = 1)
+	public char getStatus() {
+		return status;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
