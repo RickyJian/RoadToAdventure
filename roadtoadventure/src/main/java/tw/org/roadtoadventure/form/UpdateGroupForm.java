@@ -38,7 +38,7 @@ public class UpdateGroupForm extends GroupBean {
 	@Override
 	public void setGroupPicture(String groupPicture) {
 		// TODO Auto-generated method stub
-		super.setGroupPicture(groupPicture);
+		super.setGroupPicture(groupPicture.trim());
 	}
 
 }

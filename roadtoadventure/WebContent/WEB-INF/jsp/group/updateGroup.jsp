@@ -19,56 +19,78 @@
   <div id="main">
     <div class="container">
       <div class="section">
+          <br><br>
         <div class="row">
-          <br>
-          <br>
-          <form class="col s12" id="groupForm" name="groupForm">
-            <div class ="row col s2 offset-s10">
-  			  <div class="switch">
-    			<label>
-    			    停用
-  				  <input id= "status"  type="checkbox" >
-      			  <span class="lever"></span>
-     			   啟用
-    			</label>
-              </div>                
-            </div>          
-            <div class="row">
-              <div class="input-field col s12">
-                <input class="validate" id="groupName" name="groupName" type="text" data-length="50"> <label for="groupName">車隊名稱</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <textarea id="groupDescription" name = "groupDescription" class="materialize-textarea" data-length="100"></textarea>
-                <label for="groupDescription">車隊簡介</label>
-              </div>
-            </div>            
-            <div class="row">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <span>車隊封面上傳</span> <input type="file" id = "uploadImage" name ="uploadImage">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
-              </div>
-              <div>
-                <input id = "pic" type = "hidden" >
-              </div>
-            </div>
-          </form>
-        </div>
-        <div>
-          <div class="row center">
-            <div class="col s6">
-              <a class="waves-effect waves-light btn" onclick="rewrite()">重新輸入</a>
-            </div>
-            <div class="col s6">
-              <a class="waves-effect waves-light btn" onclick="send()">送出</a>
-            </div>
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a href="#info">車隊資訊</a></li>
+              <li class="tab col s4"><a class="active" href="#member">成員</a></li>
+              <li class="tab col s4"><a href="#ready">待審核成員</a></li>
+            </ul>
           </div>
-        </div>           
+          <div id="info" class="col s12">
+          <div class = "row">
+            <form class="col s12" id="groupForm" name="groupForm">
+              <div class ="row col s3 offset-s10">
+  			    <div class="switch">
+    			  <label>
+    			      停用
+  				    <input id= "status"  type="checkbox" >
+      			    <span class="lever"></span>
+     			     啟用
+    			  </label>
+                </div>                
+              </div>          
+              <div class="row">
+                <div class="input-field col s12">
+                  <input class="validate" id="groupName" name="groupName" type="text" data-length="50"> <label for="groupName">車隊名稱</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="groupDescription" name = "groupDescription" class="materialize-textarea" data-length="100"></textarea>
+                  <label for="groupDescription">車隊簡介</label>
+                </div>
+              </div>            
+              <div class="row">
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>車隊封面上傳</span> <input type="file" id = "uploadImage" name ="uploadImage">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                  </div>
+                </div>
+                <div>
+                  <input id = "pic" type = "hidden" >
+                </div>
+              </div>
+            </form>  
+            </div>
+            <div class="row center">
+              <div class="col s6">
+                <a class="waves-effect waves-light btn" onclick="rewrite()">重新輸入</a>
+              </div>
+              <div class="col s6">
+                <a class="waves-effect waves-light btn" onclick="send()">送出</a>
+              </div>
+            </div>       
+          </div>
+          <div id="member" class="col s12">
+            <div class="section">
+              <div id ="cardDiv1">
+              </div>
+	          <br><br><br>
+            </div>        
+          </div>
+          <div id="ready" class="col s12">
+            <div class="section">
+              <div id ="cardDiv0">
+              </div>
+	          <br><br><br>
+            </div>        
+          </div>
+        </div>         
       </div>
       <div class = "section">
         <div class = "row">
@@ -93,10 +115,29 @@
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script type="text/javascript">
   var groupId = "";
+  var countArr = [0,0];
   $(function(){
 	  formValidate()
 	  init()
+	  
   })
+  function searchMember(){
+    $.ajax({
+	  type: "POST",
+	  dataType: 'json',
+	  url:"${pageContext.request.contextPath}/Group/"+groupId+"/User/ReadAll",
+	  async: false ,
+	  success: function(data){
+		console.log(data)
+		var result = jsonFmt(data)
+	    if(result.success =="1"){
+	    	appendCards(result)
+	  	}else{
+	  	    // Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗。", 5000)
+	  	}
+	 }
+   })
+  }
   function init(){
     var result = jsonFmt('${group}') 
     if(result.success == "1"){
@@ -112,6 +153,7 @@
     }else{
 
     }
+    searchMember(result)
   }
   function formValidate(){
     $("#groupForm").validate({
@@ -176,6 +218,55 @@
 	  }
     })
   }
+  function appendCards(result){
+		if(result.success =="1"){
+	      var html = "";
+		  for(var i = 0 ; i < result.userArray.length ; i++){
+			var image = result.userArray[i].userPicture
+			var id = result.userArray[i].userId
+			var name = result.userArray[i].userName
+			var status = result.userArray[i].status
+		    switch (status){
+		    case "0":
+		      countArr[0]++;
+		      apendCardHTML(countArr[0] , image , name  , status , id , "cardDiv0",html)
+			  break;
+		    case "1":
+		      countArr[1]++;
+		      apendCardHTML(countArr[1] , image , name  , status , id , "cardDiv1",html)
+			  break;
+		    }
+		  }
+		}else{
+			Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+		}
+  }
+  function apendCardHTML(i , image , name  , status , userId , divId , html){
+      if(i%3==0){
+          html += "<div class =\"row\">"
+        }
+        html += "<div class=\"col s4\">"
+		html += "<div class=\"card small hoverable\">"
+		html += "<div class=\"card-image \">"
+	    html += "<img class =\"activator\" src=\""+image+"\">"
+	    html += "</div>"
+	    html += "<div class=\"card-content\">"
+	    html += "<span class=\"card-title activator grey-text text-darken-4\">"+name
+	    html += "</div>"
+	    html += "<div class=\"card-action center-align\">"
+	    if(status=="1"){
+          html += "<a class=\"waves-effect waves-light btn  red darken-1 \" onclick =\"deleteFriend('"+userId+"')\" >刪除</a>"
+	    }else{
+	      html += "<a class=\"waves-effect waves-light btn\" onclick =\"accept('"+userId+"')\" >接受</a>"
+ 		}
+	    html += "</div>"
+	    html += "</div>"
+	    html += "</div>"
+        if(i%3==2){
+          html += "</div>"
+        }
+	    $("#"+divId).append(html)
+      }  
   </script>
 
   </body>

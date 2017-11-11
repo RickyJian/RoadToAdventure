@@ -148,7 +148,7 @@ public class GroupController {
 			}
 		}
 		return null;
-		
+
 	}
 	//	團隊搜尋
 	@PreAuthorize("hasAnyRole('admin','G12')")
@@ -183,6 +183,40 @@ public class GroupController {
 			ex.printStackTrace();
 			return o.toString();
 		}
+	}
+	@PreAuthorize("hasAnyRole('admin','G12')")
+	@RequestMapping(value= "{groupId}/User/ReadAll" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String readAllMember(@PathVariable int groupId,GroupBean groupBean) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				JSONArray array =new JSONArray();
+				List<GroupBean> gbList = groupService.readByParameter(new GroupBean(groupId));
+				if(gbList.size()>0) {
+					for(GroupBean gb :gbList) {
+						JSONObject arrayObj = new JSONObject();
+						arrayObj.put("userId", gb.getUserId());
+						arrayObj.put("userName", gb.getUserName());
+						arrayObj.put("userPicture", gb.getUserPicture());
+						arrayObj.put("status", String.valueOf(gb.getStatus()));
+						array.add(arrayObj);
+					}
+					o.put("success", "1");
+					o.put("userArray", array);
+				}else {
+					o.put("success", "0");
+					o.put("message", "搜尋出0筆資料。");
+				}
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
+
+		}
+		return null;
 	}
 	//	新增加入車隊
 	@PreAuthorize("hasAnyRole('admin','G22')")

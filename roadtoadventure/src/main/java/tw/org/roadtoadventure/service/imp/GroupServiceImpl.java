@@ -100,6 +100,8 @@ public class GroupServiceImpl implements GroupService {
 		for(UserInGroup uig :uigList) {
 			GroupBean gb = new GroupBean();
 			gb.setUserId(uig.getId().getUserId());
+			gb.setUserName(uig.getUserAccount().getUserName());
+			gb.setUserPicture(uig.getUserAccount().getUserPicture());
 			gb.setStatus(uig.getStatus());
 			gb.setGroupId(uig.getId().getGroupId());
 			gb.setGroupName(uig.getGroup().getGroupName());
@@ -154,8 +156,12 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void update(GroupBean groupBean) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Group g = groupDAO.getById(groupBean.getGroupId());
 		BeanUtility.copyProperties(groupBean,g);
+		g.setGroupPicture(groupBean.getGroupPicture().trim());
+		g.setModifyDate(new Date());
+		g.setUserAccountByModifyId(user);
 		groupDAO.merge(g);
 	}
 

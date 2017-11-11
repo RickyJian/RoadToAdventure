@@ -19,7 +19,6 @@
     <div class="container">
       <div class="section">
         <br><br><br>
-      </div>
       <div class="row">
         <div class="col s12">
           <ul class="tabs">
@@ -42,6 +41,7 @@
           </div>          
         </div>
       </div>  
+      </div>
       <div class = "section">
         <div class = "row">
           <br><br><br><br><br><br><br>
@@ -101,7 +101,7 @@
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
 	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','read')\" >進入</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >編輯</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >管理</a>"
 	    }else{
 		    
 	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >待車隊管理員審核</a>"
