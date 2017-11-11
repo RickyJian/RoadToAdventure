@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.form.CreateGroupForm;
 import tw.org.roadtoadventure.form.CreateGroupJourneyForm;
+import tw.org.roadtoadventure.form.UpdateGroupForm;
 import tw.org.roadtoadventure.form.UpdateGroupJourneyForm;
 import tw.org.roadtoadventure.service.GroupJourneyService;
 import tw.org.roadtoadventure.service.GroupService;
@@ -103,6 +104,7 @@ public class GroupController {
 		}
 		return mav;
 	}
+	@PreAuthorize("hasAnyRole('admin','G04')")
 	@RequestMapping(value= "/{groupId}/Edit" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupEditPage(@PathVariable Integer groupId) throws Exception {
 		if(isGroupUrlCorrect(groupId)) {
@@ -117,7 +119,6 @@ public class GroupController {
 				o.put("groupName", gb.getGroupName());
 				o.put("groupPicture", gb.getGroupPicture());
 				o.put("success", "1");
-				System.out.println(gb.getGroupDescription());
 				mav.addObject("group" ,o.toString());
 			}catch(Exception ex) {
 				o.put("success", "0");
@@ -129,6 +130,25 @@ public class GroupController {
 		}
 		return null;
 
+	}
+	@PreAuthorize("hasAnyRole('admin','G34')")
+	@RequestMapping(value= "/{groupId}/Update" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String groupUpdate(@PathVariable Integer groupId,UpdateGroupForm updateGroupForm) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				groupService.update(updateGroupForm);;
+				o.put("success", "1");
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
+		}
+		return null;
+		
 	}
 	//	團隊搜尋
 	@PreAuthorize("hasAnyRole('admin','G12')")
@@ -174,7 +194,7 @@ public class GroupController {
 			gb.setStatus('0');
 			gb.setGroupId(groupId);
 			gb.setGroupRoleId("2");
-			groupService.update(gb);
+			groupService.updateFriend(gb);
 			o.put("success", "1");
 			return o.toString();
 		}catch(Exception ex) {

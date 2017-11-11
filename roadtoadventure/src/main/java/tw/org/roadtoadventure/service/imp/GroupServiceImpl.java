@@ -111,7 +111,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void update(GroupBean groupBean) throws Exception {
+	public void updateFriend(GroupBean groupBean) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserInGroup userInGroup = new UserInGroup();
 		BeanUtility.copyProperties(groupBean, userInGroup);
@@ -150,6 +150,13 @@ public class GroupServiceImpl implements GroupService {
 		GroupBean gb= new GroupBean();
 		BeanUtility.copyProperties(g, gb);
 		return gb;
+	}
+
+	@Override
+	public void update(GroupBean groupBean) throws Exception {
+		Group g = groupDAO.getById(groupBean.getGroupId());
+		BeanUtility.copyProperties(groupBean,g);
+		groupDAO.merge(g);
 	}
 
 }

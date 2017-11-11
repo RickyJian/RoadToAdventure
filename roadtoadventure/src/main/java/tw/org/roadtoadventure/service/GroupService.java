@@ -9,6 +9,8 @@ public interface GroupService {
 
 	public void create(GroupBean groupBean) throws Exception;
 	
+	public void updateFriend(GroupBean groupBean) throws Exception;
+	
 	public void update(GroupBean groupBean) throws Exception;
 	
 	public List<GroupBean> readAllWithoutUserId() throws Exception; 

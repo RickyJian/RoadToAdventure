@@ -23,6 +23,16 @@
           <br>
           <br>
           <form class="col s12" id="groupForm" name="groupForm">
+            <div class ="row col s2 offset-s10">
+  			  <div class="switch">
+    			<label>
+    			    停用
+  				  <input id= "status"  type="checkbox" >
+      			  <span class="lever"></span>
+     			   啟用
+    			</label>
+              </div>                
+            </div>          
             <div class="row">
               <div class="input-field col s12">
                 <input class="validate" id="groupName" name="groupName" type="text" data-length="50"> <label for="groupName">車隊名稱</label>
@@ -42,6 +52,9 @@
                 <div class="file-path-wrapper">
                   <input class="file-path validate" type="text">
                 </div>
+              </div>
+              <div>
+                <input id = "pic" type = "hidden" >
               </div>
             </div>
           </form>
@@ -79,16 +92,23 @@
   <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script type="text/javascript">
+  var groupId = "";
   $(function(){
 	  formValidate()
 	  init()
   })
   function init(){
-	  console.log('${group}')
     var result = jsonFmt('${group}') 
     if(result.success == "1"){
       $("#groupName").val(result.groupName)
       $("#groupDescription").val(result.groupDescription)
+      $("#pic").val(result.groupPicture)
+      groupId = result.groupId
+      if(result.status=="1"){
+    	  $('#status').prop('checked',true)
+      }else{
+    	  $('#status').prop('checked',false)
+      }
     }else{
 
     }
@@ -120,24 +140,33 @@
 	if($("#groupForm").valid()){
       block("main")
       imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
-        create(result)
+        if(result.success =="1"){
+          update(result.image)
+        }else{
+          update($("#pic").val())
+        }
       })
 	}
   }
-  function create (value){
+  function update (value){
+	var status = 0
+	if($('#status').prop('checked')){
+	  status = 1;
+	}
     $.ajax({
 	  type: "POST",
 	  dataType: 'json',
 	  data:{
 		  "groupName":$("#groupName").val(),
 		  "groupDescription":$("#groupDescription").val(),
-		  "groupPicture":value
+		  "groupPicture":value,
+		  "status" : status
 	  },
-	  url:"${pageContext.request.contextPath}/Group/Create",
+	  url:"${pageContext.request.contextPath}/Group/"+groupId+"/Update",
       async: false ,
 	  success: function(data){
 		if(data.success =="1"){
-       	  Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;新增成功，自動跳轉管理頁面。", 3000,'',function(){
+       	  Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;更新成功，自動跳轉管理頁面。", 3000,'',function(){
 	           window.location="${pageContext.request.contextPath}/Group/Read"
           })
 	    }else{
