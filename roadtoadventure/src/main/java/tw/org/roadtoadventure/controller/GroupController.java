@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,11 +63,13 @@ public class GroupController {
 	}
 
 	//	團隊首頁
+	@PreAuthorize("hasAnyRole('admin','G00')")
 	@RequestMapping("/Group")
-	public ModelAndView groupIndex() {
+	public ModelAndView groupIndexPage() {
 		return new ModelAndView(dir+"/index");
 	}
 	//	車隊新增頁面
+	@PreAuthorize("hasAnyRole('admin','P01')")
 	@RequestMapping("/New")
 	public ModelAndView newGroupPage() {
 		return new ModelAndView(dir+"/createGroup");
@@ -154,6 +157,7 @@ public class GroupController {
 	}
 
 	//	新增車隊
+	@PreAuthorize("hasAnyRole('admin','G21')")
 	@RequestMapping(value = "/Create")
 	public @ResponseBody String createGroup(CreateGroupForm createGroupForm) {
 		JSONObject o = new JSONObject();

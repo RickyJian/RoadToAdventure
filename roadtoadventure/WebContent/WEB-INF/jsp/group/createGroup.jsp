@@ -15,6 +15,7 @@
 </head>
 <body>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
+  <br><br>
   <div id="main">
     <div class="container">
       <div class="section">
@@ -67,18 +68,50 @@
   </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/jquery.validate.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script type="text/javascript">
+  $(function(){
+	  formValidate()
+  })
+  function formValidate(){
+    $("#groupForm").validate({
+	  rules: {
+	    groupName: {
+	      required: true,
+	      minlength: 5,
+	      maxlength: 20
+	    },
+	    groupDescription: {
+		  maxlength: 100
+	    }
+	  },
+	  errorElement : 'div',
+	  errorPlacement: function(error, element) {
+	    var placement = $(element).data('error');
+	    if (placement) {
+	      $(placement).append(error)
+	    } else {
+	      error.insertAfter(element);
+	    }
+	  }
+	});	
+  }  
   function send(){
-    $("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
-    imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
-      create(result)
-    })
+	if($("#groupForm").valid()){
+      block("main")
+      imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
+        create(result)
+      })
+	}
   }
   function create (value){
     $.ajax({
