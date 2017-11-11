@@ -100,8 +100,8 @@
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
-	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"')\" >進入</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"')\" >編輯</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','read')\" >進入</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >編輯</a>"
 	    }else{
 		    
 	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >待車隊管理員審核</a>"

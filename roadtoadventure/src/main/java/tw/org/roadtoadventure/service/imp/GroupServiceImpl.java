@@ -64,7 +64,9 @@ public class GroupServiceImpl implements GroupService {
 		for(UserInGroup uig :uigList) {
 			GroupBean gb = new GroupBean();
 			gb.setUserId(uig.getId().getUserId());
+			gb.setStatus(uig.getStatus());
 			gb.setGroupId(uig.getId().getGroupId());
+			gb.setGroupDescription(uig.getGroup().getGroupDescription()==null?"":uig.getGroup().getGroupDescription());
 			gb.setGroupName(uig.getGroup().getGroupName());
 			gb.setGroupPicture(uig.getGroup().getGroupPicture());
 			gb.setCreateDate(uig.getGroup().getCreateDate());
@@ -92,7 +94,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<GroupBean> readByParameter(GroupBean groupBean) {
+	public List<GroupBean> readByParameter(GroupBean groupBean) throws Exception {
 		List<GroupBean> gbList = new ArrayList<GroupBean>();
 		List<UserInGroup> uigList = userInGroupDAO.readByParameter(groupBean);
 		for(UserInGroup uig :uigList) {
@@ -140,6 +142,14 @@ public class GroupServiceImpl implements GroupService {
 			gbList.add(gb);
 		}
 		return gbList;
+	}
+
+	@Override
+	public GroupBean readByGroupId(Integer groupId) throws Exception {
+		Group g = groupDAO.getById(groupId);
+		GroupBean gb= new GroupBean();
+		BeanUtility.copyProperties(g, gb);
+		return gb;
 	}
 
 }

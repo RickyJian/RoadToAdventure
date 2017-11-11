@@ -17,6 +17,8 @@ public interface GroupService {
 	
 	public List<GroupBean> readAll() throws Exception;
 	
-	public List<GroupBean> readByParameter(GroupBean groupBean);
+	public List<GroupBean> readByParameter(GroupBean groupBean)throws Exception;
+	
+	public GroupBean readByGroupId(Integer groupId) throws Exception;
 	
 }
