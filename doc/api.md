@@ -73,7 +73,8 @@ request:
 ```json
 {
     "userId": "userId",
-    "password": "password"
+    "password": "password",
+    "fcmToken": "fcmToken"
 }
 ```
 response:
