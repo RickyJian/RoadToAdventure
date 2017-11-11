@@ -106,9 +106,10 @@ public class PersonalJourneyController {
 			return o.toString();
 		}
 	}
-//	歷程編輯
+//	歷程編輯 頁面
+	@PreAuthorize("hasAnyRole('admin','P03')")
 	@RequestMapping(value= "/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
-	public ModelAndView journeyEdit(@PathVariable int journeyId) throws Exception {
+	public ModelAndView journeyEditPage(@PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
 			ModelAndView mav = new ModelAndView(subDir+"/updateJourney");
 			JSONObject o = new JSONObject();
@@ -162,8 +163,9 @@ public class PersonalJourneyController {
 		return null;
 	}	
 	//	歷程編輯  修改
+	@PreAuthorize("hasAnyRole('admin','P33')")
 	@RequestMapping(value= "/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
-	public @ResponseBody String groupEditGroup(@PathVariable int journeyId ,UpdatePersonalJourneyForm updatePersonalJourneyForm) throws Exception {
+	public @ResponseBody String personalEditUpdate(@PathVariable int journeyId ,UpdatePersonalJourneyForm updatePersonalJourneyForm) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
 			JSONObject o = new JSONObject();
 			try {
@@ -189,6 +191,7 @@ public class PersonalJourneyController {
 		return null;
 	}
 	//	歷程詳情
+	@PreAuthorize("hasAnyRole('admin','P04')")
 	@RequestMapping(value= "/Journey/{journeyId}/Read" , produces = "application/json;charset=UTF-8")
 	public ModelAndView journeyReadPage(@PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
