@@ -236,11 +236,27 @@ public class GroupController {
 				return o.toString();
 			}catch(Exception ex) {
 				o.put("success", "0");
-				o.put("message", "搜尋失敗。");
 				ex.printStackTrace();
 				return o.toString();
 			}
 
+		}
+		return null;
+	}
+	@RequestMapping(value= "{groupId}/Update/Friend/Delete" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String updateFriendDelete(@PathVariable int groupId,@RequestParam String userId) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				userInGroupService.delete(userId , groupId);
+				o.put("success", "1");
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				ex.printStackTrace();
+				return o.toString();
+			}
+			
 		}
 		return null;
 	}

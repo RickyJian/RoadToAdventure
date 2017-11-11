@@ -10,7 +10,7 @@ public interface UserInGroupService {
 	
 	public void update(GroupBean groupBean) throws Exception;
 	
-	public void delete(GroupBean groupBean) throws Exception;
+	public void delete(String userId ,Integer groupId) throws Exception;
 	
 //	public List<GroupBean> readAllWithoutUserId() throws Exception; 
 	

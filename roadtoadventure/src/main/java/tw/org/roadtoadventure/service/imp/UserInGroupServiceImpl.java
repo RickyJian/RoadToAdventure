@@ -53,9 +53,12 @@ public class UserInGroupServiceImpl implements UserInGroupService{
 	}
 
 	@Override
-	public void delete(GroupBean groupBean) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void delete(String userId ,Integer groupId) throws Exception {
+		UserInGroupId uigId = new UserInGroupId();
+		uigId.setGroupId(groupId);
+		uigId.setUserId(userId);
+		UserInGroup userInGroup = userInGroupDAO.getById(uigId);
+		userInGroupDAO.delete(userInGroup);
 	}
 	
 //	@Override
