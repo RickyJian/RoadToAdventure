@@ -29,23 +29,67 @@
 </head>
 <body>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
+  <br><br><br>
   <div id="main">
     <div class="container">
       <div class="section">
         <div class="row">
           <div class="col s12">
             <ul class="tabs">
-              <li class="tab col s6">
+              <li class="tab col s4">
+                <a href="#personalJourney">歷程修改</a>
+              </li>
+              <li class="tab col s4">
                 <a class="active" href="#routePlanning">路線規劃</a>
               </li>
-              <li class="tab col s6">
-                <a href="#journey">路程攻略</a>
+              <li class="tab col s4">
+                <a href="#journeyContent">路程攻略</a>
               </li>
             </ul>
           </div>
-          <!-- 
-           -->
+          <div class="col s12" id="personalJourney">
+            <div class ="row">
+              <form class="col s12" id="journeyForm" name="journeyForm">
+                <div class ="row col s3 offset-s9">
+  				  <div class="switch">
+    				<label>
+      				   停用
+      				  <input id= "status"  type="checkbox" >
+      				  <span class="lever"></span>
+     				   啟用
+    			    </label>
+                  </div>                
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input class="validate" id="personalJourneyName" name="personalJourneyName" type="text" data-length="50" readonly> <label for="personalJourneyName">歷程名稱</label>
+                  </div>
+                </div>
+            <div class="row">
+              <div class = "input-field col s6">
+                <input type="text" id = "beginDay" name = "beginDay" class="datepicker">
+                <label for="beginDate">起始日期</label>
+              </div>
+              <div class = "input-field col s6">
+                <input type="text" id = "beginTime"  name = "beginTime" class="timepicker">
+                <label for="beginTime">起始時間</label>
+              </div>
+            </div>            
+            <div class="row">
+              <div class = "input-field col s6">
+                <input type="text" id = "endDay" name = "endDay" class="datepicker">
+                <label for="endDate">結束日期</label>
+              </div>
+              <div class = "input-field col s6">
+                <input type="text" id = "endTime" name = "endTime" class="timepicker">
+                <label for="endTime">結束時間</label>
+              </div>
+            </div>          
+          </form>
+          </div>
+          </div>
           <div class="col s12" id="routePlanning">
+
             <div  name ="wayPoint" class="row ">
               <div class="input-field col s10">
                 <input class="validate" id="start" name="start" type="text"> <label for="start">起點(請輸入起始地點)</label>
@@ -61,11 +105,6 @@
               <div class="input-field col s10">
                 <input class="validate" id="destination" name="destination" type="text"> <label for="destination">終點(請輸入目的地)</label>
               </div>
-              <!-- 
-              <div class="col s2 right-align">
-                <button class="btn waves-effect waves-light btn-large" id="send"  type="button">路線規劃</button>
-              </div>
-               -->
 			</div>
 			<div class = "row col s12" >
                 <a class="col s2 offset-s2 btn waves-effect waves-light btn-small modal-trigger"  href="#modal1">等高線顯示</a>
@@ -74,8 +113,8 @@
 			</div>
             <div class="row" id="map"></div>
           </div>
-          <div class="col s12 row" id="journey">
-            <textarea id = "groupJourneyContent" name = "groupJourneyContent"></textarea>
+          <div class="col s12 row" id="journeyContent">
+            <textarea id = "personalJourneyContent" name = "personalJourneyContent"></textarea>
           </div>
           <div class ="row col s12 center-align">
             <a class="btn waves-effect waves-light btn-large" id="update"  type="submit" onclick="update()">規劃完成</a>
@@ -94,6 +133,7 @@
   </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
   <!-- model  -->
     <div id="modal1" class="modal bottom-sheet">
     <div class="modal-content">
@@ -106,16 +146,52 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/jquery.validate.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>  
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.bundle.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/chart/utils.js"></script>
   <script type="text/javascript">
-  CKEDITOR.replace('groupJourneyContent');
+  CKEDITOR.replace('personalJourneyContent');
   $(function(){
     init()
+    formValidate()
   })
+  function formValidate(){
+    $("#journeyForm").validate({
+	  rules: {
+	    personalJourneyName: {
+	  	required: true,
+	  	minlength: 1,
+	    maxlength: 50
+	  },
+	    beginDay: {
+	      required: true
+	  },
+	    beginTime: {
+	  	  required: true
+	  },
+	    endDay: {
+	  	  required: true
+	  },
+	   endTime: {
+	     required: true
+	  }
+	},
+	errorElement : 'div',
+    errorPlacement: function(error, element) {
+	  var placement = $(element).data('error');
+	  if (placement) {
+	    $(placement).append(error)
+	  } else {
+	    error.insertAfter(element);
+	  }
+	}
+    });	
+  }  
   function init(){
     var result = JSON.parse('${journey}')
     var wpHTML = "<div  name =\"wayPoint\" class=\"row\">"
@@ -149,38 +225,59 @@
         }
         locationArray.push(value.location)
       });
-      console.log(locationArray)
       overviewPolyline = '${overviewPolyline}'
       setTimeout(function(){
-    	  drawPolyline()
-          },5000)
+        drawPolyline()
+      },5000)
+      $("#personalJourneyName").val("${journeyName}")
+      $("#beginDay").val("${beginDay}")
+      $("#endDay").val("${endDay}")
+      $("#beginTime").val("${beginTime}")
+      $("#endTime").val("${endTime}")
+      $("#personalJourneyContent").val(CKEDITOR.instances.personalJourneyContent.setData("${content}"));
+      if(result.status=="1"){
+    	  $('#status').prop('checked',true)
+      }else{
+    	  $('#status').prop('checked',false)
+      }
     }
-    $("#groupJourneyContent").val(CKEDITOR.instances.groupJourneyContent.setData(result.content));
   }
   function update(){
-		//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+	var status = 0
+	if($('#status').prop('checked')){
+	  status = 1;
+	}
+    if($("#journeyForm").valid()){
+		block("main")
 		$.ajax({
 		  type: "POST",
 		  datatype:"json",
 		  data:{	
+			"beginDay": $("#beginDay").val(),
+			"beginTime": $("#beginTime").val(),
+			"endDay": $("#endDay").val(),
+			"endTime": $("#endTime").val(),
+			"status":status,
 		    "locationArrayStr":locationArray.join(),
 		    "overviewPolyline":overviewPolyline,
-		    "personalJourneyContent":CKEDITOR.instances.groupJourneyContent.getData()
+		    "personalJourneyContent":CKEDITOR.instances.personalJourneyContent.getData()
 		  },
 		  url:"${pageContext.request.contextPath}/Personal/Journey/${journeyId}/Update",
 		  async: false ,
 		  success: function(data){
-			var result = JSON.parse(data)
+			var result = jsonFmt(data)
 	        if(result.success=="1"){
-	        	 //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-		         //  window.location="${pageContext.request.contextPath}/Index"
-	             //})
+	        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;更新成功，自動跳轉編輯頁面。", 3000,'',function(){
+		           window.location="${pageContext.request.contextPath}/Personal/ReadAll"
+	             })
 	        }else{
-		      //$("#main").unblock()
-	          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
+	          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 更新失敗，請再試一次。", 5000)
 	        }
+		      $("#main").unblock()
 		  }
 		});	  
+
+    }
   }
   function closeModel(){
 	  $('#modal1').modal('close');

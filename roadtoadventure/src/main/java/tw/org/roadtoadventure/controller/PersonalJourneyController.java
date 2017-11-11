@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterBatchUpdateUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,8 @@ public class PersonalJourneyController {
 	private String dir = "/personal";
 	private String subDir =  dir+"/journey";
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	private SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy/MM/dd");
+	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
 	
 	private boolean isJourneyUrlCorrect(Integer journeyId) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -46,18 +49,21 @@ public class PersonalJourneyController {
 		return false;
 	}
 	
-//	個人歷程首頁
+//	個人歷程系統首頁
+	@PreAuthorize("hasAnyRole('admin','P00')")
 	@RequestMapping(value = "/Personal")
 	public ModelAndView indexPage() {
 		return new ModelAndView(dir+"/index");
 	}
 	
 //	個人歷程新增 頁面
+	@PreAuthorize("hasAnyRole('admin','P01')")
 	@RequestMapping(value = "/New")
 	public ModelAndView newPage() {
 		return new ModelAndView(subDir+"/createJourney");
 	}
-//	個人歷程搜尋 頁面
+//	個人歷程管理 頁面
+	@PreAuthorize("hasAnyRole('admin','P02')")
 	@RequestMapping(value = "/ReadAll")
 	public ModelAndView readAllPage() {
 		ModelAndView mav = new ModelAndView(subDir+"/readAllJourney");
@@ -85,7 +91,8 @@ public class PersonalJourneyController {
 		}
 		return mav;
 	}
-//  新增歷程
+//  個人歷程新增 功能
+	@PreAuthorize("hasAnyRole('admin','P21')")
 	@RequestMapping(value = "/Create")
 	public @ResponseBody String createGroup(CreatePersonalJourneyForm createPersonalJourneyForm) {
 		JSONObject o = new JSONObject();
@@ -99,32 +106,51 @@ public class PersonalJourneyController {
 			return o.toString();
 		}
 	}
-//	歷程編輯
+//	歷程編輯 頁面
+	@PreAuthorize("hasAnyRole('admin','P03')")
 	@RequestMapping(value= "/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
-	public ModelAndView journeyEdit(@PathVariable int journeyId) throws Exception {
+	public ModelAndView journeyEditPage(@PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
 			ModelAndView mav = new ModelAndView(subDir+"/updateJourney");
 			JSONObject o = new JSONObject();
 			try {
 				PersonalBean personalBean =  new PersonalBean();
-				personalBean.setPersonalJourneyDetailId(journeyId);
+				personalBean.setPersonalJourneyId(journeyId);
 				String op = "";
 				String content ="";
+				String beginDay ="";
+				String endDay ="";
+				String beginTime ="";
+				String endTime ="";
+				String journeyName = "";
+				char status = 0 ;
 				JSONArray array =new JSONArray();
 				for(PersonalBean pb : personalJourneyService.readDetailByParameter(personalBean)) {
 					op = pb.getOverviewPolyline();
 					JSONObject arrayObj = new JSONObject();
 					content = pb.getPersonalJourneyContent();
+					beginDay = sdfDay.format(pb.getBeginDate());
+					beginTime = sdfTime.format(pb.getBeginDate());
+					endDay = sdfDay.format(pb.getEndDate());
+					endTime = sdfTime.format(pb.getEndDate());
+					status = pb.getStatus();
+					journeyName = pb.getPersonalJourneyName();
 					arrayObj.put("location",pb.getLocation());
 					arrayObj.put("detailId", pb.getPersonalJourneyDetailId());
 					array.add(arrayObj);
 				}
 				op =op.replaceAll("\\\\", "\\\\\\\\");
 				o.put("array", array);
+				o.put("status", String.valueOf(status));
 				o.put("success", "1");
-				o.put("journeyId ", journeyId);
-				o.put("content", content);
+				o.put("journeyId", journeyId);
+				mav.addObject("beginDay", beginDay);
+				mav.addObject("beginTime", beginTime);
+				mav.addObject("endDay", endDay);
+				mav.addObject("journeyName", journeyName);
+				mav.addObject("endTime", endTime);
 				mav.addObject("journey" ,o.toString());
+				mav.addObject("content" ,content);
 				mav.addObject("overviewPolyline", op);
 			}catch(Exception ex) {
 				o.put("success", "0");
@@ -137,8 +163,9 @@ public class PersonalJourneyController {
 		return null;
 	}	
 	//	歷程編輯  修改
+	@PreAuthorize("hasAnyRole('admin','P33')")
 	@RequestMapping(value= "/Journey/{journeyId}/Update" , produces = "application/json;charset=UTF-8")
-	public @ResponseBody String groupEditGroup(@PathVariable int journeyId ,UpdatePersonalJourneyForm updatePersonalJourneyForm) throws Exception {
+	public @ResponseBody String personalEditUpdate(@PathVariable int journeyId ,UpdatePersonalJourneyForm updatePersonalJourneyForm) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
 			JSONObject o = new JSONObject();
 			try {
@@ -164,6 +191,7 @@ public class PersonalJourneyController {
 		return null;
 	}
 	//	歷程詳情
+	@PreAuthorize("hasAnyRole('admin','P04')")
 	@RequestMapping(value= "/Journey/{journeyId}/Read" , produces = "application/json;charset=UTF-8")
 	public ModelAndView journeyReadPage(@PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(journeyId)) {
