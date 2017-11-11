@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tw.org.roadtoadventure.bean.GroupBean;
 import tw.org.roadtoadventure.dao.GroupDAO;
 import tw.org.roadtoadventure.dao.UserInGroupDAO;
-import tw.org.roadtoadventure.form.CreateGroupForm;
 import tw.org.roadtoadventure.service.GroupService;
 import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.vo.Group;
@@ -57,96 +56,6 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<GroupBean> readAllByUserId() throws Exception {
-		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<GroupBean> gbList = new ArrayList<GroupBean>();
-		List<UserInGroup> uigList = userInGroupDAO.readByUserId(user.getUserId());
-		for(UserInGroup uig :uigList) {
-			GroupBean gb = new GroupBean();
-			gb.setUserId(uig.getId().getUserId());
-			gb.setStatus(uig.getStatus());
-			gb.setGroupId(uig.getId().getGroupId());
-			gb.setGroupDescription(uig.getGroup().getGroupDescription()==null?"":uig.getGroup().getGroupDescription());
-			gb.setGroupName(uig.getGroup().getGroupName());
-			gb.setGroupPicture(uig.getGroup().getGroupPicture());
-			gb.setCreateDate(uig.getGroup().getCreateDate());
-			gbList.add(gb);
-		}
-		return gbList;
-	}
-
-	@Override
-	public List<GroupBean> readAll() throws Exception {
-		List<GroupBean> gbList = new ArrayList<GroupBean>();
-		List<UserInGroup> uigList = userInGroupDAO.readAllWithJoin();
-		for(UserInGroup uig :uigList) {
-			GroupBean gb = new GroupBean();
-			gb.setUserId(uig.getId().getUserId());
-			gb.setStatus(uig.getStatus());
-			gb.setGroupId(uig.getId().getGroupId());
-			gb.setGroupDescription(uig.getGroup().getGroupDescription()==null?"":uig.getGroup().getGroupDescription());
-			gb.setGroupName(uig.getGroup().getGroupName());
-			gb.setGroupPicture(uig.getGroup().getGroupPicture());
-			gb.setCreateDate(uig.getGroup().getCreateDate());
-			gbList.add(gb);
-		}
-		return gbList;
-	}
-
-	@Override
-	public List<GroupBean> readByParameter(GroupBean groupBean) throws Exception {
-		List<GroupBean> gbList = new ArrayList<GroupBean>();
-		List<UserInGroup> uigList = userInGroupDAO.readByParameter(groupBean);
-		for(UserInGroup uig :uigList) {
-			GroupBean gb = new GroupBean();
-			gb.setUserId(uig.getId().getUserId());
-			gb.setUserName(uig.getUserAccount().getUserName());
-			gb.setUserPicture(uig.getUserAccount().getUserPicture());
-			gb.setStatus(uig.getStatus());
-			gb.setGroupId(uig.getId().getGroupId());
-			gb.setGroupName(uig.getGroup().getGroupName());
-			gb.setGroupPicture(uig.getGroup().getGroupPicture());
-			gb.setCreateDate(uig.getGroup().getCreateDate());
-			gbList.add(gb);
-		}
-		return gbList;
-	}
-
-	@Override
-	public void updateFriend(GroupBean groupBean) throws Exception {
-		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserInGroup userInGroup = new UserInGroup();
-		BeanUtility.copyProperties(groupBean, userInGroup);
-		GroupRole gr = new GroupRole();
-		gr.setGroupRoleId(groupBean.getGroupRoleId());
-		userInGroup.setGroupRole(gr);
-		userInGroup.setUserAccount(user);
-		userInGroup.setStatus(groupBean.getStatus());
-		UserInGroupId uigId = new UserInGroupId();
-		uigId.setGroupId(groupBean.getGroupId());
-		uigId.setUserId(user.getUserId());
-		userInGroup.setId(uigId);
-		userInGroupDAO.merge(userInGroup);
-	}
-
-	@Override
-	public List<GroupBean> readAllWithoutUserId() throws Exception {
-		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<GroupBean> gbList = new ArrayList<GroupBean>();
-		List<UserInGroup> uigList = userInGroupDAO.readAllWithoutUserId(user.getUserId());
-		for(UserInGroup uig :uigList) {
-			GroupBean gb = new GroupBean();
-			gb.setUserId(uig.getId().getUserId());
-			gb.setGroupId(uig.getId().getGroupId());
-			gb.setGroupName(uig.getGroup().getGroupName());
-			gb.setGroupPicture(uig.getGroup().getGroupPicture());
-			gb.setCreateDate(uig.getGroup().getCreateDate());
-			gbList.add(gb);
-		}
-		return gbList;
-	}
-
-	@Override
 	public GroupBean readByGroupId(Integer groupId) throws Exception {
 		Group g = groupDAO.getById(groupId);
 		GroupBean gb= new GroupBean();
@@ -163,6 +72,18 @@ public class GroupServiceImpl implements GroupService {
 		g.setModifyDate(new Date());
 		g.setUserAccountByModifyId(user);
 		groupDAO.merge(g);
+	}
+
+	@Override
+	public List<GroupBean> readAll() throws Exception {
+		List<Group> gList = groupDAO.readAll();
+		List<GroupBean> gbList = new ArrayList<>();
+		for(Group g : gList) {
+			GroupBean gb = new GroupBean();
+			BeanUtility.copyProperties(g, gb);
+			gbList.add(gb);
+		}
+		return gbList;
 	}
 
 }
