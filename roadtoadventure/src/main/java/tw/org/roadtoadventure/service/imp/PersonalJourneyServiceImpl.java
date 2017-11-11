@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import tw.org.roadtoadventure.bean.PersonalBean;
 import tw.org.roadtoadventure.dao.PersonalJourneyDAO;
@@ -84,6 +85,7 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 		return pbList;
 	}
 
+	@Transactional
 	@Override
 	public void update(PersonalBean personalBean) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -106,6 +108,9 @@ public class PersonalJourneyServiceImpl implements PersonalJourneyService {
 		}
 		PersonalJourney personalJourney = personalJourneyDAO.getById(personalBean.getPersonalJourneyId());
 		personalJourney.setPersonalJourneyContent(personalBean.getPersonalJourneyContent());
+		personalJourney.setStatus(personalBean.getStatus());
+		personalJourney.setBeginDate(personalBean.getBeginDate());
+		personalJourney.setEndDate(personalBean.getEndDate());
 		personalJourney.setOverviewPolyline(personalBean.getOverviewPolyline());
 		personalJourney.setModifyDate(new Date());
 		personalJourney.setUserAccountByModifyId(user);

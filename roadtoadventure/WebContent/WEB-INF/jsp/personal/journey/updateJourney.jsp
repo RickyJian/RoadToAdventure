@@ -37,7 +37,7 @@
           <div class="col s12">
             <ul class="tabs">
               <li class="tab col s4">
-                <a class="active" href="#personalJourney">歷程修改</a>
+                <a href="#personalJourney">歷程修改</a>
               </li>
               <li class="tab col s4">
                 <a class="active" href="#routePlanning">路線規劃</a>
@@ -54,7 +54,7 @@
   				  <div class="switch">
     				<label>
       				   停用
-      				  <input type="checkbox">
+      				  <input id= "status"  type="checkbox" >
       				  <span class="lever"></span>
      				   啟用
     			    </label>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input class="validate" id="personalJourneyName" name="personalJourneyName" type="text" data-length="50"> <label for="personalJourneyName">歷程名稱</label>
+                    <input class="validate" id="personalJourneyName" name="personalJourneyName" type="text" data-length="50" readonly> <label for="personalJourneyName">歷程名稱</label>
                   </div>
                 </div>
             <div class="row">
@@ -133,6 +133,7 @@
   </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
   <!-- model  -->
     <div id="modal1" class="modal bottom-sheet">
     <div class="modal-content">
@@ -145,6 +146,9 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/ckeditor/ckeditor.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/jquery.validate.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/additional-methods.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/validate/lang/messages_zh_TW.js"></script>  
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/chart/Chart.js"></script>
@@ -154,9 +158,39 @@
   CKEDITOR.replace('personalJourneyContent');
   $(function(){
     init()
+    formValidate()
   })
   function formValidate(){
-
+    $("#journeyForm").validate({
+	  rules: {
+	    personalJourneyName: {
+	  	required: true,
+	  	minlength: 1,
+	    maxlength: 50
+	  },
+	    beginDay: {
+	      required: true
+	  },
+	    beginTime: {
+	  	  required: true
+	  },
+	    endDay: {
+	  	  required: true
+	  },
+	   endTime: {
+	     required: true
+	  }
+	},
+	errorElement : 'div',
+    errorPlacement: function(error, element) {
+	  var placement = $(element).data('error');
+	  if (placement) {
+	    $(placement).append(error)
+	  } else {
+	    error.insertAfter(element);
+	  }
+	}
+    });	
   }  
   function init(){
     var result = JSON.parse('${journey}')
@@ -195,21 +229,35 @@
       setTimeout(function(){
         drawPolyline()
       },5000)
-      alert(result.journeyName)
-      $("#personalJourneyName").val(result.journeyName)
-      $("#beginDay").val(result.beginDay)
-      $("#endDay").val(result.endDay)
-      $("#beginTime").val(result.beginTime)
-      $("#endTime").val(result.endTime)
-      $("#personalJourneyContent").val(CKEDITOR.instances.personalJourneyContent.setData(result.content));
+      $("#personalJourneyName").val("${journeyName}")
+      $("#beginDay").val("${beginDay}")
+      $("#endDay").val("${endDay}")
+      $("#beginTime").val("${beginTime}")
+      $("#endTime").val("${endTime}")
+      $("#personalJourneyContent").val(CKEDITOR.instances.personalJourneyContent.setData("${content}"));
+      if(result.status=="1"){
+    	  $('#status').prop('checked',true)
+      }else{
+    	  $('#status').prop('checked',false)
+      }
     }
   }
   function update(){
-		//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+	var status = 0
+	if($('#status').prop('checked')){
+	  status = 1;
+	}
+    if($("#journeyForm").valid()){
+		block("main")
 		$.ajax({
 		  type: "POST",
 		  datatype:"json",
 		  data:{	
+			"beginDay": $("#beginDay").val(),
+			"beginTime": $("#beginTime").val(),
+			"endDay": $("#endDay").val(),
+			"endTime": $("#endTime").val(),
+			"status":status,
 		    "locationArrayStr":locationArray.join(),
 		    "overviewPolyline":overviewPolyline,
 		    "personalJourneyContent":CKEDITOR.instances.personalJourneyContent.getData()
@@ -217,17 +265,19 @@
 		  url:"${pageContext.request.contextPath}/Personal/Journey/${journeyId}/Update",
 		  async: false ,
 		  success: function(data){
-			var result = JSON.parse(data)
+			var result = jsonFmt(data)
 	        if(result.success=="1"){
-	        	 //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-		         //  window.location="${pageContext.request.contextPath}/Index"
-	             //})
+	        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;更新成功，自動跳轉編輯頁面。", 3000,'',function(){
+		           window.location="${pageContext.request.contextPath}/Personal/ReadAll"
+	             })
 	        }else{
-		      //$("#main").unblock()
-	          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
+	          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 更新失敗，請再試一次。", 5000)
 	        }
+		      $("#main").unblock()
 		  }
 		});	  
+
+    }
   }
   function closeModel(){
 	  $('#modal1').modal('close');

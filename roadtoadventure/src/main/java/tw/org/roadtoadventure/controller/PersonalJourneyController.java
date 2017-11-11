@@ -114,7 +114,7 @@ public class PersonalJourneyController {
 			JSONObject o = new JSONObject();
 			try {
 				PersonalBean personalBean =  new PersonalBean();
-				personalBean.setPersonalJourneyDetailId(journeyId);
+				personalBean.setPersonalJourneyId(journeyId);
 				String op = "";
 				String content ="";
 				String beginDay ="";
@@ -140,16 +140,16 @@ public class PersonalJourneyController {
 				}
 				op =op.replaceAll("\\\\", "\\\\\\\\");
 				o.put("array", array);
-				o.put("beginDay", beginDay);
-				o.put("endDay", endDay);
-				o.put("beginTime", beginTime);
-				o.put("endTime", endTime);
 				o.put("status", String.valueOf(status));
 				o.put("success", "1");
 				o.put("journeyId", journeyId);
-				o.put("journeyName", journeyName);
-				o.put("content", content);
+				mav.addObject("beginDay", beginDay);
+				mav.addObject("beginTime", beginTime);
+				mav.addObject("endDay", endDay);
+				mav.addObject("journeyName", journeyName);
+				mav.addObject("endTime", endTime);
 				mav.addObject("journey" ,o.toString());
+				mav.addObject("content" ,content);
 				mav.addObject("overviewPolyline", op);
 			}catch(Exception ex) {
 				o.put("success", "0");
