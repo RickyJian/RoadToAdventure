@@ -2,6 +2,8 @@ package tw.org.roadtoadventure.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import tw.org.roadtoadventure.form.UpdateGroupForm;
 import tw.org.roadtoadventure.form.UpdateGroupJourneyForm;
 import tw.org.roadtoadventure.service.GroupJourneyService;
 import tw.org.roadtoadventure.service.GroupService;
+import tw.org.roadtoadventure.service.UserInGroupService;
 import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.utils.PasswordUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
@@ -34,6 +37,8 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 	@Autowired
+	private UserInGroupService userInGroupService;
+	@Autowired
 	private GroupJourneyService groupJourneyService;
 
 	private String dir = "/group";
@@ -44,7 +49,7 @@ public class GroupController {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		GroupBean groupBean = new GroupBean(pathValue);
 		groupBean.setUserId(user.getUserId());
-		List<GroupBean> gbList = groupService.readByParameter(groupBean);
+		List<GroupBean> gbList = userInGroupService.readByParameter(groupBean);
 		if(gbList.size()==1) {
 			if(gbList.get(0).getStatus()=='1') {
 				return true;
@@ -83,7 +88,7 @@ public class GroupController {
 		JSONObject o = new JSONObject();
 		try {
 			JSONArray array =new JSONArray();
-			for(GroupBean gb :groupService.readAllByUserId()) {
+			for(GroupBean gb :userInGroupService.readAllByUserId()) {
 				JSONObject arrayObj = new JSONObject();
 				arrayObj.put("userId", gb.getUserId());
 				arrayObj.put("groupId", gb.getGroupId());
@@ -158,7 +163,7 @@ public class GroupController {
 		try {
 			JSONArray array =new JSONArray();
 			groupBean.setSearchType("like");
-			List<GroupBean> gbList = groupService.readByParameter(groupBean);
+			List<GroupBean> gbList = userInGroupService.readByParameter(groupBean);
 			if(gbList.size()>0) {
 				for(GroupBean gb :gbList) {
 					if(gb.getStatus()!='1') {
@@ -184,14 +189,13 @@ public class GroupController {
 			return o.toString();
 		}
 	}
-	@PreAuthorize("hasAnyRole('admin','G12')")
 	@RequestMapping(value= "{groupId}/User/ReadAll" , produces = "application/json;charset=UTF-8")
 	public @ResponseBody String readAllMember(@PathVariable int groupId,GroupBean groupBean) throws Exception {
 		if(isGroupUrlCorrect(groupId)) {
 			JSONObject o = new JSONObject();
 			try {
 				JSONArray array =new JSONArray();
-				List<GroupBean> gbList = groupService.readByParameter(new GroupBean(groupId));
+				List<GroupBean> gbList = userInGroupService.readByParameter(new GroupBean(groupId));
 				if(gbList.size()>0) {
 					for(GroupBean gb :gbList) {
 						JSONObject arrayObj = new JSONObject();
@@ -218,6 +222,28 @@ public class GroupController {
 		}
 		return null;
 	}
+	@RequestMapping(value= "{groupId}/Update/Friend/Accept" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String updateFriendAccept(@PathVariable int groupId,@RequestParam String userId) throws Exception {
+		if(isGroupUrlCorrect(groupId)) {
+			JSONObject o = new JSONObject();
+			try {
+				GroupBean gb = new GroupBean();
+				gb.setStatus('1');
+				gb.setGroupId(groupId);
+				gb.setUserId(userId);
+				userInGroupService.update(gb);
+				o.put("success", "1");
+				return o.toString();
+			}catch(Exception ex) {
+				o.put("success", "0");
+				o.put("message", "搜尋失敗。");
+				ex.printStackTrace();
+				return o.toString();
+			}
+
+		}
+		return null;
+	}
 	//	新增加入車隊
 	@PreAuthorize("hasAnyRole('admin','G22')")
 	@RequestMapping(value = "/Create/Join")
@@ -228,7 +254,7 @@ public class GroupController {
 			gb.setStatus('0');
 			gb.setGroupId(groupId);
 			gb.setGroupRoleId("2");
-			groupService.updateFriend(gb);
+			userInGroupService.create(gb);
 			o.put("success", "1");
 			return o.toString();
 		}catch(Exception ex) {
@@ -263,15 +289,22 @@ public class GroupController {
 		ModelAndView mav = new ModelAndView(dir+"/readAllGroup");
 		JSONObject o = new JSONObject();
 		try {
+			List<GroupBean> gbList =  groupService.readAll();
+			List<GroupBean> userList = userInGroupService.readAllByUserId();
+			Map <Integer , GroupBean>  map = new TreeMap<>();
+			for(GroupBean gb : userList) {
+				map.put(gb.getGroupId(), gb);
+			}
 			JSONArray array =new JSONArray();
-			for(GroupBean gb :groupService.readAllWithoutUserId()) {
-				JSONObject arrayObj = new JSONObject();
-				arrayObj.put("userId", gb.getUserId());
-				arrayObj.put("groupId", gb.getGroupId());
-				arrayObj.put("groupName", gb.getGroupName());
-				arrayObj.put("groupPicture", gb.getGroupPicture());
-				array.add(arrayObj);
-
+			for(GroupBean gb :gbList) {
+				if(!map.containsKey(gb.getGroupId())) {
+					JSONObject arrayObj = new JSONObject();
+					arrayObj.put("userId", gb.getUserId());
+					arrayObj.put("groupId", gb.getGroupId());
+					arrayObj.put("groupName", gb.getGroupName());
+					arrayObj.put("groupPicture", gb.getGroupPicture());
+					array.add(arrayObj);
+				}
 			}
 			o.put("success", "1");
 			o.put("groupArray", array);

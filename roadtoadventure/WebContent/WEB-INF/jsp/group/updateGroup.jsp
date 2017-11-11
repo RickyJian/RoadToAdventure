@@ -219,27 +219,27 @@
     })
   }
   function appendCards(result){
-		if(result.success =="1"){
-	      var html = "";
-		  for(var i = 0 ; i < result.userArray.length ; i++){
-			var image = result.userArray[i].userPicture
-			var id = result.userArray[i].userId
-			var name = result.userArray[i].userName
-			var status = result.userArray[i].status
-		    switch (status){
-		    case "0":
-		      countArr[0]++;
-		      apendCardHTML(countArr[0] , image , name  , status , id , "cardDiv0",html)
-			  break;
-		    case "1":
-		      countArr[1]++;
-		      apendCardHTML(countArr[1] , image , name  , status , id , "cardDiv1",html)
-			  break;
-		    }
-		  }
-		}else{
-			Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+	if(result.success =="1"){
+	  var html = "";
+	  for(var i = 0 ; i < result.userArray.length ; i++){
+	    var image = result.userArray[i].userPicture
+		var id = result.userArray[i].userId
+		var name = result.userArray[i].userName
+		var status = result.userArray[i].status
+		switch (status){
+		  case "0":
+		    countArr[0]++;
+		    apendCardHTML(countArr[0] , image , name  , status , id , "cardDiv0",html)
+	      break;
+		  case "1":
+		    countArr[1]++;
+		    apendCardHTML(countArr[1] , image , name  , status , id , "cardDiv1",html)
+		  break;
 		}
+	  }
+	}else{
+	  Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message, 5000)
+	}
   }
   function apendCardHTML(i , image , name  , status , userId , divId , html){
       if(i%3==0){
@@ -267,6 +267,44 @@
         }
 	    $("#"+divId).append(html)
       }  
+  function accept(id){
+	    $.ajax({
+		  type: "POST",
+		  dataType: 'json',
+		  data:{
+		    "userId":id,
+		  },
+		  url:"${pageContext.request.contextPath}/Group/"+groupId+"/Update/Friend/Accept",
+		  async: false ,
+		  success: function(data){
+		    if(data.success=="1"){
+		      Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 審核成功。", 3000,'',function(){
+		        location.reload(); 
+	          })
+			}else{
+		      Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 審核失敗。", 5000)
+			}
+		  }
+		})
+	  }
+	  function deleteFriend(id){
+	    $.ajax({
+		  type: "POST",
+		  dataType: 'json',
+		  data:{
+		    "friendId":id,
+		  },
+		  url:"${pageContext.request.contextPath}/Group/"+groupId+"/Update/Friend/Delete",
+		  async: false ,
+		  success: function(data){
+		    if(data.success=="1"){
+		          //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
+			}else{
+		        //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+			}
+		  }
+		})
+	  }  
   </script>
 
   </body>

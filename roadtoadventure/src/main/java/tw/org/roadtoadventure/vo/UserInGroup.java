@@ -99,7 +99,7 @@ public class UserInGroup implements java.io.Serializable {
 		this.groupChats = groupChats;
 	}
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CreateDate", nullable = false, length = 23)
+	@Column(name = "CreateDate", nullable = true, length = 23)
 	public Date getCreateDate() {
 		return this.createDate;
 	}
