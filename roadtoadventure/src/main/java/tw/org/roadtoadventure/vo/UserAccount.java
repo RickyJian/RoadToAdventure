@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,7 +30,6 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private String userId;
 	private String userName;
 	private String userPicture;
-	private String userRoleId;
 	private String email;
 	private String password;
 	private String lastPassword;
@@ -39,6 +40,7 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private Date createDate;
 	private String modifyId;
 	private Date modifyDate;
+	private UserRole userRole;
 	private Set<PersonalJourney> personalJourneysForModifyId = new HashSet<PersonalJourney>(0);
 	private Set<PersonalJourney> personalJourneysForCreateId = new HashSet<PersonalJourney>(0);
 	private Set<GroupJourneyDetail> groupJourneyDetails = new HashSet<GroupJourneyDetail>(0);
@@ -82,14 +84,15 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	public void setUserPicture(String userPicture) {
 		this.userPicture = userPicture;
 	}
-
-	@Column(name = "UserRoleID", nullable = false, length = 20)
-	public String getUserRoleId() {
-		return this.userRoleId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserRoleID", nullable = false)
+	public UserRole getUserRole() {
+		return this.userRole;
 	}
 
-	public void setUserRoleId(String userRoleId) {
-		this.userRoleId = userRoleId;
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 
 	@Column(name = "Email", nullable = false, length = 50)
