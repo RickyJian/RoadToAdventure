@@ -16,6 +16,7 @@ public class UserAccountDAOImpl extends BaseDAOImpl<UserAccount> implements User
 	@Override
 	public UserAccount readUserForLogin(String userId, String password) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UserAccount.class);
+		detachedCriteria.createAlias("userRole", "ur");
 		detachedCriteria.add(Restrictions.eq("userId", userId));
 		detachedCriteria.add(Restrictions.eq("password", password));
 		List<UserAccount> uaList = this.getHibernateTemplate().findByCriteria(detachedCriteria);
