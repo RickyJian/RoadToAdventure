@@ -1,6 +1,6 @@
 var topHTML ="";
-appendHTML()
-function appendHTML(){
+appendTopHTML()
+function appendTopHTML(){
   topHTML ="<nav class=\"light-blue lighten-1\" role=\"navigation\">"
   topHTML +="<div class=\"nav-wrapper container\"><a id=\"logo-container\" href=\""+contextPath+"/\" class=\"brand-logo\">Logo</a>"
   topHTML +="<ul class=\"right hide-on-med-and-down\">"

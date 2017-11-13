@@ -144,7 +144,7 @@ public class UserAccountController {
 			}
 			o.put("array", array);
 			o.put("success", "1");
-			mav.addObject("user" ,o.toString() );			
+			mav.addObject("account" ,o.toString() );			
 		}catch(Exception ex) {
 			o.put("success", "0");
 			ex.printStackTrace();
@@ -173,7 +173,7 @@ public class UserAccountController {
 			}
 			o.put("array", array);
 			o.put("success", "1");
-			mav.addObject("user" ,o.toString() );			
+			mav.addObject("account" ,o.toString() );			
 		}catch(Exception ex) {
 			o.put("success", "0");
 			ex.printStackTrace();

@@ -8,7 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>首頁-揪愛騎 Road To Adventure</title>
   <sec:authentication var="user" property="principal"/>
-  <script type="text/javascript">var user = '${user}'</script>
+  <script type="text/javascript">
+    var user = '${user}' 
+  </script>
+  <sec:authorize access="authenticated">
+    <script type="text/javascript">
+      var userId = '${user.userId}' 
+      var userName = '${user.userName}'    
+      var email = '${user.email}'    
+      var userPicture = '${user.userPicture}'           
+    </script>
+  </sec:authorize>
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

@@ -1,11 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>搜尋車隊-揪愛騎 Road To Adventure</title>
+  <title>好友搜尋-揪愛騎 Road To Adventure</title>
+  <sec:authentication var="user" property="principal"/>
+  <script type="text/javascript">
+    var user = '${user}' 
+  </script>
+  <sec:authorize access="authenticated">
+    <script type="text/javascript">
+      var userId = '${user.userId}' 
+      var userName = '${user.userName}'    
+      var email = '${user.email}'    
+      var userPicture = '${user.userPicture}'           
+    </script>
+  </sec:authorize>     
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,7 +31,7 @@
   <div id = "main">
     <div class="container">
       <div class="section">
-        <br><br><br>
+        <br><br>
         <div class = "row">
           <div class="input-field col s10">
             <i class="material-icons prefix">search</i>
@@ -76,7 +89,7 @@
   <script type="text/javascript">
   var countArr = [0,0,0];
   $(function(){
-    appendCards('${user}');
+    appendCards('${account}');
   })
   function appendCards(jsonObj){
 	$("#cardDiv1").empty();
