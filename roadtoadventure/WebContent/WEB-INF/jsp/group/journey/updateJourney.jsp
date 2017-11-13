@@ -16,7 +16,8 @@
       var userId = '${user.userId}' 
       var userName = '${user.userName}'    
       var email = '${user.email}'    
-      var userPicture = '${user.userPicture}'           
+      var userPicture = '${user.userPicture}'     
+      var userJSON = '${user.authoritiesJSON}'                
     </script>
   </sec:authorize>     
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>

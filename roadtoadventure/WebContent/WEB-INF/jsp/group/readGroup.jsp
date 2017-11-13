@@ -16,7 +16,8 @@
       var userId = '${user.userId}' 
       var userName = '${user.userName}'    
       var email = '${user.email}'    
-      var userPicture = '${user.userPicture}'           
+      var userPicture = '${user.userPicture}' 
+      var userJSON = '${user.authoritiesJSON}'
     </script>
   </sec:authorize>    
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
@@ -71,9 +72,21 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
   var countArr = [0,0];
+  var groupRoleIdArray = []
+  var groupIdArray = []
   $(function(){
+	roleProcess()
     appendCards();
   })
+  function roleProcess(){
+	  var result = jsonFmt(userJSON)
+	  for(var i = 0 ; i < result.group.length ; i++){
+	    var gId = result.group[i].groupId;
+	    var grId = result.group[i].groupRoleId;
+	    groupRoleIdArray.push(grId)
+	    groupIdArray.push(gId)
+      }
+  }
   function appendCards(){
 	var result = JSON.parse('${group}')
 	if(result.success =="1"){
@@ -114,7 +127,11 @@
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
 	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','read')\" >進入</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >管理</a>"
+	      if(groupRoleIdArray[groupIdArray.indexOf(groupId)]!="GR2"){
+	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \" onclick= \"redirectPage('"+groupId+"','edit')\">管理</a>"
+		  }else{
+	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \" onclick= \"redirectPage('"+groupId+"','edit') \" disabled>管理</a>"
+		  }
 	    }else{
 		    
 	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >待車隊管理員審核</a>"

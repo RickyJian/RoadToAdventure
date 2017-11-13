@@ -16,7 +16,8 @@
       var userId = '${user.userId}' 
       var userName = '${user.userName}'    
       var email = '${user.email}'    
-      var userPicture = '${user.userPicture}'           
+      var userPicture = '${user.userPicture}'      
+      var userJSON = '${user.authoritiesJSON}'               
     </script>
   </sec:authorize>  
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
@@ -51,9 +52,21 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
+  var groupRoleIdArray = []
+  var groupIdArray = []    
   $(function(){
+	roleProcess()
     appendCards();
   })
+  function roleProcess(){
+	  var result = jsonFmt(userJSON)
+	  for(var i = 0 ; i < result.group.length ; i++){
+	    var gId = result.group[i].groupId;
+	    var grId = result.group[i].groupRoleId;
+	    groupRoleIdArray.push(grId)
+	    groupIdArray.push(gId)
+      }
+  }  
   function appendCards(){
 	var result = JSON.parse('${group}')
 	if(result.success =="1"){
@@ -75,8 +88,12 @@
 	    html += "<p>結束時間："+endDate+"</p>"
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
+	    if(groupRoleIdArray[groupIdArray.indexOf(groupId)]!="GR2"){
+	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" disabled>編輯</a>"
+	    }else{
 	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" >編輯</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','read')\" >詳情</a>"
+		}
+		html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','read')\" >詳情</a>"
 	    html += "</div>"
 	    html += "</div>"
 	    html += "</div>"

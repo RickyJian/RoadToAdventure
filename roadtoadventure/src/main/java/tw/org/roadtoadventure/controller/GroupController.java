@@ -274,7 +274,7 @@ public class GroupController {
 			GroupBean gb = new GroupBean();
 			gb.setStatus('0');
 			gb.setGroupId(groupId);
-			gb.setGroupRoleId("2");
+			gb.setGroupRoleId("GR2");
 			userInGroupService.create(gb);
 			o.put("success", "1");
 			return o.toString();

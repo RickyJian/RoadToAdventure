@@ -17,7 +17,8 @@
       var userId = '${user.userId}' 
       var userName = '${user.userName}'    
       var email = '${user.email}'    
-      var userPicture = '${user.userPicture}'           
+      var userPicture = '${user.userPicture}'    
+      var userJSON = '${user.authoritiesJSON}'                 
     </script>
   </sec:authorize>  
   <!-- CSS  -->
@@ -103,7 +104,6 @@
   <script src="${pageContext.request.contextPath}/assets/js/chart/utils.js"></script>
 
   <script type="text/javascript">
-  //CKEDITOR.replace('groupJourneyContent');
   $(function(){
 	  
 	  appendRoute()

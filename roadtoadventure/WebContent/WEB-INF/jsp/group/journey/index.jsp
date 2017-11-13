@@ -16,7 +16,8 @@
       var userId = '${user.userId}' 
       var userName = '${user.userName}'    
       var email = '${user.email}'    
-      var userPicture = '${user.userPicture}'           
+      var userPicture = '${user.userPicture}'  
+      var userJSON = '${user.authoritiesJSON}'         
     </script>
   </sec:authorize>  
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
@@ -42,7 +43,7 @@
                 <h3>歷程新增</h3>
               </div><br>
               <div class="card-action center-align">
-                <a class="waves-effect waves-light btn" onclick="redirectPage('new')">進入</a>
+                <a id = "journeyAdd" class="waves-effect waves-light btn" onclick="redirectPage('new')">進入</a>
               </div>
             </div>
           </div>
@@ -77,6 +78,26 @@
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
+  var groupRoleIdArray = []
+  var groupIdArray = []  
+  $(function(){
+	roleProcess()
+  })
+  function roleProcess(){
+	  var result = jsonFmt(userJSON)
+	  for(var i = 0 ; i < result.group.length ; i++){
+	    var gId = result.group[i].groupId;
+	    var grId = result.group[i].groupRoleId;
+	    groupRoleIdArray.push(grId)
+	    groupIdArray.push(gId)
+      }
+	  init()
+  }
+  function init(){
+	if(groupRoleIdArray[groupIdArray.indexOf(parseInt('${groupId}'))]=="GR2"){
+	  $("#journeyAdd").attr("disabled","disabled")
+	}
+  }
   function redirectPage(value){
 	var path = "${pageContext.request.contextPath}/Group/${groupId}/Journey"
 		

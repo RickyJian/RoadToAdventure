@@ -130,10 +130,11 @@
 	  	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Create/Join",
 	  	  async: false ,
 	  	  success: function(data){
-	  	    if(data.success=="1"){
-	          //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
+		  	  var result = jsonFmt(data)
+	  	    if(result.success=="1"){
+	          Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 邀請成功。", 3000)
 		  	}else{
-	          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+	          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message , 5000)
 			}
 	  	  }
 	    })
