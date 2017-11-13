@@ -15,6 +15,7 @@ import tw.org.roadtoadventure.service.UserService;
 import tw.org.roadtoadventure.utils.BeanUtility;
 import tw.org.roadtoadventure.utils.PasswordUtility;
 import tw.org.roadtoadventure.vo.UserAccount;
+import tw.org.roadtoadventure.vo.UserRole;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,7 +35,9 @@ public class UserServiceImpl implements UserService {
 				ua.setCreateId("System");
 				ua.setIsEnabled('Y');
 				ua.setIsVerification('N');
-				ua.setUserRoleId("1");
+				UserRole userRole = new UserRole();
+				userRole.setUserRoleId("UR1");
+				ua.setUserRole(userRole);
 				userAccountDAO.create(ua);
 			}else {
 				throw new Exception("確認密碼失敗。");

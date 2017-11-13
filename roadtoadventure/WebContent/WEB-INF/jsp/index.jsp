@@ -1,12 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>首頁-揪愛騎 Road To Adventure</title>
-<script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
+  <sec:authentication var="user" property="principal"/>
+  <script type="text/javascript">
+    var user = '${user}' 
+  </script>
+  <sec:authorize access="authenticated">
+    <script type="text/javascript">
+      var userId = '${user.userId}' 
+      var userName = '${user.userName}'    
+      var email = '${user.email}'    
+      var userPicture = '${user.userPicture}'           
+    </script>
+  </sec:authorize>
+  <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -19,7 +32,11 @@
   </style>
 </head>
 <body>
-  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
+<!-- 
+ -->
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js">
+
+  </script>
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
@@ -31,7 +48,6 @@
 
     </div>
   </div>
-
 
   <div class="container">
     <div class="section">
@@ -47,7 +63,7 @@
 	      </div>
 	      <div class="card-stacked">
 	        <div class="card-content">
-	          <p>Jobs Steve</p>
+	          <p><c:out value = "${user}"/></p>
 	        </div>
 	      </div>
 	    </div>

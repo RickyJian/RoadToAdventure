@@ -1,11 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>車隊管理-揪愛騎 Road To Adventure</title>
+  <sec:authentication var="user" property="principal"/>
+  <script type="text/javascript">
+    var user = '${user}' 
+  </script>
+  <sec:authorize access="authenticated">
+    <script type="text/javascript">
+      var userId = '${user.userId}' 
+      var userName = '${user.userName}'    
+      var email = '${user.email}'    
+      var userPicture = '${user.userPicture}' 
+      var userJSON = '${user.authoritiesJSON}'
+    </script>
+  </sec:authorize>    
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,7 +32,7 @@
   <div id = "main">
     <div class="container">
       <div class="section">
-        <br><br><br>
+        <br><br>
       <div class="row">
         <div class="col s12">
           <ul class="tabs">
@@ -58,9 +72,21 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
   var countArr = [0,0];
+  var groupRoleIdArray = []
+  var groupIdArray = []
   $(function(){
+	roleProcess()
     appendCards();
   })
+  function roleProcess(){
+	  var result = jsonFmt(userJSON)
+	  for(var i = 0 ; i < result.group.length ; i++){
+	    var gId = result.group[i].groupId;
+	    var grId = result.group[i].groupRoleId;
+	    groupRoleIdArray.push(grId)
+	    groupIdArray.push(gId)
+      }
+  }
   function appendCards(){
 	var result = JSON.parse('${group}')
 	if(result.success =="1"){
@@ -101,7 +127,11 @@
 	    html += "<div class=\"card-action center-align\">"
 	    if(status=="1"){
 	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','read')\" >進入</a>"
-	      html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','edit')\" >管理</a>"
+	      if(groupRoleIdArray[groupIdArray.indexOf(groupId)]!="GR2"){
+	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \" onclick= \"redirectPage('"+groupId+"','edit')\">管理</a>"
+		  }else{
+	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \" onclick= \"redirectPage('"+groupId+"','edit') \" disabled>管理</a>"
+		  }
 	    }else{
 		    
 	      html += "<a class=\"waves-effect waves-light btn amber darken-1\" >待車隊管理員審核</a>"

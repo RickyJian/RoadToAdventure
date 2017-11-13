@@ -1,11 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>搜尋車隊-揪愛騎 Road To Adventure</title>
+  <title>帳戶搜尋-揪愛騎 Road To Adventure</title>
+  <sec:authentication var="user" property="principal"/>
+  <script type="text/javascript">
+    var user = '${user}' 
+  </script>
+  <sec:authorize access="authenticated">
+    <script type="text/javascript">
+      var userId = '${user.userId}' 
+      var userName = '${user.userName}'    
+      var email = '${user.email}'    
+      var userPicture = '${user.userPicture}'           
+    </script>
+  </sec:authorize>   
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -52,7 +65,7 @@
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
   $(function(){
-    appendCards('${user}');
+    appendCards('${account}');
   })
   function appendCards(jsonObj){
 	$("#cardDiv").empty();
@@ -117,10 +130,11 @@
 	  	  url:"${pageContext.request.contextPath}/User/Setting/Friend/Create/Join",
 	  	  async: false ,
 	  	  success: function(data){
-	  	    if(data.success=="1"){
-	          //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
+		  	  var result = jsonFmt(data)
+	  	    if(result.success=="1"){
+	          Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 邀請成功。", 3000)
 		  	}else{
-	          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+	          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message , 5000)
 			}
 	  	  }
 	    })

@@ -20,9 +20,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import tw.org.roadtoadventure.dao.UserAccountDAO;
+import tw.org.roadtoadventure.dao.UserInGroupDAO;
 import tw.org.roadtoadventure.utils.PasswordUtility;
+import tw.org.roadtoadventure.vo.Authority;
 import tw.org.roadtoadventure.vo.UserAccount;
+import tw.org.roadtoadventure.vo.UserInGroup;
 
 
 
@@ -30,6 +35,8 @@ public class CustomAuthenticationProvider extends AbstractUserDetailsAuthenticat
 
 	@Autowired
 	private UserAccountDAO userAccountDAO;
+	@Autowired
+	private UserInGroupDAO userInGroupDAO;
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication)
@@ -55,16 +62,36 @@ public class CustomAuthenticationProvider extends AbstractUserDetailsAuthenticat
 		}
 		String userId = (String)cat.getPrincipal();
 		UserAccount  user= userAccountDAO.readUserForLogin(userId, password);
-
 		if(user!=null){
 			if(user.getIsEnabled()=='Y'){
 				List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 				if(user.getIsVerification()=='Y'){
-					grantedAuthorities.add(new GrantedAuthorityImpl("admin"));
+					JSONObject o = new JSONObject();
+					Set<String> authorityTreeSet = new TreeSet<>();
+					if(user.getUserRole().getUserRoleId().equals("UR0")) {
+						grantedAuthorities.add(new GrantedAuthorityImpl("admin"));
+					}else {
+						Set<Authority> authoritySet = user.getUserRole().getAuthorities();
+						for(Authority a : authoritySet) {
+							authorityTreeSet.add(a.getAuthorityId());
+							grantedAuthorities.add(new GrantedAuthorityImpl(a.getAuthorityId()));
+						}
+					}
+					o.put("personal", authorityTreeSet.toString());
+					List<UserInGroup> uigList = userInGroupDAO.readByUserId(userId);
+					JSONArray array =new JSONArray();
+					for(UserInGroup uig : uigList) {
+						JSONObject arrayObj = new JSONObject();
+						arrayObj.put("groupRoleId",uig.getGroupRole().getGroupRoleId());
+						arrayObj.put("groupId",uig.getGroup().getGroupId());
+						array.add(arrayObj);
+					}
+					o.put("group", array);
+					user.setAuthoritiesJSON(o);
+					user.setAuthorities(grantedAuthorities);
 				}else{
 					throw new AuthenticationServiceException("帳戶尚未驗證成功。");
 				}
-				user.setAuthorities(grantedAuthorities);
 				return user;
 			}else{
 				throw new AuthenticationServiceException("帳戶已停用。");

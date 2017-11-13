@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +21,8 @@ public class UserRole implements java.io.Serializable {
 	private String userRoleId;
 	private String userRoleName;
 	private Set<Authority> authorities = new HashSet<Authority>(0);
-
+	private Set<UserAccount> userAccounts = new HashSet<UserAccount>(0);
+	
 	public UserRole() {
 	}
 
@@ -64,4 +66,12 @@ public class UserRole implements java.io.Serializable {
 		this.authorities = authorities;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userRole")
+	public Set<UserAccount> getUserAccounts() {
+		return this.userAccounts;
+	}
+
+	public void setUserAccounts(Set<UserAccount> userAccounts) {
+		this.userAccounts = userAccounts;
+	}
 }
