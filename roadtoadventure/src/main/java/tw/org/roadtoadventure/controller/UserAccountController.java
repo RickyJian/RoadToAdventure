@@ -287,7 +287,7 @@ public class UserAccountController {
 			return o.toString();
 		}catch(Exception ex) {
 			o.put("success", "0");
-			o.put("message", "加入失敗。");
+			o.put("message", "邀請失敗。");
 			ex.printStackTrace();
 			return o.toString();
 		}

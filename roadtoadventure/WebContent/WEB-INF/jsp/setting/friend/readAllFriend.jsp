@@ -92,6 +92,7 @@
     appendCards('${account}');
   })
   function appendCards(jsonObj){
+	countArr = [0,0,0];
 	$("#cardDiv1").empty();
 	$("#cardDiv0").empty();
 	$("#cardDiv3").empty();
@@ -190,9 +191,11 @@
 	  async: false ,
 	  success: function(data){
 	    if(data.success=="1"){
-	          //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 加入成功，稍待車隊管理員審核。", 5000)
+	      Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 接受邀請。", 3000,'',function(){
+		    location.reload();
+		  })
 		}else{
-	        //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
+	      Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+data.message , 5000)
 		}
 	  }
 	})

@@ -87,7 +87,7 @@ public class UserFriendServiceImpl implements UserFriendService {
 		UserFriendId id2 = new UserFriendId();
 		id2.setFriendId(user.getUserId());
 		id2.setUserId(friendId);
-		UserFriend userFriend2 = userFriendDAO.getById(id);
+		UserFriend userFriend2 = userFriendDAO.getById(id2);
 		userFriend2.setStatus('1');
 		userFriendDAO.merge(userFriend2);
 	}
