@@ -89,6 +89,7 @@ public class CustomAuthenticationProvider extends AbstractUserDetailsAuthenticat
 					o.put("group", array);
 					user.setAuthoritiesJSON(o);
 					user.setAuthorities(grantedAuthorities);
+					user.setVerificationCode(null);
 				}else{
 					//throw new AuthenticationServiceException("帳戶尚未驗證成功。");
 				}

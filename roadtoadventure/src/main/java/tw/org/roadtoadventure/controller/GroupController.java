@@ -68,20 +68,20 @@ public class GroupController {
 	}
 
 	//	車隊首頁
-//	@PreAuthorize("hasAnyRole('admin','G00')")
+	@PreAuthorize("hasAnyRole('admin','G00')")
 	@RequestMapping("/Group")
 	public ModelAndView groupIndexPage() {
 		return new ModelAndView(dir+"/index");
 	}
 	//	車隊新增頁面
-//	@PreAuthorize("hasAnyRole('admin','G01')")
+	@PreAuthorize("hasAnyRole('admin','G01')")
 	@RequestMapping("/New")
 	public ModelAndView newGroupPage() {
 		return new ModelAndView(dir+"/createGroup");
 	}
 
 	//	個人車隊讀取
-//	@PreAuthorize("hasAnyRole('admin','G03')")
+	@PreAuthorize("hasAnyRole('admin','G03')")
 	@RequestMapping(value= "/Read" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupReadPage() {
 		ModelAndView mav = new ModelAndView(dir+"/readGroup");
@@ -109,7 +109,7 @@ public class GroupController {
 		}
 		return mav;
 	}
-//	@PreAuthorize("hasAnyRole('admin','G04')")
+	@PreAuthorize("hasAnyRole('admin','G04')")
 	@RequestMapping(value= "/{groupId}/Edit" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupEditPage(@PathVariable Integer groupId) throws Exception {
 		if(isGroupUrlCorrect(groupId)) {
@@ -303,7 +303,7 @@ public class GroupController {
 	}
 
 	//	車隊搜尋頁面
-//	@PreAuthorize("hasAnyRole('admin','G02')")
+	@PreAuthorize("hasAnyRole('admin','G02')")
 	@RequestMapping(value= "/ReadAll" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupReadAllPage() {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -340,7 +340,7 @@ public class GroupController {
 	}
 
 	//	車隊歷程頁面
-//	@PreAuthorize("hasAnyRole('admin','G07')")
+	@PreAuthorize("hasAnyRole('admin','G07')")
 	@RequestMapping(value = "/{id}/Journey" , produces = "application/json;charset=UTF-8")
 	public ModelAndView jorneyIndexPage(@PathVariable int id ) throws Exception {
 		if(isGroupUrlCorrect(id)) {
@@ -350,7 +350,7 @@ public class GroupController {
 	}
 
 	//	歷程 新增頁面
-//	@PreAuthorize("hasAnyRole('admin','G08')")
+	@PreAuthorize("hasAnyRole('admin','G08')")
 	@RequestMapping("/{id}/Journey/New")
 	public ModelAndView newJourneyPage(@PathVariable int id ) throws Exception {
 		if(isGroupUrlCorrect(id)) {
@@ -376,7 +376,7 @@ public class GroupController {
 	}
 
 	//	歷程讀取
-//	@PreAuthorize("hasAnyRole('admin','G09')")
+	@PreAuthorize("hasAnyRole('admin','G09')")
 	@RequestMapping(value= "/{id}/Journey/ReadAll" , produces = "application/json;charset=UTF-8")
 	public ModelAndView groupJourneyPage(@PathVariable int id) throws Exception {
 		if(isGroupUrlCorrect(id)) {
@@ -408,7 +408,7 @@ public class GroupController {
 
 	}
 	//	歷程編輯
-//	@PreAuthorize("hasAnyRole('admin','G010')")
+	@PreAuthorize("hasAnyRole('admin','G010')")
 	@RequestMapping(value= "/{groupId}/Journey/{journeyId}/Edit" , produces = "application/json;charset=UTF-8")
 	public ModelAndView journeyEdit(@PathVariable int groupId , @PathVariable int journeyId) throws Exception {
 		if(isJourneyUrlCorrect(groupId,journeyId)) {
