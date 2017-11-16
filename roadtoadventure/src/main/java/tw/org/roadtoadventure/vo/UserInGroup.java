@@ -31,7 +31,6 @@ public class UserInGroup implements java.io.Serializable {
 	private UserAccount userAccount;
 	private char status;
 	private Date createDate;
-	private Set<GroupChat> groupChats = new HashSet<GroupChat>(0);
 
 	public UserInGroup() {
 	}
@@ -90,14 +89,6 @@ public class UserInGroup implements java.io.Serializable {
 		this.userAccount = userAccount;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userInGroup")
-	public Set<GroupChat> getGroupChats() {
-		return this.groupChats;
-	}
-
-	public void setGroupChats(Set<GroupChat> groupChats) {
-		this.groupChats = groupChats;
-	}
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CreateDate", nullable = true, length = 23)
 	public Date getCreateDate() {
