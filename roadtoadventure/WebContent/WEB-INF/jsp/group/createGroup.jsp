@@ -122,11 +122,15 @@
 	if($("#groupForm").valid()){
       block("main")
       imageUpload("uploadImage" , "${pageContext.request.contextPath}/File/UploadImg",function(result){
-        create(result)
+        if(result.success =="1"){
+          create(result.image)
+        }else{
+        }
       })
 	}
   }
   function create (value){
+	  console.log(value)
     $.ajax({
 	  type: "POST",
 	  dataType: 'json',

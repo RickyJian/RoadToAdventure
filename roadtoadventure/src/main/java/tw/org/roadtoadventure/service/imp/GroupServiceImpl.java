@@ -50,7 +50,7 @@ public class GroupServiceImpl implements GroupService {
 		uig.setId(uigId);
 		
 		GroupRole gr = new GroupRole();
-		gr.setGroupRoleId("0");
+		gr.setGroupRoleId("GR0");
 		uig.setGroupRole(gr);
 		userInGroupDAO.create(uig);
 	}
