@@ -64,7 +64,6 @@ public class UserAccountController {
 		JSONObject o = new JSONObject();
 		try {
 			userService.signUp(signUpForm);
-			PasswordUtility.passwordHash(signUpForm.getPassword());
 			o.put("success", "1");
 			return o.toString();
 		}catch(Exception ex) {
@@ -308,7 +307,9 @@ public class UserAccountController {
 		try {
 			UserBean u = userService.readUserInfo();
 			if(u.getVerificationCode().equals(verificationCode)) {
-				userService.updateForVerification(verificationCode);				
+				UserBean userBean = new UserBean();
+				userBean.setIsVerification('Y');
+				userService.update(userBean);				
 				o.put("success", "1");
 				return o.toString();
 			}else {

@@ -164,8 +164,8 @@
 	  success: function(data){
 		var result = jsonFmt(data)
         if(result.success=="1"){
-        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-	           window.location="${pageContext.request.contextPath}/"
+        	 Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，請新登入。", 3000,'',function(){
+	           window.location="${pageContext.request.contextPath}/Login"
              })
         }else{
 	      $("#main").unblock()

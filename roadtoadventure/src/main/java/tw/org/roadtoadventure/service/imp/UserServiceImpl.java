@@ -58,9 +58,7 @@ public class UserServiceImpl implements UserService {
 	public void update(UserBean userBean) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserAccount result = userAccountDAO.getById(user.getUserId());
-		result.setEmail(userBean.getEmail());
-		result.setUserName(userBean.getUserName());
-		result.setUserPicture(userBean.getUserPicture());
+		BeanUtility.copyProperties(userBean, result);
 		userAccountDAO.merge(result);
 	}
 
@@ -106,7 +104,8 @@ public class UserServiceImpl implements UserService {
 	public void updateForVerification(String verificationCode) throws Exception {
 		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserAccount result = userAccountDAO.getById(user.getUserId());
-		result.setIsVerification('Y');
+		result.setIsVerification('N');
+		result.setVerificationCode(verificationCode);
 		userAccountDAO.merge(result);
 	}
 

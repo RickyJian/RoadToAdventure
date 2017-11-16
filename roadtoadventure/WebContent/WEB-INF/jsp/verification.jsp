@@ -60,7 +60,7 @@
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
 
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
   </div>
 
   <!--  Scripts-->

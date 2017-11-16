@@ -49,7 +49,7 @@
             <div class="card">
               <br>
               <div class="card-content black-text center-align">
-			    <h3>車隊管理</h3>
+			    <h3>團隊管理</h3>
               </div>
               <br>
               <div class="card-action center-align">
