@@ -18,6 +18,7 @@ public class UserBean {
 	private Date createDate;
 	private String modifyId;
 	private Date modifyDate;
+	private String verificationCode;
 	
 //	Friend
 	private char status;
@@ -134,6 +135,12 @@ public class UserBean {
 	}
 	public void setFriendName(String friendName) {
 		this.friendName = friendName;
+	}
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 	
 }

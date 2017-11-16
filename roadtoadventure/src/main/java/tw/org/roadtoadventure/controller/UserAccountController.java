@@ -306,9 +306,14 @@ public class UserAccountController {
 	public @ResponseBody String verification(@RequestParam String verificationCode) {
 		JSONObject o = new JSONObject();
 		try {
-			userService.updateForVerification(verificationCode);
-			o.put("success", "1");
-			return o.toString();
+			UserBean u = userService.readUserInfo();
+			if(u.getVerificationCode().equals(verificationCode)) {
+				userService.updateForVerification(verificationCode);				
+				o.put("success", "1");
+				return o.toString();
+			}else {
+				throw new Exception("認證失敗");
+			}
 		}catch(Exception ex) {
 			o.put("success", "0");
 			o.put("message", "認證失敗。");

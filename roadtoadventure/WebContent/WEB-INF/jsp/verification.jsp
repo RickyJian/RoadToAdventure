@@ -6,7 +6,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>系統逾時-揪愛騎 Road To Adventure</title>
+  <title>認證-揪愛騎 Road To Adventure</title>
   <sec:authentication var="user" property="principal"/>
   <script type="text/javascript">
     var user = '${user}' 
@@ -43,18 +43,25 @@
             </div>
           </form>
         </div>     
-        <div class="row center-align">
-          <a class="waves-effect waves-light btn" onclick="verify()">送出</a>
+        <div class="row col s12">
+          <div class= "col s4 offset-s3">
+            <a id = "resendButton" class="waves-effect waves-light btn amber darken-1 disabled"  onclick="resend()">重送認證信</a>
+          </div>
+          <div class= "col s4">
+            <a class="waves-effect waves-light btn" onclick="verify()">送出</a>
+          </div>
+        </div>         
+        <div class="row s4 ">
         </div>         
       </div>
       <br><br><br><br>
     </div>
   </div>
-  </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
 
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
+  </div>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -108,11 +115,34 @@
 	        })
 		  }else{
 		        Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 認證失敗，請再次嘗試。", 5000)
+		        $("#resendButton").attr("class" , "waves-effect waves-light btn amber darken-1")
 		  }
 		  $("#main").unblock();		  
 	    }
 	   });	  
      }
+  }
+  function resend (){
+	  $("#resendButton").attr("class" , "waves-effect waves-light btn amber darken-1 disabled")
+	  block("main")
+	  $.ajax({
+	    type: "POST",
+		datatype:"json",
+	    url:"${pageContext.request.contextPath}/Mail/Send",
+	    async: false ,
+		success: function(data){
+		  var result = jsonFmt(data)
+		  if(result.success =="1"){
+	        Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;郵件發送成功，請重新認證。", 3000,'',function(){
+	          location.reload(); 
+	        })
+		  }else{
+		    Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 郵件發送失敗，請再次嘗試。", 5000)
+		    $("#resendButton").attr("class" , "waves-effect waves-light btn amber darken-1")
+		    $("#main").unblock();		  
+		  }
+	    }
+	   });	  	
   }
   </script>
   </body>
