@@ -35,8 +35,7 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	private String userPicture;
 	private String email;
 	private String password;
-	private String lastPassword;
-	private Date lastLoginTime;
+	private String verificationCode;
 	private Character isEnabled;
 	private Character isVerification;
 	private String createId;
@@ -115,25 +114,16 @@ public class UserAccount implements java.io.Serializable ,UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	@Column(name = "LastPassword", length = 64)
-	public String getLastPassword() {
-		return this.lastPassword;
+	@Column(name = "VerificationCode", length = 32)
+	public String getVerificationCode() {
+		return verificationCode;
 	}
 
-	public void setLastPassword(String lastPassword) {
-		this.lastPassword = lastPassword;
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LastLoginTime", length = 23)
-	public Date getLastLoginTime() {
-		return this.lastLoginTime;
-	}
-
-	public void setLastLoginTime(Date lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
-	}
 
 	@Column(name = "IsEnabled", length = 1)
 	public Character getIsEnabled() {

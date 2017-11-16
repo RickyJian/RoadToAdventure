@@ -16,7 +16,7 @@ public class RouteController {
 
 	@RequestMapping("/")
 	public ModelAndView index() {
-		return new ModelAndView("index");
+		return new ModelAndView("/index");
 	}
 	@RequestMapping(value = "/error")
 	public ModelAndView errorPage(HttpServletRequest httpRequest) {
@@ -61,6 +61,10 @@ public class RouteController {
 	@RequestMapping("/SignUp")
 	public ModelAndView signUp() {
 		return new ModelAndView("/signUp");
+	}
+	@RequestMapping("/Verification")
+	public ModelAndView verification() {
+		return new ModelAndView("/verification");
 	}
 
 }

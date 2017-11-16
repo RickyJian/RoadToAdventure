@@ -102,6 +102,15 @@ public class UserServiceImpl implements UserService {
 		return userBeanList;
 	}
 
+	@Override
+	public void updateForVerification(String verificationCode) throws Exception {
+		UserAccount user = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserAccount result = userAccountDAO.getById(user.getUserId());
+		result.setVerificationCode(verificationCode);
+		result.setIsVerification('Y');
+		userAccountDAO.merge(result);
+	}
+
 	
 	
 }
