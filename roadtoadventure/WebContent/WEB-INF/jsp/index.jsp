@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,108 +18,92 @@
       var email = '${user.email}'    
       var userPicture = '${user.userPicture}'           
     </script>
-  </sec:authorize>
+  </sec:authorize>        
   <script type="text/javascript">var contextPath = "${pageContext.request.contextPath}"</script>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-    }
-  </style>
+  <link href="${pageContext.request.contextPath}/assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="${pageContext.request.contextPath}/assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
 </head>
 <body>
-<!-- 
- -->
-  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js">
-
-  </script>
-  <div class="section no-pad-bot" id="index-banner">
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/top.js"></script>
+  <div id = "main">
     <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">位置共享</h1>
-      <div id = "map" >
-        
+      <div class="section">
+        <br><br><br>
+        <div class = "row">
+          <div class="col s4 ">
+            <div class="card">
+              <br>
+              <div class="card-content black-text center-align">
+			    <h3>個人歷程</h3>
+              </div>
+              <br>
+              <div class="card-action center-align">
+                <a class="waves-effect waves-light btn" onclick ="redirectPage('personal')">進入</a>
+              </div>
+            </div>
+          </div>
+          <div class="col s4 ">
+            <div class="card">
+              <br>
+              <div class="card-content black-text center-align">
+			    <h3>車隊管理</h3>
+              </div>
+              <br>
+              <div class="card-action center-align">
+                <a class="waves-effect waves-light btn" onclick ="redirectPage('group')">進入</a>
+              </div>
+            </div>
+          </div>
+          <div class="col s4 ">
+            <div class="card">
+              <br>
+              <div class="card-content black-text center-align">
+			    <h3>設定</h3>
+              </div>
+              <br>
+              <div class="card-action center-align">
+                <a class="waves-effect waves-light btn" onclick ="redirectPage('setting')">進入</a>
+              </div>
+            </div>
+          </div>
+        </div>
+	    <br><br><br>
       </div>
+      <div class = "section">
+        <div class = "row">
+          <br><br><br><br><br><br><br>
+        </div>
+      </div>     
       <br><br>
-
     </div>
   </div>
-
-  <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-       <h1 class="header center orange-text">排行榜</h1>
-        <div class="col s12 m4">
-        <h5>單人</h5>
-	    <div class="card horizontal">
-	      <div class="card-image">
-	        <img src="https://lorempixel.com/100/190/nature/6">
-	      </div>
-	      <div class="card-stacked">
-	        <div class="card-content">
-	          <p><c:out value = "${user}"/></p>
-	        </div>
-	      </div>
-	    </div>
-        </div>
-
-        <div class="col s12 m4">
-        <h5>團體</h5>
-	    <div class="card horizontal">
-	      <div class="card-image">
-	        <img src="https://lorempixel.com/100/190/nature/6">
-	      </div>
-	      <div class="card-stacked">
-	        <div class="card-content">
-	          <p>Jobs Steve</p>
-	        </div>
-	      </div>
-	    </div>
-        </div>
-
-        <div class="col s12 m4">
-        <h5>挑戰</h5>
-	    <div class="card horizontal">
-	      <div class="card-image">
-	        <img src="https://lorempixel.com/100/190/nature/6">
-	      </div>
-	      <div class="card-stacked">
-	        <div class="card-content">
-	          <p>Jobs Steve</p>
-	        </div>
-	      </div>
-	    </div>
-        </div>
-      </div>
-
-    </div>
-    <div class = "section">
-      <div class = "row">
-        <br><br><br><br><br><br><br>
-      </div>
-    </div>
-  </div>
-
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
-
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
-
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="assets/js/materialize.js"></script>
-  <script src="assets/js/init.js"></script>
-  <script src="assets/js/map.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script type="text/javascript">
+  function redirectPage(value){
+	var path = "${pageContext.request.contextPath}"
+		
+    switch (value){
+    case "personal" :
+        path += "/Personal"
+        break;
+    case "group":
+        path += "/Group"
+        break;
+    case "setting" :
+        path += "/User/Setting"
+        break;
+    }
+	window.location=path;
+  }
+  </script>
 
-  </script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYVBpGeFB5L5UqunJlJ19rxxBooiVNNoE&callback=initMap">
-  </script>
   </body>
 </html>

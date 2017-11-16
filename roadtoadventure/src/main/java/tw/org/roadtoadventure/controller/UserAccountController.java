@@ -302,4 +302,18 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
+	@RequestMapping(value = "/Setting/Update/Verification" , produces = "application/json;charset=UTF-8")
+	public @ResponseBody String verification(@RequestParam String verificationCode) {
+		JSONObject o = new JSONObject();
+		try {
+			userService.updateForVerification(verificationCode);
+			o.put("success", "1");
+			return o.toString();
+		}catch(Exception ex) {
+			o.put("success", "0");
+			o.put("message", "認證失敗。");
+			ex.printStackTrace();
+			return o.toString();
+		}
+	}
 }
