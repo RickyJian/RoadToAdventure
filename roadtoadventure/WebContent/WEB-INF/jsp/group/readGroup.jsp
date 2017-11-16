@@ -130,7 +130,7 @@
 	      if(groupRoleIdArray[groupIdArray.indexOf(groupId)]!="GR2"){
 	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \" onclick= \"redirectPage('"+groupId+"','edit')\">管理</a>"
 		  }else{
-	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \" onclick= \"redirectPage('"+groupId+"','edit') \" disabled>管理</a>"
+	        html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 disabled \" onclick= \"redirectPage('"+groupId+"','edit') \">管理</a>"
 		  }
 	    }else{
 		    

@@ -35,6 +35,7 @@ public class GroupServiceImpl implements GroupService {
 //		add group
 		Group g = new Group();
 		BeanUtility.copyProperties(groupBean, g);
+		g.setStatus('1');
 		g.setCreateDate(new Date());
 		g.setModifyDate(new Date());
 		g.setUserAccountByCreateId(user);
@@ -48,6 +49,7 @@ public class GroupServiceImpl implements GroupService {
 		uigId.setGroupId(g.getGroupId());
 		uigId.setUserId(user.getUserId());
 		uig.setId(uigId);
+		uig.setCreateDate(new Date());
 		
 		GroupRole gr = new GroupRole();
 		gr.setGroupRoleId("GR0");

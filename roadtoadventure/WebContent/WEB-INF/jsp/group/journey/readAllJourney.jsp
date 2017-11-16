@@ -89,9 +89,9 @@
 	    html += "</div>"
 	    html += "<div class=\"card-action center-align\">"
 	    if(groupRoleIdArray[groupIdArray.indexOf(groupId)]!="GR2"){
-	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" disabled>編輯</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4  \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" >編輯</a>"
 	    }else{
-	      html += "<a class=\"waves-effect waves-light btn col s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" >編輯</a>"
+	      html += "<a class=\"waves-effect waves-light btn col s4 disabled \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','edit')\" >編輯</a>"
 		}
 		html += "<a class=\"waves-effect waves-light btn col s4 offset-s4 \"onclick= \"redirectPage('"+groupId+"','"+journeyId+"','read')\" >詳情</a>"
 	    html += "</div>"

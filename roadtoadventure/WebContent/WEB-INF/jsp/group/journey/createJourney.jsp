@@ -103,7 +103,7 @@
 	  success: function(data){
 		if(data.success =="1"){
        	  Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;新增成功，自動跳轉管理頁面。", 3000,'',function(){
-	           window.location="${pageContext.request.contextPath}/Group/${groupId}/Journey/Read"
+	           window.location="${pageContext.request.contextPath}/Group/${groupId}/Journey/ReadAll"
           })
 	    }else{
 	      Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 新增失敗。", 5000)
