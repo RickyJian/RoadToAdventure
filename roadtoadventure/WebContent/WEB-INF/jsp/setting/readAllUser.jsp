@@ -132,7 +132,9 @@
 	  	  success: function(data){
 		  	  var result = jsonFmt(data)
 	  	    if(result.success=="1"){
-	          Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 邀請成功。", 3000)
+	          Materialize.toast("<i class = \"material-icons\">done</i>&nbsp; 邀請成功。", 3000,'',function(){
+	  	        location.reload();
+	          })
 		  	}else{
 	          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; "+result.message , 5000)
 			}

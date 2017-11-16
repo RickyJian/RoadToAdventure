@@ -1,7 +1,9 @@
 package tw.org.roadtoadventure.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,8 +38,8 @@ public class UserAccountController {
 
 	@Autowired
 	private UserFriendService userFriendService;
-	
-//	註冊用 搜尋帳號是否註冊
+
+	//	註冊用 搜尋帳號是否註冊
 	@RequestMapping(value = "/Read/IsUserIdCorrect" ,  produces = "application/json;charset=UTF-8")
 	public @ResponseBody String isUserIdCorrect (@RequestParam String userId) {
 		UserBean userBean = new UserBean();
@@ -58,7 +60,7 @@ public class UserAccountController {
 		return o.toString();
 	}
 
-//	註冊功能
+	//	註冊功能
 	@RequestMapping(value = "/SignUp/Create" ,  produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
 	public @ResponseBody String create (SignUpForm signUpForm){
 		JSONObject o = new JSONObject();
@@ -97,7 +99,7 @@ public class UserAccountController {
 		}
 		return mav;
 	}
-	
+
 	//	個資修改 修改功能
 	@PreAuthorize("hasAnyRole('admin','S34')")
 	@RequestMapping(value = "/Setting/Edit/Update" ,  produces = "application/json;charset=UTF-8")
@@ -112,15 +114,15 @@ public class UserAccountController {
 		}
 		return o.toString();	
 	}
-	
+
 	//	好友系統 頁面
 	@PreAuthorize("hasAnyRole('admin','S05')")
 	@RequestMapping(value = "/Setting/Friend" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView friendIndexPage () {
 		return new ModelAndView(subDir + "/index");
 	}
-	
-//	 帳戶搜尋 頁面
+
+	//	 帳戶搜尋 頁面
 	@PreAuthorize("hasAnyRole('admin','S07')")
 	@RequestMapping(value = "/Setting/Friend/ReadAllUser" ,  produces = "application/json;charset=UTF-8")
 	public ModelAndView readAllUserPage () {
@@ -129,9 +131,14 @@ public class UserAccountController {
 		JSONObject o = new JSONObject();
 		try {
 			List<UserBean> ubList =  userService.readAllUser();
+			List<UserBean> friendList = userFriendService.readByParameter(new UserBean(user.getUserId()));
+			Map<String , UserBean> map = new  HashMap<>();
+			for(UserBean friendBean:friendList) {
+				map.put(friendBean.getFriendId(), null);
+			}
 			JSONArray array = new JSONArray();
 			for(UserBean userBean :ubList) {
-				if(!user.getUserId().equals(userBean.getUserId())) {
+				if(!user.getUserId().equals(userBean.getUserId())&&!map.containsKey(userBean.getUserId())) {
 					JSONObject arrayObj = new JSONObject();
 					arrayObj.put("picture", userBean.getUserPicture()==null?"/RoadToAdventure/assets/images/p1.png":userBean.getUserPicture());
 					arrayObj.put("name", userBean.getUserName());
@@ -215,7 +222,7 @@ public class UserAccountController {
 			return o.toString();
 		}
 	}
-	
+
 	//	好友管理 搜尋功能
 	@PreAuthorize("hasAnyRole('admin','S16')")
 	@RequestMapping(value= "/Setting/Friend/ReadByParameter" , produces = "application/json;charset=UTF-8")

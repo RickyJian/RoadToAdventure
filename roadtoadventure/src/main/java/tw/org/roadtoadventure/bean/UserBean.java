@@ -28,6 +28,13 @@ public class UserBean {
 //	Search 
 	private String searchType; 
 	
+	
+	
+	public UserBean() {
+	}
+	public UserBean(String userId) {
+		this.userId = userId;
+	}
 	public String getUserId() {
 		return userId;
 	}
