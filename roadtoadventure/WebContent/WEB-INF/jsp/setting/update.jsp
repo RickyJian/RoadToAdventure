@@ -77,18 +77,24 @@
             </div>
           </div>
         </div>
-      </div><br>
+      </div>
+      <div class = "section">
+        <div class = "row">
+          <br><br><br><br><br><br><br>
+        </div>
+      </div>      
+      <br>
       <br>
     </div>
   </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/bottom.js"></script>
   <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/menu.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/preloader.js"></script>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/materialize.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/init.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/block.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/js/notify.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/ajaxfileupload.js"></script>
   <script src="${pageContext.request.contextPath}/assets/js/map.js"></script>
   <script type="text/javascript">
@@ -96,7 +102,7 @@
     init();
   })
   function init(){
-	var result = JSON.parse('${user}')
+	var result = jsonFmt(('${userAccount}'))
 	if(result.success=="1"){
       $("#userIdLabel").empty().append(result.userId)
       $("#userName").val(result.name)
@@ -109,7 +115,7 @@
 	})
   }
   function update (){
-	//$("#main").block({ message: "<h5>系統處理中請稍後。</h5>"})
+	block("main")
 	$.ajax({
 	  type: "POST",
 	  datatype:"json",
@@ -121,14 +127,14 @@
 	  url:  "${pageContext.request.contextPath}/User/Setting/Edit/Update",
 	  async: false ,
 	  success: function(data){
-		var result = JSON.parse(data)
+		var result = jsonFmt(data)
         if(result.success=="1"){
-        	 //Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;註冊成功，自動跳轉首頁。", 3000,'',function(){
-	         //  window.location="${pageContext.request.contextPath}/Index"
-             //})
+          Materialize.toast("<i class = \"material-icons\">done</i>&nbsp;更新成功。", 3000,'',function(){
+	        window.location="${pageContext.request.contextPath}/User/Setting"
+          })
         }else{
-	      //$("#main").unblock()
-          //Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 註冊失敗", 5000)
+          Materialize.toast("<i class = \"material-icons\">announcement</i>&nbsp; 更新失敗，請再試試。", 5000)
+	      $("#main").unblock()
         }
 	  }
 	});	  

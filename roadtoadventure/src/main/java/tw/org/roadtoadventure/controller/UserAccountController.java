@@ -90,7 +90,7 @@ public class UserAccountController {
 			o.put("name", user.getUserName());
 			o.put("email", user.getEmail());
 			o.put("success", "1");
-			mav.addObject("user",o.toString());
+			mav.addObject("userAccount",o.toString());
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			o.put("success", "0");
